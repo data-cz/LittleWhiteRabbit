@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>面试详解</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="前言在很久很久以前，在我们前端还只是页面切图仔的年代，我们开发一个html页面，通常会遇到这些情况：  需要引入十几个css和js文件，而且因为他们彼此间有着依赖关系，所以引入的顺序还不能乱。 传统的html+css+js开发方式不能不能很好地运用less&#x2F;scss等css预处理器以及ES6+的高级语法。 代码复用性差，可维护性差。  此时就需要一个处理这些问题的工具，webpack应运而生。 w">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试详解">
+<meta property="og:url" content="https://data-cz.github.io/2022/04/11/2020%E5%B9%B4%E4%BD%A0%E4%B8%8D%E8%83%BD%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84webpack%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="面试详解">
+<meta property="og:description" content="前言在很久很久以前，在我们前端还只是页面切图仔的年代，我们开发一个html页面，通常会遇到这些情况：  需要引入十几个css和js文件，而且因为他们彼此间有着依赖关系，所以引入的顺序还不能乱。 传统的html+css+js开发方式不能不能很好地运用less&#x2F;scss等css预处理器以及ES6+的高级语法。 代码复用性差，可维护性差。  此时就需要一个处理这些问题的工具，webpack应运而生。 w">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-04-11T01:44:51.676Z">
+<meta property="article:modified_time" content="2020-12-30T07:08:02.000Z">
+<meta property="article:author" content="Chen Daxian">
+<meta name="twitter:card" content="summary">
+    
+        <link rel="alternate" type="application/atom+xml" title="面试详解" href="/LittleWhiteRabbit/atom.xml">
+    
+    <link rel="shortcut icon" href="/LittleWhiteRabbit/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/LittleWhiteRabbit/img/brand.jpg)">
+      <div class="brand">
+        <a href="/LittleWhiteRabbit/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/LittleWhiteRabbit/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Chen Daxian</h5>
+          <a href="mailto:136130658@qq.com" title="136130658@qq.com" class="mail">136130658@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/custom"  >
+                <i class="icon icon-lg icon-link"></i>
+                测试
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis"></div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title"></h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2022-04-11T01:44:51.676Z" itemprop="datePublished" class="page-time">
+  2022-04-11
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%89%8D%E8%A8%80"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#webpack%E7%9A%84%E4%BC%98%E7%82%B9%EF%BC%9A"><span class="post-toc-number">2.</span> <span class="post-toc-text">webpack的优点：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#webpack%E6%89%93%E5%8C%85%E8%BF%87%E7%A8%8B%EF%BC%9A"><span class="post-toc-number">3.</span> <span class="post-toc-text">webpack打包过程：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Webpack-%E7%9A%84%E5%9B%9B%E5%A4%A7%E6%A0%B8%E5%BF%83%EF%BC%9A"><span class="post-toc-number">4.</span> <span class="post-toc-text">Webpack 的四大核心：</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Entry"><span class="post-toc-number"></span> <span class="post-toc-text">Entry</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Output"><span class="post-toc-number"></span> <span class="post-toc-text">Output</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Loader"><span class="post-toc-number"></span> <span class="post-toc-text">Loader</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#loader%E7%9A%84%E7%89%B9%E7%82%B9"><span class="post-toc-number">1.</span> <span class="post-toc-text">loader的特点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84loader"><span class="post-toc-number">2.</span> <span class="post-toc-text">常用的loader</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%A4%84%E7%90%86%E6%A0%B7%E5%BC%8F"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">处理样式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%A4%84%E7%90%86-js"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">处理 js</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%A4%84%E7%90%86%E6%96%87%E4%BB%B6"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">处理文件</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%A4%84%E7%90%86-vue%E6%96%87%E4%BB%B6"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">处理.vue文件</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AAloader"><span class="post-toc-number">3.</span> <span class="post-toc-text">开发一个loader</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-2020年你不能不知道的webpack基本配置"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title"></h1>
+        <div class="post-meta">
+            <time class="post-time" title="2022-04-11 09:44:51" datetime="2022-04-11T01:44:51.676Z"  itemprop="datePublished">2022-04-11</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在很久很久以前，在我们前端还只是页面切图仔的年代，我们开发一个html页面，通常会遇到这些情况：</p>
+<ul>
+<li>需要引入十几个css和js文件，而且因为他们彼此间有着依赖关系，所以引入的顺序还不能乱。</li>
+<li>传统的<code>html+css+js</code>开发方式不能不能很好地运用<code>less/scss</code>等css预处理器以及<code>ES6+</code>的高级语法。</li>
+<li>代码复用性差，可维护性差。</li>
+</ul>
+<p>此时就需要一个处理这些问题的工具，webpack应运而生。</p>
+<p>webpack可以看做是模块打包工具：它将各种静态资源（比如：<code>javaScript</code> 文件，图片文件，<code>css</code>文件等）视为模块，它能够对这些模块进行解析优化和转换等操作，最后将它们打包在一起，打包后的文件可用于在浏览器中使用。</p>
+<h3 id="webpack的优点："><a href="#webpack的优点：" class="headerlink" title="webpack的优点："></a>webpack的优点：</h3><ul>
+<li>代码转换: <code>typeScript</code> 编译成 <code>javaScript</code>、<code>scss，less</code> 编译成 <code>css</code>.</li>
+<li>文件优化：压缩 <code>javaScript</code>、<code>css</code>、<code>html</code> 代码，压缩合并图片。</li>
+<li>代码分割：提取多个页面的公共代码、提取首屏不需要执行部分的代码让其异步加载。</li>
+<li>模块合并：在采用模块化的项目里会有很多个模块和文件，需要构建功能把模块分类合并成一个文件。</li>
+<li>自动刷新：监听本地源代码的变化，自动重新构建、刷新浏览器。</li>
+<li>扩展性强，插件机制完善。</li>
+</ul>
+<h3 id="webpack打包过程："><a href="#webpack打包过程：" class="headerlink" title="webpack打包过程："></a>webpack打包过程：</h3><ol>
+<li>利用babel完成代码转换,并生成单个文件的依赖</li>
+<li>从入口开始递归分析，并生成依赖图谱</li>
+<li>将各个引用模块打包为一个立即执行函数</li>
+<li>将最终的bundle文件写入bundle.js中</li>
+</ol>
+<h3 id="Webpack-的四大核心："><a href="#Webpack-的四大核心：" class="headerlink" title="Webpack 的四大核心："></a>Webpack 的四大核心：</h3><ul>
+<li>entry：js 入口源文件</li>
+<li>output：生成文件</li>
+<li>loader：进行文件处理</li>
+<li>plugins：插件，比 loader 更强大，能使用更多 webpack 的 api</li>
+</ul>
+<h2 id="Entry"><a href="#Entry" class="headerlink" title="Entry"></a>Entry</h2><p>webpack 应该使用哪个模块做为入口文件，来作为构建其内部依赖图的开始。进去入口起点后，webpack 会找出有哪些模块和库是入口起点（直接和间接）依赖的，每个依赖项随即被处理，最后输出到称之为 bundles 的文件中。  </p>
+<p>单⼊⼝：entry 是⼀个字符串</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/index.js&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>多⼊⼝：entry 是⼀个对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="attr">entry</span>: &#123;</span><br><span class="line">    <span class="attr">index</span>: <span class="string">&#x27;./src/index.js&#x27;</span>,</span><br><span class="line">    <span class="attr">manager</span>: <span class="string">&#x27;./src/manager.js&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h2><p>告诉 webpack 在哪里输出它所创建的 bundles，以及如何命名这些文件，这些都可以在webpack的配置文件中指定。</p>
+<p>单⼊⼝配置</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    <span class="attr">entry</span>: <span class="string">&#x27;./src/index.js&#x27;</span>,</span><br><span class="line">    <span class="attr">output</span>: &#123;</span><br><span class="line">        <span class="attr">filename</span>: <span class="string">&#x27;bundle.js’,</span></span><br><span class="line"><span class="string">        path: __dirname + &#x27;</span>/dist<span class="string">&#x27;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;;</span></span><br></pre></td></tr></table></figure>
+
+<p>多⼊⼝配置</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="attr">entry</span>: &#123;</span><br><span class="line">    <span class="attr">app</span>: <span class="string">&#x27;./src/app.js&#x27;</span>,</span><br><span class="line">    <span class="attr">search</span>: <span class="string">&#x27;./src/search.js&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;[name].js&#x27;</span>,</span><br><span class="line">    <span class="attr">path</span>: __dirname + <span class="string">&#x27;/dist&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过[name]占位符确保⽂件名称的唯⼀</p>
+<h2 id="Loader"><a href="#Loader" class="headerlink" title="Loader"></a>Loader</h2><p><code>loader</code> 让 <code>webpack</code> 能够去处理那些非 <code>javaScript</code> 文件（<code>webpack</code> 自身只理解 <code>javaScript</code>）。<code>loader</code> 可以将所有类型的文件转换为 <code>webpack</code> 能够处理的有效模块，然后你就可以利用 <code>webpack</code> 的打包能力，对它们进行处理。</p>
+<h3 id="loader的特点"><a href="#loader的特点" class="headerlink" title="loader的特点"></a>loader的特点</h3><ul>
+<li>一个Loader 的职责是单一的，只需要完成一种转换</li>
+<li>一个Loader 其实就是一个Node.js 模块，这个模块需要导出一个函数</li>
+<li>loader 总是从右到左地被调用。</li>
+</ul>
+<h3 id="常用的loader"><a href="#常用的loader" class="headerlink" title="常用的loader"></a>常用的loader</h3><h4 id="处理样式"><a href="#处理样式" class="headerlink" title="处理样式"></a>处理样式</h4><ul>
+<li><code>css-loader</code>: 加载.css 文件，</li>
+<li><code>style-loader</code>:使用 style 标签将 <code>css-loader</code> 内部样式注入到我们的 html 页面</li>
+<li><code>less-loader, sass-loader</code>: 解析css预处理器</li>
+</ul>
+<h4 id="处理-js"><a href="#处理-js" class="headerlink" title="处理 js"></a>处理 js</h4><ul>
+<li>让你能使用最新的js代码（ES6，ES7…）</li>
+<li>让你能使用基于js进行了拓展的语言，比如React的JSX；</li>
+</ul>
+<h4 id="处理文件"><a href="#处理文件" class="headerlink" title="处理文件"></a>处理文件</h4><p>处理图片资源时，我们常用的两种loader是<code>file-loader</code>或者<code>url-loader</code>，两者的主要差异在于。<code>url-loader</code>可以设置图片大小限制，当图片超过限制时，其表现行为等同于<code>file-loader</code>，而当图片不超过限制时，则会将图片以<code>base64</code>的形式打包进css文件，以减少请求次数</p>
+<h4 id="处理-vue文件"><a href="#处理-vue文件" class="headerlink" title="处理.vue文件"></a>处理.vue文件</h4><p><code>vue-loader</code> 是 <code>webpack</code> 的加载器模块，它使我们可以用 <code>.vue</code> 文件格式编写单文件组件。单文件组件文件有三个部分，即模板、脚本和样式。 <code>vue-loader</code> 模块允许 <code>webpack</code> 使用单独的加载器模块（例如 <code>sass 或 scss 加载器</code>）提取和处理每个部分。该设置使我们可以使用 <code>.vue</code> 文件无缝编写程序。</p>
+<h3 id="开发一个loader"><a href="#开发一个loader" class="headerlink" title="开发一个loader"></a>开发一个loader</h3><!-- 1. 基本形式
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="keyword">function</span> (<span class="params">source </span>) &#123; </span><br><span class="line">  <span class="keyword">return</span> source; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>调用第三方模块<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sass= <span class="built_in">require</span>(<span class="string">&#x27;node-sass&#x27;</span>); </span><br><span class="line">  <span class="variable language_">module</span>.<span class="property">exports</span> = <span class="keyword">function</span> (<span class="params">source</span>) &#123; </span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">sass</span>(source);</span><br><span class="line">&#125;</span><br><span class="line"><span class="string">``</span><span class="string">` --&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">需求：手写一个 `</span><span class="string">`loader`</span><span class="string">`，将 `</span><span class="string">`&#x27;kobe&#x27;`</span><span class="string">` 转换成 `</span><span class="string">`&#x27;Black Mamba&#x27;`</span><span class="string">`。当然大家可以根据自己的需求进行设计。这里只是讲解方法。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">#### 1、编写 loader</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">在根目录下，新建目录 `</span><span class="string">`kobe-loader`</span><span class="string">` 作为我们编写 `</span><span class="string">`loader`</span><span class="string">` 的名称，执行 `</span><span class="string">`npm init -y`</span><span class="string">` 命令，新建一个模块化项目，然后新建 `</span><span class="string">`index.js`</span><span class="string">` 文件，相关源码如下：</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">`</span><span class="string">``</span>js</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="keyword">function</span>(<span class="params">content</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> content &amp;&amp; content.<span class="title function_">replace</span>(<span class="regexp">/kobe/gi</span>, <span class="string">&#x27;Black Mamba&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="2、注册模块"><a href="#2、注册模块" class="headerlink" title="2、注册模块"></a>2、注册模块</h4><p>正常我们安装的 <code>loader</code> 是从 <code>npm</code> 下载安装，但是我们可以在 <code>kobe-loader</code> 目录底下使用 <code>npm link</code> 做到在不发布模块的情况下，将本地的一个正在开发的模块的源码链接到项目的 <code>node_modules</code> 目录下，让项目可以直接使用本地的 <code>npm</code> 模块。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm link</span><br></pre></td></tr></table></figure>
+
+<p>然后在项目根目录执行以下命令，将注册到全局的本地 <code>npm</code> 模块链接到项目的 <code>node_modules</code> 下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm link kobe-loader</span><br></pre></td></tr></table></figure>
+
+<p>注册成功后，我们可以在 <code>node_modules</code> 目录下能查找到对应的 <code>loader</code>。</p>
+<h4 id="3、在-webpack-中配置-loader"><a href="#3、在-webpack-中配置-loader" class="headerlink" title="3、在 webpack 中配置 loader"></a>3、在 webpack 中配置 loader</h4><p>在 <code>webpack.base.conf.js</code> 加上如下配置</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">test</span>:<span class="regexp">/\.js/</span>,</span><br><span class="line">  <span class="attr">loader</span>: <span class="string">&#x27;kobe-loader&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时，我们在所有 js 文件下书写的 <code>&#39;kobe&#39;</code> 就全部替换成 <code>&#39;Black Mamba&#39;</code>了。</p>
+<h4 id="4、配置参数"><a href="#4、配置参数" class="headerlink" title="4、配置参数"></a>4、配置参数</h4><p>上面我们是写死的替换文案，假如我想通过配置项来改变，可以在 loader 中做以下调整</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// custom-loader/index.js</span></span><br><span class="line"><span class="keyword">var</span> utils = <span class="built_in">require</span>(<span class="string">&#x27;loader-utils&#x27;</span>)</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="keyword">function</span> (<span class="params">content</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> options = utils.<span class="title function_">getOptions</span>(<span class="variable language_">this</span>)</span><br><span class="line">  <span class="keyword">return</span> content &amp;&amp; content.<span class="title function_">replace</span>(<span class="regexp">/kobe/gi</span>, options.<span class="property">name</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// webpack.base.conf.js</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">test</span>:<span class="regexp">/\.js/</span>,</span><br><span class="line">  <span class="attr">use</span>: &#123;</span><br><span class="line">    <span class="attr">loader</span>: <span class="string">&#x27;kobe-loader&#x27;</span>,</span><br><span class="line">    <span class="attr">options</span>: &#123;</span><br><span class="line">      <span class="attr">name</span>: <span class="string">&#x27;kobe&#x27;</span>,</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Plugin"><a href="#Plugin" class="headerlink" title="Plugin"></a>Plugin</h2><p>专注处理 webpack 在编译过程中的某个特定的任务的功能模块，可以称为插件。</p>
+<h3 id="Plugin-的特点"><a href="#Plugin-的特点" class="headerlink" title="Plugin 的特点"></a>Plugin 的特点</h3><ul>
+<li>是一个独立的模块</li>
+<li>模块对外暴露一个 js 函数</li>
+<li>函数的原型 <code>(prototype)</code> 上定义了一个注入 <code>compiler</code> 对象的 <code>apply </code>方法 <code>apply</code> 函数中需要有通过 <code>compiler</code> 对象挂载的 <code>webpack</code> 事件钩子，钩子的回调中能拿到当前编译的 <code>compilation</code> 对象，如果是异步编译插件的话可以拿到回调 <code>callback</code></li>
+<li>完成自定义子编译流程并处理 <code>complition</code> 对象的内部数据</li>
+<li>如果异步编译插件的话，数据处理完成后执行 <code>callback</code> 回调。</li>
+</ul>
+<h3 id="常用Plugin"><a href="#常用Plugin" class="headerlink" title="常用Plugin"></a>常用Plugin</h3><ul>
+<li><p><code>HotModuleReplacementPlugin</code> 代码热替换。因为 <code>Hot-Module-Replacement</code> 的热更新是依赖于 <code>webpack-dev-server</code>，后者是在打包文件改变时更新打包文件或者 reload 刷新整个页面，<code>HRM</code> 是只更新修改的部分。</p>
+</li>
+<li><p><code>HtmlWebpackPlugin</code>, 生成 html 文件。将 webpack 中<code>entry</code>配置的相关入口 chunk 和 <code>extract-text-webpack-plugin</code>抽取的 css 样式 插入到该插件提供的<code>template</code>或者<code>templateContent</code>配置项指定的内容基础上生成一个 html 文件，具体插入方式是将样式<code>link</code>插入到<code>head</code>元素中，<code>script</code>插入到<code>head</code>或者<code>body</code>中。</p>
+</li>
+<li><p><code>ExtractTextPlugin</code>, 将 css 成生文件，而非内联 。该插件的主要是为了抽离 css 样式,防止将样式打包在 js 中引起页面样式加载错乱的现象。</p>
+</li>
+<li><p><code>NoErrorsPlugin</code>报错但不退出 webpack 进程</p>
+</li>
+<li><p><code>UglifyJsPlugin</code>，代码丑化，开发过程中不建议打开。 <code>uglifyJsPlugin</code> 用来对 js 文件进行压缩，从而减小 js 文件的大小，加速 load 速度。<code>uglifyJsPlugin</code> 会拖慢 webpack 的编译速度，所有建议在开发简单将其关闭，部署的时候再将其打开。多个 html 共用一个 js 文件(chunk)，可用 <code>CommonsChunkPlugin</code></p>
+</li>
+<li><p><code>purifycss-webpack</code>  。打包编译时，可剔除页面和 js 中未被使用的 css，这样使用第三方的类库时，只加载被使用的类，大大减小 css 体积</p>
+</li>
+<li><p><code>optimize-css-assets-webpack-plugin</code>   压缩 css，优化 css 结构，利于网页加载和渲染</p>
+</li>
+<li><p><code>webpack-parallel-uglify-plugin</code>   可以并行运行 UglifyJS 插件，这可以有效减少构建时间</p>
+</li>
+</ul>
+<h3 id="开发一个-plugin"><a href="#开发一个-plugin" class="headerlink" title="开发一个 plugin"></a>开发一个 plugin</h3><ul>
+<li>Webpack 在编译过程中，会广播很多事件，例如 run、compile、done、fail 等等，可以查看官网；</li>
+<li>Webpack 的事件流机制应用了观察者模式，我们编写的插件可以监听 Webpack 事件来触发对应的处理逻辑；</li>
+<li>插件中可以使用很多 Webpack 提供的 API，例如读取输出资源、代码块、模块及依赖等；</li>
+</ul>
+<h4 id="1、编写插件"><a href="#1、编写插件" class="headerlink" title="1、编写插件"></a>1、编写插件</h4><p>在根目录下，新建目录 my-plugin 作为我们编写插件的名称，执行 npm init -y 命令，新建一个模块化项目，然后新建 index.js 文件，相关源码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyPlugin</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">doneCallback, failCallback</span>) &#123;</span><br><span class="line">    <span class="comment">// 保存在创建插件实例时传入的回调函数</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">doneCallback</span> = doneCallback</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">failCallback</span> = failCallback</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">apply</span>(<span class="params">compiler</span>) &#123;</span><br><span class="line">    <span class="comment">// 成功完成一次完整的编译和输出流程时，会触发 done 事件</span></span><br><span class="line">    compiler.<span class="title function_">plugin</span>(<span class="string">&#x27;done&#x27;</span>, <span class="function"><span class="params">stats</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="title function_">doneCallback</span>(stats)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">// 在编译和输出的流程中遇到异常时，会触发 failed 事件</span></span><br><span class="line">    compiler.<span class="title function_">plugin</span>(<span class="string">&#x27;failed&#x27;</span>, <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="title function_">failCallback</span>(err)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="title class_">MyPlugin</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2、注册模块-1"><a href="#2、注册模块-1" class="headerlink" title="2、注册模块"></a>2、注册模块</h4><p>按照以上的方法，我们在 my-plugin 目录底下使用 npm link 做到在不发布模块的情况下，将本地的一个正在开发的模块的源码链接到项目的 node_modules 目录下，让项目可以直接使用本地的 npm 模块。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm link</span><br></pre></td></tr></table></figure>
+
+<p>然后在项目根目录执行以下命令，将注册到全局的本地 npm 模块链接到项目的 node_modules 下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm link my-plugin</span><br></pre></td></tr></table></figure>
+
+<p>注册成功后，我们可以在 node_modules 目录下能查找到对应的插件了。</p>
+<h4 id="3、配置插件"><a href="#3、配置插件" class="headerlink" title="3、配置插件"></a>3、配置插件</h4><p>在 webpack.base.conf.js 加上如下配置</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">plugins</span>: [</span><br><span class="line">  <span class="keyword">new</span> <span class="title class_">MyPlugin</span>(</span><br><span class="line">    <span class="function"><span class="params">stats</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">info</span>(<span class="string">&#x27;编译成功!&#x27;</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;编译失败!&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  )</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>执行运行 or 编译命令，就能看到我们的 plugin 起作用了。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2020-12-30T07:08:02.000Z" itemprop="dateUpdated">2020-12-30 15:08:02</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/LittleWhiteRabbit/2022/04/11/2020%E5%B9%B4%E4%BD%A0%E4%B8%8D%E8%83%BD%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84webpack%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/" target="_blank" rel="external">https://data-cz.github.io/2022/04/11/2020%E5%B9%B4%E4%BD%A0%E4%B8%8D%E8%83%BD%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84webpack%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://data-cz.github.io">
+            <img src="/LittleWhiteRabbit/img/avatar.jpg" alt="Chen Daxian">
+            Chen Daxian
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://data-cz.github.io/2022/04/11/2020%E5%B9%B4%E4%BD%A0%E4%B8%8D%E8%83%BD%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84webpack%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/&title=面试详解&pic=https://data-cz.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://data-cz.github.io/2022/04/11/2020%E5%B9%B4%E4%BD%A0%E4%B8%8D%E8%83%BD%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84webpack%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/&title=面试详解&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://data-cz.github.io/2022/04/11/2020%E5%B9%B4%E4%BD%A0%E4%B8%8D%E8%83%BD%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84webpack%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=面试详解&url=https://data-cz.github.io/2022/04/11/2020%E5%B9%B4%E4%BD%A0%E4%B8%8D%E8%83%BD%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84webpack%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/&via=https://data-cz.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://data-cz.github.io/2022/04/11/2020%E5%B9%B4%E4%BD%A0%E4%B8%8D%E8%83%BD%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84webpack%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/LittleWhiteRabbit/2022/04/11/canvas%E5%9F%BA%E7%A1%80/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">[no title]</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/LittleWhiteRabbit/2022/04/07/hello-world/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Hello World</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/LittleWhiteRabbit/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/LittleWhiteRabbit/img/wechat.jpg" data-alipay="/LittleWhiteRabbit/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/LittleWhiteRabbit/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Chen Daxian &copy; 2015 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://data-cz.github.io/2022/04/11/2020%E5%B9%B4%E4%BD%A0%E4%B8%8D%E8%83%BD%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84webpack%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/&title=面试详解&pic=https://data-cz.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://data-cz.github.io/2022/04/11/2020%E5%B9%B4%E4%BD%A0%E4%B8%8D%E8%83%BD%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84webpack%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/&title=面试详解&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://data-cz.github.io/2022/04/11/2020%E5%B9%B4%E4%BD%A0%E4%B8%8D%E8%83%BD%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84webpack%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=面试详解&url=https://data-cz.github.io/2022/04/11/2020%E5%B9%B4%E4%BD%A0%E4%B8%8D%E8%83%BD%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84webpack%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/&via=https://data-cz.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://data-cz.github.io/2022/04/11/2020%E5%B9%B4%E4%BD%A0%E4%B8%8D%E8%83%BD%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84webpack%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAT4AAAE+CAAAAAAxUyPsAAAFOklEQVR42u3cQW7jMBAEQP//09lzsJHUPUPlktLJsB2KLC7gUQ+xn098fS2u/8e5Gv/+dT7PZOZXn37euPDhw4cPH76Ypl1SPrnZNuRjXr1zL5Cb4MOHDx8+fBu+HCK/5f0CNsVKUnDcj5+8kxRG+PDhw4cP3+/w5T//m8W0kURbvrRbiA8fPnz48P0mXxKLz7hf7DOMCiB8+PDhw4fvbb42Ik8KkfY7+af7gCOPOY71OvDhw4cPH77Rwa+/8PqV+ggfPnz48P15vq/F1RYT7eP6ppl9qg3wIIAPHz58+PCNBN5oZh84+FW24Tet7tUq8OHDhw8fvngVs1A+X8apuDxffB7iz7b8h393+PDhw4cPX8w3C6kTiHbkzcLu4doIoI1F8OHDhw8fvhlfMok2iM8f0c+GF5vQP1nvQ/WHDx8+fPjwXcwnv+WmFT2L0feN+fyObQiCDx8+fPjwbfg25cXsQFhb4syCgLaRUG8bPnz48OHD9wJfXi60If5s8XmzYRZM1FkLPnz48OHD19UGr/xXX6cKiDYmaLcz2cKHMfHhw4cPH76SL5/QbNJtgbIpgz7l1QYNxaD48OHDhw/fxfizn/lT29CiJNuw37xi/vjw4cOHD99RvrywaEdopxu1ruOZJxUIPnz48OHD9x5fW0zkk24f4NsQoW0ttAXNAys+fPjw4cN3iC+ZRB55b46vtfM5uzF1UxwfPnz48OG77fC2P+pt/J1gbV6fje+LwggfPnz48OFb8M0Oh7Xh+Ox42ax9PjuOlm8wPnz48OHD1/IlMfepA17tCPnm5WVT3ubPZ44PHz58+PCd4stvfzYg2DTXZzNsx1+dC8CHDx8+fH+er/0hT4a+Pyi2aV3PZrIJHR5CDXz48OHDh2+Sh3/ywmKzsLZQSNBPNcIPFFj48OHDhw9f0CZvC4gkHN8saY+SkM0Kl2+f4sOHDx8+fKPR9qH5LPLe3Ld9pN+E9Q93wYcPHz58+I7ytYfSkiIjmfomUt9c9Qbjw4cPHz58R/nac1mzQmcWHORblbfP89ABHz58+PDhe4OvBY0es+NH/bwxn2/JLGgYhvX48OHDhw/fRZt8doRrE4LnrffkwX62GXmo8cNrfPjw4cOHr+TbPDy3hUIyofbTzTG1TaBwIHvAhw8fPnx/km8/dFtSJPHBLHpoi6cW9zJrwYcPHz58+Eq+5A/ywD0fJ9+2tiRqWwVtRPItccGHDx8+fPgWfHnbeHOoaxP074uYvOR6uCM+fPjw4cP3Al8Luj+4lpQsbUt7VmBFYT0+fPjw4cN3lG826bx0aAP3zUG0NjJ4mA8+fPjw4cM34muPkbW3+Qqu/JtJ6D9rk7etBXz48OHDh+8s32zQ2aTbIH5fuBxopePDhw8fPnwjvvwRfdZsnhUo+UbmcUa7efjw4cOHD99Zvk07fF9kJEvKG9h5ZNDG9FHBhA8fPnz48AVrSUqNNiZ4+/s57hth/bfX+PDhw4cP34ivLQXan/x8/PzKC6a2ICvKJnz48OHDh2/NlxcBs2C9LWVm7YS88Nq8jw8fPnz48LV8baEw++M8iL8Px4uH+fj7SSifhxf48OHDhw9fwjf7sW8f2vcx+tn2+aZwKao/fPjw4cOH74KvPWS2CQvOlkSzEP9Y+YUPHz58+PC9xrd/+G/LiGQBSfmyKVmijgc+fPjw4cP3At/mmFobIpwqetrYoi3R8OHDhw8fvhnfLKxvl9Quo21yJ6VSjhs1y/Hhw4cPH76Sr43Fk4g8ufF+G/bv7++IDx8+fPjwxSP8A2ERQJ+TJEbLAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/LittleWhiteRabbit/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

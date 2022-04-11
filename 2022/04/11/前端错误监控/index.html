@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>前端错误监控 | 面试详解</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Web">
+    <meta name="description" content="1 前言 错误监控包含的内容是：   前端错误的分类 每种错误的捕获方式 上报错误的基本原理   面试时，可能有两种问法：   如何监测 js 错误？（开门见山的方式） 如何保证产品质量？（其实问的也是错误监控）  2 前端错误的分类包括两种：  即时运行错误（代码错误） 资源加载错误  3 每种错误的捕获方式3.1 即时运行错误的捕获方式方式1：try ... catch。  这种方式要部署在代">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端错误监控">
+<meta property="og:url" content="https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF%E7%9B%91%E6%8E%A7/index.html">
+<meta property="og:site_name" content="面试详解">
+<meta property="og:description" content="1 前言 错误监控包含的内容是：   前端错误的分类 每种错误的捕获方式 上报错误的基本原理   面试时，可能有两种问法：   如何监测 js 错误？（开门见山的方式） 如何保证产品质量？（其实问的也是错误监控）  2 前端错误的分类包括两种：  即时运行错误（代码错误） 资源加载错误  3 每种错误的捕获方式3.1 即时运行错误的捕获方式方式1：try ... catch。  这种方式要部署在代">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://img.smyhvae.com/20180311_2030.png">
+<meta property="og:image" content="http://img.smyhvae.com/20180311_2040.png">
+<meta property="og:image" content="http://img.smyhvae.com/20180311_2055.png">
+<meta property="og:image" content="http://img.smyhvae.com/20180311_2057.png">
+<meta property="article:published_time" content="2022-04-11T01:44:53.380Z">
+<meta property="article:modified_time" content="2020-12-30T07:08:02.000Z">
+<meta property="article:author" content="Chen Daxian">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://img.smyhvae.com/20180311_2030.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="面试详解" href="/LittleWhiteRabbit/atom.xml">
+    
+    <link rel="shortcut icon" href="/LittleWhiteRabbit/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/LittleWhiteRabbit/img/brand.jpg)">
+      <div class="brand">
+        <a href="/LittleWhiteRabbit/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/LittleWhiteRabbit/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Chen Daxian</h5>
+          <a href="mailto:136130658@qq.com" title="136130658@qq.com" class="mail">136130658@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/custom"  >
+                <i class="icon icon-lg icon-link"></i>
+                测试
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">前端错误监控</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">前端错误监控</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2022-04-11T01:44:53.380Z" itemprop="datePublished" class="page-time">
+  2022-04-11
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/LittleWhiteRabbit/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-%E5%89%8D%E8%A8%80"><span class="post-toc-number">1.</span> <span class="post-toc-text">1 前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF%E7%9A%84%E5%88%86%E7%B1%BB"><span class="post-toc-number">2.</span> <span class="post-toc-text">2 前端错误的分类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-%E6%AF%8F%E7%A7%8D%E9%94%99%E8%AF%AF%E7%9A%84%E6%8D%95%E8%8E%B7%E6%96%B9%E5%BC%8F"><span class="post-toc-number">3.</span> <span class="post-toc-text">3 每种错误的捕获方式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-1-%E5%8D%B3%E6%97%B6%E8%BF%90%E8%A1%8C%E9%94%99%E8%AF%AF%E7%9A%84%E6%8D%95%E8%8E%B7%E6%96%B9%E5%BC%8F"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">3.1 即时运行错误的捕获方式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-2-%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD%E9%94%99%E8%AF%AF%E7%9A%84%E6%8D%95%E8%8E%B7%E6%96%B9%E5%BC%8F"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">3.2 资源加载错误的捕获方式</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-%E9%94%99%E8%AF%AF%E4%B8%8A%E6%8A%A5%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="post-toc-number">4.</span> <span class="post-toc-text">4 错误上报的两种方式</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-前端错误监控"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">前端错误监控</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2022-04-11 09:44:53" datetime="2022-04-11T01:44:53.380Z"  itemprop="datePublished">2022-04-11</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/LittleWhiteRabbit/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1 前言"></a>1 前言</h2><blockquote>
+<p>错误监控包含的内容是：</p>
+</blockquote>
+<ul>
+<li>前端错误的分类</li>
+<li>每种错误的捕获方式</li>
+<li>上报错误的基本原理</li>
+</ul>
+<blockquote>
+<p>面试时，可能有两种问法：</p>
+</blockquote>
+<ul>
+<li>如何监测 <code>js</code> 错误？（开门见山的方式）</li>
+<li>如何保证<strong>产品质量</strong>？（其实问的也是错误监控）</li>
+</ul>
+<h2 id="2-前端错误的分类"><a href="#2-前端错误的分类" class="headerlink" title="2 前端错误的分类"></a>2 前端错误的分类</h2><p>包括两种：</p>
+<ul>
+<li>即时运行错误（代码错误）</li>
+<li>资源加载错误</li>
+</ul>
+<h2 id="3-每种错误的捕获方式"><a href="#3-每种错误的捕获方式" class="headerlink" title="3 每种错误的捕获方式"></a>3 每种错误的捕获方式</h2><h3 id="3-1-即时运行错误的捕获方式"><a href="#3-1-即时运行错误的捕获方式" class="headerlink" title="3.1 即时运行错误的捕获方式"></a>3.1 即时运行错误的捕获方式</h3><p><strong>方式1</strong>：<code>try ... catch</code>。</p>
+<blockquote>
+<p>这种方式要部署在代码中。</p>
+</blockquote>
+<p><strong>方式2：</strong><code>window.onerror</code>函数。这个函数是全局的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">onerror</span> = <span class="keyword">function</span>(<span class="params">msg, url, row, col, error</span>) &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>参数解释：</p>
+</blockquote>
+<ul>
+<li><code>msg</code>为异常基本信息</li>
+<li><code>source</code>为发生异常<code>Javascript</code>文件的<code>url</code></li>
+<li><code>row</code>为发生错误的行号</li>
+</ul>
+<blockquote>
+<p>方式二中的<code>window.onerror</code>是属于DOM0的写法，我们也可以用DOM2的写法：<code>window.addEventListener(&quot;error&quot;, fn);</code>也可以。</p>
+</blockquote>
+<p><strong>问题延伸1：</strong></p>
+<p><code>window.onerror</code>默认无法捕获<strong>跨域</strong>的<code>js</code>运行错误。捕获出来的信息如下：（基本属于无效信息）</p>
+<blockquote>
+<p>比如说，我们的代码想引入<code>B</code>网站的<code>b.js</code>文件，怎么捕获它的异常呢？</p>
+</blockquote>
+<p><strong>解决办法</strong>：在方法二的基础之上，做如下操作：</p>
+<ol>
+<li>在<code>b.js</code>文件里，加入如下 <code>response</code> <code>header</code>，表示允许跨域：（或者世界给静态资源<code>b.js</code>加这个 response header）</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Access</span>-<span class="title class_">Control</span>-<span class="title class_">Allow</span>-<span class="title class_">Origin</span>: *</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>引入第三方的文件<code>b.js</code>时，在<code>&lt;script&gt;</code>标签中增加<code>crossorigin</code>属性；</li>
+</ol>
+<p><strong>问题延伸2：</strong></p>
+<blockquote>
+<p>只靠方式二中的<code>window.onerror</code>是不够的，因为我们无法获取文件名是什么，不知道哪里出了错误。解决办法：把<strong>堆栈</strong>信息作为msg打印出来，堆栈里很详细。</p>
+</blockquote>
+<h3 id="3-2-资源加载错误的捕获方式"><a href="#3-2-资源加载错误的捕获方式" class="headerlink" title="3.2 资源加载错误的捕获方式"></a>3.2 资源加载错误的捕获方式</h3><blockquote>
+<p>上面的<code>window.onerror</code>只能捕获即时运行错误，无法捕获资源加载错误。原理是：资源加载错误，并不会向上冒泡，<code>object.onerror</code>捕获后就会终止（不会冒泡给<code>window</code>），所以<code>window.onerror</code>并不能捕获资源加载错误。</p>
+</blockquote>
+<ul>
+<li><strong>方式1</strong>：<code>object.onerror</code>。<code>img</code>标签、<code>script</code>标签等节点都可以添加<code>onerror</code>事件，用来捕获资源加载的错误。</li>
+<li><strong>方式2</strong>：performance.getEntries。可以获取所有已加载资源的加载时长，通过这种方式，可以间接的拿到没有加载的资源错误。</li>
+</ul>
+<p>举例：</p>
+<blockquote>
+<p>浏览器打开一个网站，在<code>Console</code>控制台下，输入：</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">performance.<span class="title function_">getEntries</span>().<span class="title function_">forEach</span>(<span class="keyword">function</span>(<span class="params">item</span>)&#123;<span class="variable language_">console</span>.<span class="title function_">log</span>(item.<span class="property">name</span>)&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>或者输入：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">performance.<span class="title function_">getEntries</span>().<span class="title function_">forEach</span>(<span class="function"><span class="params">item</span>=&gt;</span>&#123;<span class="variable language_">console</span>.<span class="title function_">log</span>(item.<span class="property">name</span>)&#125;)</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>上面这个<code>api</code>，返回的是数组，既然是数组，就可以用<code>forEach</code>遍历。打印出来的资源就是<strong>已经成功加载</strong>的资源。；</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.smyhvae.com/20180311_2030.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<blockquote>
+<p>再入<code>document.getElementsByTagName(&#39;img&#39;)</code>，就会显示出所有<strong>需要加载</strong>的的img集合。</p>
+</blockquote>
+<blockquote>
+<p>于是，<code>document.getElementsByTagName(&#39;img&#39;)</code>获取的资源数组减去通过<code>performance.getEntries()</code>获取的资源数组，剩下的就是没有成功加载的，这种方式可以间接捕获到资源加载错误。</p>
+</blockquote>
+<p>这种方式非常有用，一定要记住。</p>
+<p><strong>方式3；</strong>Error事件捕获。</p>
+<blockquote>
+<p>源加载错误，虽然会阻止冒泡，但是不会阻止捕获。我们可以在捕获阶段绑定error事件。例如：</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.smyhvae.com/20180311_2040.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+
+
+<blockquote>
+<p><strong>总结：</strong>如果我们能回答出后面的两种方式，面试官对我们的印象会大大增加。既可以体现出我们对错误监控的了解，还可以体现出我们对事件模型的掌握。</p>
+</blockquote>
+<h2 id="4-错误上报的两种方式"><a href="#4-错误上报的两种方式" class="headerlink" title="4 错误上报的两种方式"></a>4 错误上报的两种方式</h2><ul>
+<li><strong>方式一</strong>：采用Ajax通信的方式上报（此方式虽然可以上报错误，但是我们并不采用这种方式）</li>
+<li><strong>方式二：</strong>利用Image对象上报（推荐。网站的监控体系都是采用的这种方式）</li>
+</ul>
+<blockquote>
+<p>方式二的实现方式如下：</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Title<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">	<span class="comment">//通过Image对象进行错误上报</span></span></span><br><span class="line"><span class="language-javascript">    (<span class="keyword">new</span> <span class="title class_">Image</span>()).<span class="property">src</span> = <span class="string">&#x27;http://smyhvae.com/myPath?badjs=msg&#x27;</span>;   <span class="comment">// myPath表示上报的路径（我要上报到哪里去）。后面的内容是自己加的参数。</span></span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>打开浏览器，效果如下：</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.smyhvae.com/20180311_2055.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>上图中，红色那一栏表明，我的请求已经发出去了。点进去看看：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.smyhvae.com/20180311_2057.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<blockquote>
+<p>这种方式，不需要借助第三方的库，一行代码即可搞定。</p>
+</blockquote>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2020-12-30T07:08:02.000Z" itemprop="dateUpdated">2020-12-30 15:08:02</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/LittleWhiteRabbit/2022/04/11/%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF%E7%9B%91%E6%8E%A7/" target="_blank" rel="external">https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF%E7%9B%91%E6%8E%A7/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://data-cz.github.io">
+            <img src="/LittleWhiteRabbit/img/avatar.jpg" alt="Chen Daxian">
+            Chen Daxian
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/LittleWhiteRabbit/tags/Web/" rel="tag">Web</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF%E7%9B%91%E6%8E%A7/&title=《前端错误监控》 — 面试详解&pic=https://data-cz.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF%E7%9B%91%E6%8E%A7/&title=《前端错误监控》 — 面试详解&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF%E7%9B%91%E6%8E%A7/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《前端错误监控》 — 面试详解&url=https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF%E7%9B%91%E6%8E%A7/&via=https://data-cz.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF%E7%9B%91%E6%8E%A7/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/LittleWhiteRabbit/2022/04/11/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">[no title]</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/LittleWhiteRabbit/2022/04/11/%E4%BD%A0%E7%9C%9F%E7%9A%84%E4%BA%86%E8%A7%A3ES6%E7%9A%84Set%E5%92%8CMap%E5%90%97/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">[no title]</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/LittleWhiteRabbit/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/LittleWhiteRabbit/img/wechat.jpg" data-alipay="/LittleWhiteRabbit/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/LittleWhiteRabbit/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Chen Daxian &copy; 2015 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF%E7%9B%91%E6%8E%A7/&title=《前端错误监控》 — 面试详解&pic=https://data-cz.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF%E7%9B%91%E6%8E%A7/&title=《前端错误监控》 — 面试详解&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF%E7%9B%91%E6%8E%A7/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《前端错误监控》 — 面试详解&url=https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF%E7%9B%91%E6%8E%A7/&via=https://data-cz.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF%E7%9B%91%E6%8E%A7/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADG0lEQVR42u3aUVLjQAwFQO5/afYArJ0naaBipf1FEeJxT6oipDdfX/H1fXH9fPX+Xfd3y6/7dY9d2NjY2A9hVxdIePf3ufq5uk35ff6zNdjY2Njr2Fff8Fd/8+KmLUy+VrKVL4zY2NjYH89OkPcF5n6teVHExsbGxs5biIRXbWOqLRA2NjY2dl4kkoahWgir9//TWRo2Njb227PzVPT9f/6VfBsbGxv7jdm9gzK9bTrbToyO+2BjY2MvYs9H/5NDP0n7UT3ckzw/NjY29iZ2dRwzKTbVUjcJm1+8FxsbG3spOy8keTsxiXurpEKTg42Njb2U3RsDVWPXZCurm17+ALCxsbEXsScB6qkyNt+yZvSLjY2NvYidMKrlJw8A8gKWP3PhztjY2Nir2ZOo9X6xs6WuF3VgY2Nj72AnZal3jObUUGmyBdjY2Nifwz615KRdOXXP6EwONjY29iJ2/hDJ9dvFLz8AFMXD2NjY2EvZvZF98ijJ7yerVAdP2NjY2DvY+Thm0mzkkW11VNR8BmxsbOyl7Oo/9NUhUe/VU4d1LgsYNjY29sPZ1dIyGQBFg57BujkeGxsbex87/6KvtiXVYVM+Cct5lx8DNjY29mp2Ptavjqh6hWoePFymItjY2NgPZyf/yleP2vxNuaqWtCjZxsbGxn44Ox/ZVCvkpNWpjo2iDwAbGxt7Ebt6giU/3NNrbHrRwoEODBsbG/ux7Pyrv5oSJ41KL1oolKir92JjY2OvY1cXOBshVIdKB4Zc2NjY2IvY+ZA9Gd/MB1W97RuFBNjY2NhL2fngpnrNB0+TIBkbGxv7E9jV0lUNhnuj/16pe/H32NjY2KvZeRHqBb29+88LJzY2NvY+9nfxqg7iqw1DNWwYBQPY2NjYK9ijuhcHA3kbk7creSScRBrY2NjYT2effdxJ5JCPnEaHdbCxsbGXspPhTm9UlB/0iY7atAJjbGxsbOxRpBqXumq0MCmf2NjY2Nh5G1BtM5oFqfoubGxs7HXsXrg7OUxZ3aByiToVD2BjY2O/PbvXBvTahkkRSj6AUytiY2NjP4T9D7bVXyr3ZFaaAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/LittleWhiteRabbit/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>面试详解</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="前端优化代码所谓无规矩不成方圆，前端时间在团队 code-review 中发现，不同时期不同开发人员写的代码可谓五花八门。因此我们提出了一些相关代码方面的规范，希望日后能形成团队的编码规范。 本文主要针对一些 JavaScript 进行优化，使之更加健壮，可读性更强，更以维护。gitthub地址：https:&#x2F;&#x2F;github.com&#x2F;Michael-lzg&#x2F;my--article&#x2F;blob&#x2F;mas">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试详解">
+<meta property="og:url" content="https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="面试详解">
+<meta property="og:description" content="前端优化代码所谓无规矩不成方圆，前端时间在团队 code-review 中发现，不同时期不同开发人员写的代码可谓五花八门。因此我们提出了一些相关代码方面的规范，希望日后能形成团队的编码规范。 本文主要针对一些 JavaScript 进行优化，使之更加健壮，可读性更强，更以维护。gitthub地址：https:&#x2F;&#x2F;github.com&#x2F;Michael-lzg&#x2F;my--article&#x2F;blob&#x2F;mas">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-04-11T01:44:53.401Z">
+<meta property="article:modified_time" content="2020-12-30T07:08:02.000Z">
+<meta property="article:author" content="Chen Daxian">
+<meta name="twitter:card" content="summary">
+    
+        <link rel="alternate" type="application/atom+xml" title="面试详解" href="/LittleWhiteRabbit/atom.xml">
+    
+    <link rel="shortcut icon" href="/LittleWhiteRabbit/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/LittleWhiteRabbit/img/brand.jpg)">
+      <div class="brand">
+        <a href="/LittleWhiteRabbit/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/LittleWhiteRabbit/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Chen Daxian</h5>
+          <a href="mailto:136130658@qq.com" title="136130658@qq.com" class="mail">136130658@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/custom"  >
+                <i class="icon icon-lg icon-link"></i>
+                测试
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis"></div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title"></h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2022-04-11T01:44:53.401Z" itemprop="datePublished" class="page-time">
+  2022-04-11
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96%E4%BB%A3%E7%A0%81"><span class="post-toc-number">1.</span> <span class="post-toc-text">前端优化代码</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#if-%E5%88%A4%E6%96%AD%E7%9A%84%E4%BC%98%E5%8C%96"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">if 判断的优化</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#includes-%E7%9A%84%E4%BC%98%E5%8C%96"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">includes 的优化</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#for-%E5%BE%AA%E7%8E%AF"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">for 循环</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">数组去重</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">箭头函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Dom-%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">Dom 的创建</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">内存泄漏</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="post-toc-number">1.7.0.1.</span> <span class="post-toc-text">全局变量</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E9%97%AD%E5%8C%85"><span class="post-toc-number">1.7.0.2.</span> <span class="post-toc-text">闭包</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AE%9A%E6%97%B6%E5%99%A8%E6%88%96%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC"><span class="post-toc-number">1.7.0.3.</span> <span class="post-toc-text">定时器或事件监听</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81"><span class="post-toc-number">1.8.</span> <span class="post-toc-text">防抖与节流</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%BC%82%E6%AD%A5%E5%8A%A0%E8%BD%BD-js"><span class="post-toc-number">1.9.</span> <span class="post-toc-text">异步加载 js</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-前端代码优化"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title"></h1>
+        <div class="post-meta">
+            <time class="post-time" title="2022-04-11 09:44:53" datetime="2022-04-11T01:44:53.401Z"  itemprop="datePublished">2022-04-11</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="前端优化代码"><a href="#前端优化代码" class="headerlink" title="前端优化代码"></a>前端优化代码</h1><p>所谓无规矩不成方圆，前端时间在团队 code-review 中发现，不同时期不同开发人员写的代码可谓五花八门。因此我们提出了一些相关代码方面的规范，希望日后能形成团队的编码规范。</p>
+<p>本文主要针对一些 JavaScript 进行优化，使之更加健壮，可读性更强，更以维护。gitthub地址：<a target="_blank" rel="noopener" href="https://github.com/Michael-lzg/my--article/blob/master/other/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96.md">https://github.com/Michael-lzg/my--article/blob/master/other/前端代码优化.md</a></p>
+<p>上一篇：<a href="https://juejin.im/post/5f02c8eff265da22c058e050" target="blank">code-review之前端代码规范</a></p>
+<h2 id="if-判断的优化"><a href="#if-判断的优化" class="headerlink" title="if 判断的优化"></a>if 判断的优化</h2><p>JavaScript 条件语句在我们平时的开发中是不可避免要用到的，但是很多时候我们的代码写的并不好，一连串的 <code>if-else</code> 或者多重嵌套判断都会使得代码很臃肿，下面举例进行优化。</p>
+<p>需求：现在有 4 个产品，分别是手机、电脑、电视机、游戏机，当然每个产品显示的价格不一样。</p>
+<p>1、最简单的方法：if 判断</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> commodity = &#123;</span><br><span class="line">  <span class="attr">phone</span>: <span class="string">&#x27;手机&#x27;</span>,</span><br><span class="line">  <span class="attr">computer</span>: <span class="string">&#x27;电脑&#x27;</span>,</span><br><span class="line">  <span class="attr">television</span>: <span class="string">&#x27;电视&#x27;</span>,</span><br><span class="line">  <span class="attr">gameBoy</span>: <span class="string">&#x27;游戏机&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">price</span>(<span class="params">name</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (name === commodity.<span class="property">phone</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">1999</span>)</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (name === commodity.<span class="property">computer</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">9999</span>)</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (name === commodity.<span class="property">television</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">2999</span>)</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (name === commodity.<span class="property">gameBoy</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">3999</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">price</span>(<span class="string">&#x27;手机&#x27;</span>) <span class="comment">// 9999</span></span><br></pre></td></tr></table></figure>
+
+<p>缺点：代码太长了,维护和阅读都很不友好</p>
+<p>2、好一点的方法：<code>Switch</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> commodity = &#123;</span><br><span class="line">  <span class="attr">phone</span>: <span class="string">&#x27;手机&#x27;</span>,</span><br><span class="line">  <span class="attr">computer</span>: <span class="string">&#x27;电脑&#x27;</span>,</span><br><span class="line">  <span class="attr">television</span>: <span class="string">&#x27;电视&#x27;</span>,</span><br><span class="line">  <span class="attr">gameBoy</span>: <span class="string">&#x27;游戏机&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">price</span> = (<span class="params">name</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">switch</span> (name) &#123;</span><br><span class="line">    <span class="keyword">case</span> commodity.<span class="property">phone</span>:</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">1999</span>)</span><br><span class="line">      <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">case</span> commodity.<span class="property">computer</span>:</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">9999</span>)</span><br><span class="line">      <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">case</span> commodity.<span class="property">television</span>:</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">2999</span>)</span><br><span class="line">      <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">case</span> commodity.<span class="property">gameBoy</span>:</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">3999</span>)</span><br><span class="line">      <span class="keyword">break</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">price</span>(<span class="string">&#x27;手机&#x27;</span>) <span class="comment">// 9999</span></span><br></pre></td></tr></table></figure>
+
+<p>3、更优的方法: 策略模式  </p>
+<p>策略模式利用组合、委托和多态等技术和思想，可以有效地避免多重条件选择语句。它提供了对开放—封闭原则的完美支持，将算法封装在独立的 strategy 中，使得它们易于切换，易于理解，易于扩展。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> commodity = <span class="keyword">new</span> <span class="title class_">Map</span>([</span><br><span class="line">  [<span class="string">&#x27;phone&#x27;</span>, <span class="number">1999</span>],</span><br><span class="line">  [<span class="string">&#x27;computer&#x27;</span>, <span class="number">9999</span>],</span><br><span class="line">  [<span class="string">&#x27;television&#x27;</span>, <span class="number">2999</span>],</span><br><span class="line">  [<span class="string">&#x27;gameBoy&#x27;</span>, <span class="number">3999</span>],</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">price</span> = (<span class="params">name</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> commodity.<span class="title function_">get</span>(name)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">price</span>(<span class="string">&#x27;phone&#x27;</span>) <span class="comment">// 1999</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="includes-的优化"><a href="#includes-的优化" class="headerlink" title="includes 的优化"></a>includes 的优化</h2><p><code>includes</code> 是 ES7 新增的 API，与 <code>indexOf</code> 不同的是 <code>includes</code> 直接返回的是 <code>Boolean</code> 值，<code>indexOf</code> 则 返回的索引值, 数组和字符串都有 <code>includes</code> 方法。</p>
+<p>需求：我们来实现一个身份认证方法，通过传入身份 Id 返回对应的验证结果</p>
+<p>传统方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">verifyIdentity</span>(<span class="params">identityId</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (identityId == <span class="number">1</span> || identityId == <span class="number">2</span> || identityId == <span class="number">3</span> || identityId == <span class="number">4</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;你的身份合法，请通行！&#x27;</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;你的身份不合法&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>includes</code> 优化</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">verifyIdentity</span>(<span class="params">identityId</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> ([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>].<span class="title function_">includes</span>(identityId)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;你的身份合法，请通行！&#x27;</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;你的身份不合法&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="for-循环"><a href="#for-循环" class="headerlink" title="for 循环"></a>for 循环</h2><p>在 JavaScript 中，我们可以使用 <code>for()</code>， <code>while()</code>， <code>for(in)</code>，<code>for(in)</code>几种循环，事实上，这三种循环中 <code>for(in)</code> 的效率极差，因为他需要查询散列键，所以应该尽量少用。</p>
+<p>for 循环是最传统的语句，它以变量 i 作为索引，以跟踪访问的位置，对数组进行操作。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>]</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.<span class="property">length</span>; i++) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(arr[i]) <span class="comment">//结果依次a,b,c</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上的方法有一个问题：就是当数组的长度到达百万级时，<code>arr.length</code> 就要计算一百万次，这是相当耗性能的。所以可以采用以下方法就行改良。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>]</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, length = arr.<span class="property">length</span>; i &lt; length; i++) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(arr[i]) <span class="comment">//结果依次a,b,c</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时 <code>arr.length</code> 只需要计算一次，优化了性能。</p>
+<p><code>for-in</code> 一般用来来遍历对象的属性的，不过属性需要 <code>enumerable</code>（可枚举）才能被读取到。同时 <code>for-in</code> 也可以遍历数组，遍历数组的时候遍历的是数组的下标值。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123; <span class="number">0</span>: <span class="string">&#x27;a&#x27;</span>, <span class="number">1</span>: <span class="string">&#x27;b&#x27;</span>, <span class="number">2</span>: <span class="string">&#x27;c&#x27;</span> &#125;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> obj) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(key) <span class="comment">//结果为依次为0，1，2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> arr = [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>]</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> a) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(key) <span class="comment">//结果为依次为0，1，2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>for-of</code> 语句看着有点像 <code>for-in</code> 语句，但是和 <code>for-of</code> 语句不同的是它不可以循环对象，只能循环数组。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>]</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> value <span class="keyword">of</span> arr) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(value) <span class="comment">// 结果依次为a,b,c</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>for-of</code> 比 <code>for-in</code> 循环遍历数组更好。<code>for-of</code> 只要具有 <code>Iterator</code> 接口的数据结构，都可以使用它迭代成员。它直接读取的是键值。<code>for-in</code> 需要穷举对象的所有属性，包括自定义的添加的属性也能遍历到。且 <code>for-in</code> 的 <code>key</code> 是 <code>String</code> 类型，有转换过程，开销比较大。</p>
+<p>所以在开发过程中循环数组尽量避免使用 <code>for-in</code>。</p>
+<h2 id="数组去重"><a href="#数组去重" class="headerlink" title="数组去重"></a>数组去重</h2><p>数组去重是实际开发处理数据中经常遇到的，方法有很多，这里就不一一例举了。</p>
+<p>1、最传统的方法：利用数组的 <code>indexOf</code> 下标属性来查询。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">unique4</span>(<span class="params">arr</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> newArr = []</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.<span class="property">length</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (newArr.<span class="title function_">indexOf</span>(arr[i]) === -<span class="number">1</span>) &#123;</span><br><span class="line">      newArr.<span class="title function_">push</span>(arr[i])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> newArr</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">unique4</span>([<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">4</span>]))</span><br><span class="line"><span class="comment">// [1, 2, 3, 5, 6, 7, 4]</span></span><br></pre></td></tr></table></figure>
+<p>2、优化：利用 ES6 的 <code>Set</code> 方法。  </p>
+<p><code>Set</code> 本身是一个构造函数，用来生成 <code>Set</code> 数据结构。<code>Set</code> 函数可以接受一个数组（或者具有 iterable 接口的其他数据结构）作为参数，用来初始化。<code>Set</code> 对象允许你存储任何类型的值，无论是原始值或者是对象引用。它类似于数组，但是成员的值都是唯一的，没有重复的值。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">unique4</span>(<span class="params">arr</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="title class_">Array</span>.<span class="title function_">from</span>(<span class="keyword">new</span> <span class="title class_">Set</span>(arr)) <span class="comment">// 利用Array.from将Set结构转换成数组</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">unique4</span>([<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">4</span>]))</span><br><span class="line"><span class="comment">// [1, 2, 3, 5, 6, 7, 4]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h2><p>箭头函数表达式的语法比函数表达式更简洁。所以在开发中更推荐使用箭头函数。特别是在 <code>vue</code> 项目中，使用箭头函数不需要在更 <code>this</code> 重新赋一个变量。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用functions</span></span><br><span class="line"><span class="keyword">var</span> arr = [<span class="number">5</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">1</span>]</span><br><span class="line"><span class="keyword">var</span> arrFunc = arr.<span class="title function_">map</span>(<span class="keyword">function</span> (<span class="params">x</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> x * x</span><br><span class="line">&#125;)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(arrFunc)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用箭头函数</span></span><br><span class="line"><span class="keyword">var</span> arr = [<span class="number">5</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">1</span>]</span><br><span class="line"><span class="keyword">var</span> arrFunc = arr.<span class="title function_">map</span>(<span class="function">(<span class="params">x</span>) =&gt;</span> x * x)</span><br></pre></td></tr></table></figure>
+
+<p>要注意的是，箭头函数不绑定 <code>arguments</code>，取而代之用 <code>rest</code> 参数…解决。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不能使用 arguments</span></span><br><span class="line"><span class="keyword">let</span> <span class="title function_">fun1</span> = (<span class="params">b</span>) =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">arguments</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">fun1</span>(<span class="number">2</span>, <span class="number">92</span>, <span class="number">32</span>, <span class="number">32</span>) <span class="comment">// Uncaught ReferenceError: arguments is not defined</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用rest 参数</span></span><br><span class="line"><span class="keyword">let</span> <span class="title function_">fun2</span> = (<span class="params">...c</span>) =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(c)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">fun2</span>(<span class="number">3</span>, <span class="number">82</span>, <span class="number">32</span>, <span class="number">11323</span>) <span class="comment">// [3, 82, 32, 11323]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Dom-的创建"><a href="#Dom-的创建" class="headerlink" title="Dom 的创建"></a>Dom 的创建</h2><p>创建多个 dom 元素时，先将元素 <code>append</code> 到 <code>DocumentFragment</code> 中，最后统一将 <code>DocumentFragment</code> 添加到页面。</p>
+<p>常规方法；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">1000</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">var</span> el = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;p&#x27;</span>)</span><br><span class="line">  el.<span class="property">innerHTML</span> = i</span><br><span class="line">  <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(el)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>DocumentFragment</code> 优化多次 <code>append</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> frag = <span class="variable language_">document</span>.<span class="title function_">createDocumentFragment</span>()</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">1000</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">var</span> el = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;p&#x27;</span>)</span><br><span class="line">  el.<span class="property">innerHTML</span> = i</span><br><span class="line">  frag.<span class="title function_">appendChild</span>(el)</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(frag)</span><br></pre></td></tr></table></figure>
+
+<p>更优的方法:使用一次 <code>innerHTML</code> 赋值代替构建 dom 元素</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> html = []</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">1000</span>; i++) &#123;</span><br><span class="line">  html.<span class="title function_">push</span>(<span class="string">&#x27;&lt;p&gt;&#x27;</span> + i + <span class="string">&#x27;&lt;/p&gt;&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">document</span>.<span class="property">body</span>.<span class="property">innerHTML</span> = html.<span class="title function_">join</span>(<span class="string">&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a>内存泄漏</h2><p>系统进程不再用到的内存，没有及时释放，就叫做内存泄漏（memory leak）。当内存占用越来越高，轻则影响系统性能，重则导致进程崩溃。  </p>
+<p>引起内存泄漏的原因</p>
+<h4 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h4><p>1、未声明变量或者使用 <code>this</code> 创建的变量(<code>this</code> 的指向是 <code>window</code>)都会引起内存泄漏</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">fn</span>(<span class="params"></span>) &#123;</span><br><span class="line">  a = <span class="string">&quot;Actually, I&#x27;m a global variable&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">fn</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">fn</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">a</span> = <span class="string">&quot;Actually, I&#x27;m a global variable&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">fn</span>()</span><br></pre></td></tr></table></figure>
+
+<p>解决方法：</p>
+<ul>
+<li>避免创建全局变量</li>
+<li>使用严格模式,在 JavaScript 文件头部或者函数的顶部加上 <code>use strict</code>。</li>
+</ul>
+<p>2、在 vue 单页面应用，声明的全局变量在切换页面的时候没有清空</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;home&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    这里是首页</span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="title function_">mounted</span>(<span class="params"></span>) &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">      <span class="variable language_">window</span>.<span class="property">test</span> = &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="comment">// 此处在全局window对象中引用了本页面的dom对象</span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="attr">name</span>: <span class="string">&#x27;home&#x27;</span>,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="attr">node</span>: <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;home&#x27;</span>)</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">      &#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    &#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  &#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>解决方案: 在页面卸载的时候顺便处理掉该引用。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">destroyed () &#123;</span><br><span class="line">  <span class="variable language_">window</span>.<span class="property">test</span> = <span class="literal">null</span> <span class="comment">// 页面卸载的时候解除引用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h4><p>闭包引起的内存泄漏原因：闭包可以维持函数内局部变量，使其得不到释放。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">fn</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> a = <span class="string">&quot;I&#x27;m a&quot;</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(a)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>解决：将事件处理函数定义在外部，解除闭包,或者在定义事件处理函数的外部函数中，删除对 dom 的引用。</p>
+<h4 id="定时器或事件监听"><a href="#定时器或事件监听" class="headerlink" title="定时器或事件监听"></a>定时器或事件监听</h4><p>由于项目中有些页面难免会碰到需要定时器或者事件监听。但是在离开当前页面的时候，定时器如果不及时合理地清除，会造成业务逻辑混乱甚至应用卡死的情况，这个时就需要清除定时器事件监听，即在页面卸载（关闭）的生命周期函数里，清除定时器。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">methods</span>:&#123;</span><br><span class="line">  resizeFun () &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">tableHeight</span> = <span class="variable language_">window</span>.<span class="property">innerHeight</span> - <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;table&#x27;</span>).<span class="property">offsetTop</span> - <span class="number">128</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">setTimer</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">timer</span> = <span class="built_in">setInterval</span>(<span class="function">() =&gt;</span> &#123; &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">clearTimer</span>(<span class="params"></span>) &#123;<span class="comment">//清除定时器</span></span><br><span class="line">		<span class="built_in">clearInterval</span>(<span class="variable language_">this</span>.<span class="property">timer</span>)</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">timer</span> = <span class="literal">null</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;,</span><br><span class="line"><span class="title function_">mounted</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="title function_">setTimer</span>()</span><br><span class="line">  <span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;resize&#x27;</span>, <span class="variable language_">this</span>.<span class="property">resizeFun</span>)</span><br><span class="line">&#125;,</span><br><span class="line"><span class="title function_">beforeDestroy</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">window</span>.<span class="title function_">removeEventListener</span>(<span class="string">&#x27;resize&#x27;</span>, <span class="variable language_">this</span>.<span class="property">resizeFun</span>)</span><br><span class="line">  <span class="variable language_">this</span>.<span class="title function_">clearTimer</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="防抖与节流"><a href="#防抖与节流" class="headerlink" title="防抖与节流"></a>防抖与节流</h2><p>在前端开发的过程中，我们经常会需要绑定一些持续触发的事件，如 <code>resize</code>、<code>scroll</code>、<code>mousemove</code> 等等，但有些时候我们并不希望在事件持续触发的过程中那么频繁地去执行函数。这时候就用到防抖与节流。</p>
+<p>案例 1：远程搜索时需要通过接口动态的获取数据，若是每次用户输入都接口请求，是浪费带宽和性能的。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Select</span> <span class="attr">:remote-method</span>=<span class="string">&quot;remoteMethod&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Option</span> <span class="attr">v-for</span>=<span class="string">&quot;item in temoteList&quot;</span> <span class="attr">:value</span>=<span class="string">&quot;item.value&quot;</span> <span class="attr">:key</span>=<span class="string">&quot;item.id&quot;</span>&gt;</span>&#123;&#123;item.label&#125;&#125;<span class="tag">&lt;/<span class="name">Option</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Select</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">function</span> <span class="title function_">debounce</span>(<span class="params">fn, wait</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">let</span> timeout = <span class="literal">null</span></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">if</span> (timeout !== <span class="literal">null</span>) <span class="built_in">clearTimeout</span>(timeout)</span></span><br><span class="line"><span class="language-javascript">    timeout = <span class="built_in">setTimeout</span>(fn, wait)</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript">&#125;</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="language-javascript">  methods：&#123;</span></span><br><span class="line"><span class="language-javascript">    remoteMethod：<span class="title function_">debounce</span>(<span class="keyword">function</span> (<span class="params">query</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// to do ...</span></span></span><br><span class="line"><span class="language-javascript">    &#125;, <span class="number">200</span>),</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript">&#125;</span></span><br><span class="line"><span class="language-javascript">&lt;script&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>案例 2：持续触发 <code>scroll</code> 事件时，并不立即执行 <code>handle</code> 函数，当 1000 毫秒内没有触发 <code>scroll</code> 事件时，才会延时触发一次 <code>handle</code> 函数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">debounce</span>(<span class="params">fn, wait</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> timeout = <span class="literal">null</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (timeout !== <span class="literal">null</span>) <span class="built_in">clearTimeout</span>(timeout)</span><br><span class="line">    timeout = <span class="built_in">setTimeout</span>(fn, wait)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">handle</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Math</span>.<span class="title function_">random</span>())</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;scroll&#x27;</span>, <span class="title function_">debounce</span>(handle, <span class="number">1000</span>))</span><br></pre></td></tr></table></figure>
+
+<h2 id="异步加载-js"><a href="#异步加载-js" class="headerlink" title="异步加载 js"></a>异步加载 js</h2><p>默认情况下，浏览器是同步加载 js 脚本，解析 html 过程中，遇到 <code>&lt;script&gt;</code> 标签就会停下来，等脚本下载、解析、执行完后，再继续向下解析渲染。</p>
+<p>如果 js 文件体积比较大，下载时间就会很长，容易造成浏览器堵塞，浏览器页面会呈现出“白屏”效果，用户会感觉浏览器“卡死了”，没有响应。此时，我们可以让 js 脚本异步加载、执行。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">&quot;path/to/home.js&quot;</span> defer&gt;&lt;/script&gt;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;path/to/home.js&quot;</span> <span class="attr">async</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>上面代码中，<code>&lt;script&gt;</code> 标签分别有 <code>defer</code> 和 <code>async</code> 属性，浏览器识别到这 2 个属性时 js 就会异步加载。也就是说，浏览器不会等待这个脚本下载、执行完毕后再向后执行，而是直接继续向后执行</p>
+<p>defer 与 async 区别:</p>
+<ul>
+<li>defer：DOM 结构完全生成，以及其他脚本执行完成，才会执行（渲染完再执行）。有多个 <code>defer</code> 脚本时，会按照页面出现的顺序依次加载、执行。</li>
+<li>async：一旦下载完成，渲染引擎就会中断渲染，执行这个脚本以后，再继续渲染（下载完就执行）。有多个 <code>async</code> 脚本时，不能保证按照页面出现顺序加载、执行</li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2020-12-30T07:08:02.000Z" itemprop="dateUpdated">2020-12-30 15:08:02</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/LittleWhiteRabbit/2022/04/11/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/" target="_blank" rel="external">https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://data-cz.github.io">
+            <img src="/LittleWhiteRabbit/img/avatar.jpg" alt="Chen Daxian">
+            Chen Daxian
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/&title=面试详解&pic=https://data-cz.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/&title=面试详解&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=面试详解&url=https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/&via=https://data-cz.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/LittleWhiteRabbit/2022/04/11/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E5%9B%BE%E7%89%87%E6%87%92%E5%8A%A0%E8%BD%BD/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">[no title]</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/LittleWhiteRabbit/2022/04/11/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">[no title]</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/LittleWhiteRabbit/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/LittleWhiteRabbit/img/wechat.jpg" data-alipay="/LittleWhiteRabbit/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/LittleWhiteRabbit/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Chen Daxian &copy; 2015 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/&title=面试详解&pic=https://data-cz.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/&title=面试详解&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=面试详解&url=https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/&via=https://data-cz.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://data-cz.github.io/2022/04/11/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADG0lEQVR42u3awW6rQAwF0P7/T+dtK1WQa3v6FNwzq4gQmMPGsS9fX/F6fVtXR74fv//Vz89X9/q58uscWNjY2NgPYee3qd4s327+QJNr3luwsbGxt7KvNt3b1v0mqoze+W+M2NjY2H+ePfl8X/ySYomNjY2NfaqA5by8weiVQGxsbGzsfBx/fyQvNsnVPmKWho2Njf3x7DwV/fzPv5JvY2NjY38w+1Vck8dUDRWq1ywosLGxsRexey/f5IOhfDw0B1dfHsLGxsbewc4D10mwmtwlKWY5781vsbGxsRex58OjJNbtxb2ngucIj42Njb2CnbcHeSScY/KimAfM0R6wsbGxV7DzAjN5ZScvOadKWjPBwMbGxn4se1Jg8vH9qaC3upPLiRo2Njb2CnZviJ/86Z8Ht9XHlwfP2NjY2DvYvfnTK1hJaezFEr2wARsbG3s3u3fL+Us/+YOrNkhvCic2Njb2InavGagO9081NtW7vDkHGxsbeyl7PrLPBz15oNtrS96UW2xsbOwV7Hwck798k5euXpw8HzlhY2Njb2WfKh5nv032Ux6BYWNjY69mTwpJdahUjRaq7cfl9bGxsbHXsecFoxruVmOASQgdvbKDjY2NvYKdXLSQOcSj/3wsNT+OjY2NvY+d/z+vBrS/Xa6qxbLZlmBjY2M/hJ2PkHqlotrGVF++7JU3bGxs7H3sanQ6CWh7D7caRbwpY9jY2Ngr2NVgIDk/b1R60UKhRF39FhsbG3sRe9Js9MLgpAnJH/fo0WBjY2OvY1fD2upWJi1NdbRU6MCwsbGxl7Kr283j1cngaR4kY2NjY/8F9qnm5BWsfPRf3VV0PjY2NvZqdnX1GpVJwDDfITY2NvYO9qu4qmFwtWGojqsO5yHY2NjYD2T/nxI1H+v3ooLJK0fY2NjYz2InRasXBucj+0kb0yxg2NjY2OvY+V//ajR76kWfSWCMjY2NjZ1HqpOGJGH0rl9IRbCxsbH/DLs66K+OipJ7jcoYNjY29jp2MlS6P34qVMgfYu/RY2NjY+9jV9uA3vm98pMjz94RGxsb+yHsf0ILIUxGNK6bAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/LittleWhiteRabbit/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Vue 组件下拉加载更多 | 面试详解</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="一、新建一个loadingMessage组件1.1 监听滑动1&lt;div ref&#x3D;&quot;content&quot;&gt;&lt;&#x2F;div&gt; 1.1 挂载监听12345mounted() &amp;#123;    this.$refs.content.scrollTag &#x3D; 0; &#x2F;&#x2F; 标记监听数    &#x2F;&#x2F; 挂载监听    this.listenerScroll();  &amp;#125;,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue 组件下拉加载更多">
+<meta property="og:url" content="https://data-cz.github.io/2022/04/11/Vue%20%E7%BB%84%E4%BB%B6%E4%B8%8B%E6%8B%89%20%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A/index.html">
+<meta property="og:site_name" content="面试详解">
+<meta property="og:description" content="一、新建一个loadingMessage组件1.1 监听滑动1&lt;div ref&#x3D;&quot;content&quot;&gt;&lt;&#x2F;div&gt; 1.1 挂载监听12345mounted() &amp;#123;    this.$refs.content.scrollTag &#x3D; 0; &#x2F;&#x2F; 标记监听数    &#x2F;&#x2F; 挂载监听    this.listenerScroll();  &amp;#125;,">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-04-11T01:44:53.260Z">
+<meta property="article:modified_time" content="2022-04-11T01:51:56.980Z">
+<meta property="article:author" content="Chen Daxian">
+<meta name="twitter:card" content="summary">
+    
+        <link rel="alternate" type="application/atom+xml" title="面试详解" href="/LittleWhiteRabbit/atom.xml">
+    
+    <link rel="shortcut icon" href="/LittleWhiteRabbit/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/LittleWhiteRabbit/img/brand.jpg)">
+      <div class="brand">
+        <a href="/LittleWhiteRabbit/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/LittleWhiteRabbit/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Chen Daxian</h5>
+          <a href="mailto:136130658@qq.com" title="136130658@qq.com" class="mail">136130658@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/custom"  >
+                <i class="icon icon-lg icon-link"></i>
+                测试
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Vue 组件下拉加载更多</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Vue 组件下拉加载更多</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2022-04-11T01:44:53.260Z" itemprop="datePublished" class="page-time">
+  2022-04-11
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%B8%80%E3%80%81%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AAloadingMessage%E7%BB%84%E4%BB%B6"><span class="post-toc-number">1.</span> <span class="post-toc-text">一、新建一个loadingMessage组件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-1-%E7%9B%91%E5%90%AC%E6%BB%91%E5%8A%A8"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1.1 监听滑动</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-1-%E6%8C%82%E8%BD%BD%E7%9B%91%E5%90%AC"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">1.1 挂载监听</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-2-%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE%E6%97%B6%E5%80%99%E8%AE%BE%E7%BD%AE%E9%AB%98%E5%BA%A6"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">1.2 加载数据时候设置高度</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-3-%E7%A6%BB%E5%BC%80%E9%A1%B5%E9%9D%A2%E9%94%80%E6%AF%81%E7%9B%91%E5%90%AC%E7%BB%84%E4%BB%B6"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">1.3 离开页面销毁监听组件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-3-watch-%E7%9B%91%E5%90%AC%EF%BC%8C%E6%BB%91%E5%8A%A8%E5%88%B0%E9%A1%B6%E9%83%A8%E4%BA%8B%E4%BB%B6"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">1.3 watch 监听，滑动到顶部事件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-4-%E7%9B%91%E5%90%AC-%E6%BB%91%E5%8A%A8-%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">1.4  监听 滑动 滚动事件</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Vue 组件下拉 加载更多"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Vue 组件下拉加载更多</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2022-04-11 09:44:53" datetime="2022-04-11T01:44:53.260Z"  itemprop="datePublished">2022-04-11</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="一、新建一个loadingMessage组件"><a href="#一、新建一个loadingMessage组件" class="headerlink" title="一、新建一个loadingMessage组件"></a>一、新建一个loadingMessage组件</h2><h3 id="1-1-监听滑动"><a href="#1-1-监听滑动" class="headerlink" title="1.1 监听滑动"></a>1.1 监听滑动</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div ref=&quot;content&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="1-1-挂载监听"><a href="#1-1-挂载监听" class="headerlink" title="1.1 挂载监听"></a>1.1 挂载监听</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mounted() &#123;</span><br><span class="line">    this.$refs.content.scrollTag = 0; // 标记监听数</span><br><span class="line">    // 挂载监听</span><br><span class="line">    this.listenerScroll();</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<h3 id="1-2-加载数据时候设置高度"><a href="#1-2-加载数据时候设置高度" class="headerlink" title="1.2 加载数据时候设置高度"></a>1.2 加载数据时候设置高度</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">updated() &#123;</span><br><span class="line">  this.scrollHeight = this.$refs.content.scrollHeight; // 加载数据时设置滚动内容高</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h3 id="1-3-离开页面销毁监听组件"><a href="#1-3-离开页面销毁监听组件" class="headerlink" title="1.3 离开页面销毁监听组件"></a>1.3 离开页面销毁监听组件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">beforeDestroy() &#123;</span><br><span class="line">  this.destroyScroll()</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h3 id="1-3-watch-监听，滑动到顶部事件"><a href="#1-3-watch-监听，滑动到顶部事件" class="headerlink" title="1.3 watch 监听，滑动到顶部事件"></a>1.3 watch 监听，滑动到顶部事件</h3>   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">watch: &#123;</span><br><span class="line">  scrollHeight: function(newHeight,oldHeight)&#123; // 加载数据时设置滚动条</span><br><span class="line">    if(this.scrollTop === 0)&#123; // scrollTop 为0时说明时下拉加载操作</span><br><span class="line">      this.$refs.content.scrollTop = newHeight - oldHeight;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  interlocutor: function()&#123;</span><br><span class="line">    this.scrollToBottom();  // 滚动条至底</span><br><span class="line">    this.listenerScroll();  // 重现挂载监听</span><br><span class="line">  &#125;,</span><br><span class="line">  loadingStatus: function(newStatus,oldStatus) &#123; // 加载完全部数据时移除滚动条监听</span><br><span class="line">    if(newStatus === 2)&#123;</span><br><span class="line">      this.destroyScroll();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h3 id="1-4-监听-滑动-滚动事件"><a href="#1-4-监听-滑动-滚动事件" class="headerlink" title="1.4  监听 滑动 滚动事件"></a>1.4  监听 滑动 滚动事件</h3>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">  // 滚动监听处理</span><br><span class="line">  handleScroll(e)&#123;</span><br><span class="line">    this.scrollTop = e.srcElement.scrollTop; // 距离顶部</span><br><span class="line">    this.scrollHeight = e.srcElement.scrollHeight; // 滚动内容高</span><br><span class="line">    this.clientHeight = e.srcElement.clientHeight; // 滚动区域高</span><br><span class="line">    if(this.scrollTop ===  0) &#123; // 滚动触顶调用</span><br><span class="line">      this.$emit(&#x27;onTouchTop&#x27;);</span><br><span class="line">    &#125;</span><br><span class="line">    if(this.scrollHeight === this.scrollTop + this.clientHeight)&#123; // 滚动触底调用</span><br><span class="line">      this.$emit(&#x27;onTouchBottom&#x27;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  // 添加滚动监听事件</span><br><span class="line">  listenerScroll() &#123;</span><br><span class="line">    if(this.$refs.content.scrollTag !== 0) return;</span><br><span class="line">    this.$refs.content.scrollTag++;</span><br><span class="line">    this.$refs.content.addEventListener(&#x27;scroll&#x27;, this.handleScroll, true);</span><br><span class="line">  &#125;,</span><br><span class="line">  // 移除滚动监听事件</span><br><span class="line">  destroyScroll() &#123;</span><br><span class="line">    if(this.$refs.content.scrollTag !== 1) return;</span><br><span class="line">    this.$refs.content.scrollTag--;</span><br><span class="line">    this.$refs.content.removeEventListener(&quot;scroll&quot;, this.handleScroll, true);</span><br><span class="line">  &#125;,</span><br><span class="line">  scrollToBottom() &#123; //滚动条置底</span><br><span class="line">    this.$nextTick(function()&#123;</span><br><span class="line">      this.$refs.content.scrollTop</span><br><span class="line">        = this.$refs.content.scrollHeight - this.$refs.content.clientHeight;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2022-04-11T01:51:56.980Z" itemprop="dateUpdated">2022-04-11 09:51:56</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/LittleWhiteRabbit/2022/04/11/Vue%20%E7%BB%84%E4%BB%B6%E4%B8%8B%E6%8B%89%20%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A/" target="_blank" rel="external">https://data-cz.github.io/2022/04/11/Vue%20%E7%BB%84%E4%BB%B6%E4%B8%8B%E6%8B%89%20%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://data-cz.github.io">
+            <img src="/LittleWhiteRabbit/img/avatar.jpg" alt="Chen Daxian">
+            Chen Daxian
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://data-cz.github.io/2022/04/11/Vue%20%E7%BB%84%E4%BB%B6%E4%B8%8B%E6%8B%89%20%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A/&title=《Vue 组件下拉加载更多》 — 面试详解&pic=https://data-cz.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://data-cz.github.io/2022/04/11/Vue%20%E7%BB%84%E4%BB%B6%E4%B8%8B%E6%8B%89%20%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A/&title=《Vue 组件下拉加载更多》 — 面试详解&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://data-cz.github.io/2022/04/11/Vue%20%E7%BB%84%E4%BB%B6%E4%B8%8B%E6%8B%89%20%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Vue 组件下拉加载更多》 — 面试详解&url=https://data-cz.github.io/2022/04/11/Vue%20%E7%BB%84%E4%BB%B6%E4%B8%8B%E6%8B%89%20%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A/&via=https://data-cz.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://data-cz.github.io/2022/04/11/Vue%20%E7%BB%84%E4%BB%B6%E4%B8%8B%E6%8B%89%20%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/LittleWhiteRabbit/2022/04/11/webpack%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">[no title]</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/LittleWhiteRabbit/2022/04/11/vue%20%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">基于 vue 的自定义指令集合</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/LittleWhiteRabbit/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/LittleWhiteRabbit/img/wechat.jpg" data-alipay="/LittleWhiteRabbit/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/LittleWhiteRabbit/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Chen Daxian &copy; 2015 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://data-cz.github.io/2022/04/11/Vue%20%E7%BB%84%E4%BB%B6%E4%B8%8B%E6%8B%89%20%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A/&title=《Vue 组件下拉加载更多》 — 面试详解&pic=https://data-cz.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://data-cz.github.io/2022/04/11/Vue%20%E7%BB%84%E4%BB%B6%E4%B8%8B%E6%8B%89%20%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A/&title=《Vue 组件下拉加载更多》 — 面试详解&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://data-cz.github.io/2022/04/11/Vue%20%E7%BB%84%E4%BB%B6%E4%B8%8B%E6%8B%89%20%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Vue 组件下拉加载更多》 — 面试详解&url=https://data-cz.github.io/2022/04/11/Vue%20%E7%BB%84%E4%BB%B6%E4%B8%8B%E6%8B%89%20%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A/&via=https://data-cz.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://data-cz.github.io/2022/04/11/Vue%20%E7%BB%84%E4%BB%B6%E4%B8%8B%E6%8B%89%20%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAEOCAAAAABd2qZ5AAAD40lEQVR42u3aS05jAQwEQO5/aUaazSANCW23AyzqraIQ3qeycGz321t8vP89Pr7+eCTv/3+25Jje4fPrnh04cODAgSM+Uf5Iz7Gef+b5dfO/Jl9Y/ow4cODAgeOWIy+uTdl7fivJwz//r2nRxYEDBw4cP8uR00ybsYbgOS4OHDhw4PjNHH2Ry2ny0eT068SBAwcOHN/DkY/q8lYqf3+3IsoXVy+ZleLAgQMHjv1135LC+ZtfvzzfgQMHDhw44kLVN2+7aF1ftsdPhwMHDhw4ao5kGJcve5o1VT8inN7Dw/vBgQMHDhw1R14mb4ML/cM0hXzQzuHAgQMHjrrEJje6izIk5XMXlZuG9qJkBw4cOHDgKDiaRc40WLBrHadM05KMAwcOHDh6jry5ylu+W9zma6hGljhw4MCB43T7k9/K7mGSgWPesO0GheMVFA4cOHDgiFu4aSHM4fJvY7fiavZsOHDgwIHjFRxXMYJksZRHJXYBhd1CCwcOHDhw3HLsCmEffdu1XnnhzEMYb/3vAhw4cODAEf9DfotXy6rpiDAPQCSlHQcOHDhw9BzT0tuXwN3rhiD/uYADBw4cOHqOvDQm65y+PDdtWP71PHwWHDhw4MBRczRHP1icnrn6BTEsyThw4MCBY8exK2y78pkHF6IUxmqtNa69OHDgwIFjyJEXrTwAl39mOhy8bT4fngEHDhw4cBQceRFtFk5JG5YU7x3xABQHDhw4cLyAY9fj5AG7fvg4bRSPt3A4cODAgSPgyIdrfRxhtw1LWHdhi4drJxw4cODAseKYrqPyx2vWXfng8mrdhQMHDhw4bjmmRS5v1fIinV93elfjsSYOHDhw4Cg4dqVxGi+Yluf+nd24EAcOHDhw9BxXEYH3+Mjr/7Rt24UtPrkWDhw4cOA44ti93iUB8vhCs+7KsXDgwIEDxxXHdNzWxBHygp1A93Cf3C0OHDhw4Dji6Mdq76sjP8N0RLhrSnHgwIEDR8+Rh9KuWrXkPE3oYboY+yLcgAMHDhw4hhx5YRu4rmJ2+XWTqy/jDjhw4MCB44hjmhmbNkhXYYVpGCIfbuLAgQMHjiuOabeXQIzHcPEjVR1qXIZx4MCBA0fDsVsUTcd2t2V7umoaBB1w4MCBA0fNkR/5mC8f5E2bwF1IYvqDAAcOHDhw9By7VdC0POdNWlNQm0gEDhw4cOC45ZgW19tFVD+CzJuxL+4HBw4cOHB8I8fu1ptA2/SBD9pLHDhw4MDxoxxJYd4F3Xru3U8BHDhw4MBxxdGEGJJLTmtZ37xNz4YDBw4cOK44poGGaUnrIws5x25QWOU7cODAgQPHv+MPWR/FB5ByG8sAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/LittleWhiteRabbit/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

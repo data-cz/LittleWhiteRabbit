@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>面试详解</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="图片上传压缩我们通常在做图片上传的时候都会遇上这样的情况，一是后端接口限制上传图片的大小，或者是即使后端没有限制大小，因为图片太大在前端渲染时太慢，造成页面加载体验较差。因此我们很有必要对上传的图片进行压缩。 本文主要包括以下流程：  用户通过 input 框选择图片 使用 FileReader 进行图片预览 将图片绘制到 canvas 画布上 使用 canvas 画布的能力进行图片压缩 将压缩后">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试详解">
+<meta property="og:url" content="https://data-cz.github.io/2022/04/11/canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/index.html">
+<meta property="og:site_name" content="面试详解">
+<meta property="og:description" content="图片上传压缩我们通常在做图片上传的时候都会遇上这样的情况，一是后端接口限制上传图片的大小，或者是即使后端没有限制大小，因为图片太大在前端渲染时太慢，造成页面加载体验较差。因此我们很有必要对上传的图片进行压缩。 本文主要包括以下流程：  用户通过 input 框选择图片 使用 FileReader 进行图片预览 将图片绘制到 canvas 画布上 使用 canvas 画布的能力进行图片压缩 将压缩后">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-04-11T01:44:51.698Z">
+<meta property="article:modified_time" content="2020-12-30T07:08:02.000Z">
+<meta property="article:author" content="Chen Daxian">
+<meta name="twitter:card" content="summary">
+    
+        <link rel="alternate" type="application/atom+xml" title="面试详解" href="/LittleWhiteRabbit/atom.xml">
+    
+    <link rel="shortcut icon" href="/LittleWhiteRabbit/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/LittleWhiteRabbit/img/brand.jpg)">
+      <div class="brand">
+        <a href="/LittleWhiteRabbit/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/LittleWhiteRabbit/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Chen Daxian</h5>
+          <a href="mailto:136130658@qq.com" title="136130658@qq.com" class="mail">136130658@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/LittleWhiteRabbit/custom"  >
+                <i class="icon icon-lg icon-link"></i>
+                测试
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis"></div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title"></h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2022-04-11T01:44:51.698Z" itemprop="datePublished" class="page-time">
+  2022-04-11
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%8E%8B%E7%BC%A9"><span class="post-toc-number">1.</span> <span class="post-toc-text">图片上传压缩</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Input-%E6%A0%87%E7%AD%BE%E6%9D%A5%E8%8E%B7%E5%8F%96%E5%9B%BE%E7%89%87"><span class="post-toc-number">1.0.1.</span> <span class="post-toc-text">Input 标签来获取图片</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#FileReader"><span class="post-toc-number">1.0.2.</span> <span class="post-toc-text">FileReader</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#canvas-%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87"><span class="post-toc-number">1.0.3.</span> <span class="post-toc-text">canvas 压缩图片</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Canvas-toDataURl"><span class="post-toc-number">1.0.3.1.</span> <span class="post-toc-text">Canvas.toDataURl()</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%B0%86-base64-%E8%BD%AC%E5%8C%96%E4%B8%BA%E6%96%87%E4%BB%B6"><span class="post-toc-number">1.0.4.</span> <span class="post-toc-text">将 base64 转化为文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%B0%86%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%88%B0%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="post-toc-number">1.0.5.</span> <span class="post-toc-text">将图片上传到服务端</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-canvas压缩图片"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title"></h1>
+        <div class="post-meta">
+            <time class="post-time" title="2022-04-11 09:44:51" datetime="2022-04-11T01:44:51.698Z"  itemprop="datePublished">2022-04-11</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="图片上传压缩"><a href="#图片上传压缩" class="headerlink" title="图片上传压缩"></a>图片上传压缩</h1><p>我们通常在做图片上传的时候都会遇上这样的情况，一是后端接口限制上传图片的大小，或者是即使后端没有限制大小，因为图片太大在前端渲染时太慢，造成页面加载体验较差。因此我们很有必要对上传的图片进行压缩。</p>
+<p>本文主要包括以下流程：</p>
+<ul>
+<li>用户通过 <code>input</code> 框选择图片</li>
+<li>使用 <code>FileReader</code> 进行图片预览</li>
+<li>将图片绘制到 <code>canvas</code> 画布上</li>
+<li>使用 <code>canvas</code> 画布的能力进行图片压缩</li>
+<li>将压缩后的 <code>Base64(DataURL)</code> 格式的数据转换成 <code>Blob</code> 对象进行上传</li>
+</ul>
+<h3 id="Input-标签来获取图片"><a href="#Input-标签来获取图片" class="headerlink" title="Input 标签来获取图片"></a>Input 标签来获取图片</h3><p>通过设置 <code>input</code> 标签的 <code>type</code> 属性为 <code>file</code>，来让用户可以选择文件，设置 <code>accept</code> 限制选择的文件类型，绑定 <code>onchange</code> 事件，来获取确认选择后的文件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=<span class="string">&quot;file&quot;</span> accept=<span class="string">&quot;image/*&quot;</span> onchange=<span class="string">&quot;loadFile(event)&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="FileReader"><a href="#FileReader" class="headerlink" title="FileReader"></a>FileReader</h3><p><code>FileReader</code> 是什么，我们先来看看官方文档的介绍</p>
+<blockquote>
+<p>FileReader 对象允许 Web 应用程序异步读取存储在用户计算机上的文件（或原始数据缓冲区）的内容，使用 File 或 Blob 对象指定要读取的文件或数据。</p>
+</blockquote>
+<p><code>FileReader</code> 常用的两个方法如下：</p>
+<ul>
+<li><code>FileReader.onload</code>:处理 <code>load</code> 事件。即该钩子在读取操作完成时触发，通过该钩子函数可以完成例如读取完图片后进行预览的操作，或读取完图片后对图片内容进行二次处理等操作。</li>
+<li><code>FileReader.readAsDataURL</code>：读取方法，并且读取完成后，<code>result</code> 属性将返回 <code>Data URL</code> 格式（Base64 编码）的字符串，代表图片内容。</li>
+</ul>
+<p>在图片上传中，我们可以通过 <code>readAsDataURL()</code> 方法进行了文件的读取，并且通过 <code>result</code> 属性拿到了图片的 <code>Base64(DataURL)</code> 格式的数据，然后通过该数据实现了图片预览的功能</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;file&quot;</span> <span class="attr">accept</span>=<span class="string">&quot;image/*&quot;</span> <span class="attr">onchange</span>=<span class="string">&quot;loadFile(event)&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">const</span> loadFile = <span class="keyword">function</span> (<span class="params">event</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">let</span> file =  event.<span class="property">target</span>.<span class="property">files</span>[<span class="number">0</span>]</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">const</span> reader = <span class="keyword">new</span> <span class="title class_">FileReader</span>()</span></span><br><span class="line"><span class="language-javascript">    reader.<span class="property">onload</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="variable language_">console</span>.<span class="title function_">log</span>(reader.<span class="property">result</span>)</span></span><br><span class="line"><span class="language-javascript">      ...</span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">    reader.<span class="title function_">readAsDataURL</span>(file)</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="canvas-压缩图片"><a href="#canvas-压缩图片" class="headerlink" title="canvas 压缩图片"></a>canvas 压缩图片</h3><p>这是图片上传压缩的核心所在，我们先使用 <code>CanvasRenderingContext2D.drawImage()</code> 方法将上传的图片文件在画布上绘制出来，再使用 <code>Canvas.toDataURL()</code> 将画布上的图片信息转换成 <code>base64(DataURL)</code> 格式的数据。</p>
+<p><code>drawImage()</code> 方法在画布上绘制图像、画布或视频。<code>drawImage()</code> 方法也能够绘制图像的某些部分，以及&#x2F;或者增加或减少图像的尺寸。参数如下</p>
+<ul>
+<li>img 规定要使用的图像、画布或视频。</li>
+<li>sx 可选。开始剪切的 x 坐标位置。</li>
+<li>sy 可选。开始剪切的 y 坐标位置。</li>
+<li>swidth 可选。被剪切图像的宽度。</li>
+<li>sheight 可选。被剪切图像的高度。</li>
+<li>x 在画布上放置图像的 x 坐标位置。</li>
+<li>y 在画布上放置图像的 y 坐标位置。</li>
+<li>width 可选。要使用的图像的宽度。（伸展或缩小图像）</li>
+<li>height 可选。要使用的图像的高度。（伸展或缩小图像）</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> cas = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;canvas&#x27;</span>)</span><br><span class="line"><span class="keyword">var</span> ctx = cas.<span class="title function_">getContext</span>(<span class="string">&#x27;2d&#x27;</span>)</span><br><span class="line"><span class="comment">// 先创建图片对象</span></span><br><span class="line"><span class="keyword">var</span> img = <span class="keyword">new</span> <span class="title class_">Image</span>()</span><br><span class="line">img.<span class="property">src</span> = <span class="string">&#x27;./images/1.jpg&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 图片加载完之后</span></span><br><span class="line">img.<span class="property">onload</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  ctx.<span class="title function_">drawImage</span>(img, <span class="number">206</span>, <span class="number">111</span>, <span class="number">32</span>, <span class="number">38</span>, <span class="number">100</span>, <span class="number">100</span>, <span class="number">32</span>, <span class="number">38</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Canvas-toDataURl"><a href="#Canvas-toDataURl" class="headerlink" title="Canvas.toDataURl()"></a>Canvas.toDataURl()</h4><p><code>Canvas.toDataURl()</code> 方法可以将 <code>canvas</code> 画布上的信息转换为 <code>base64(DataURL)</code> 格式的图像信息，纯字符的图片表示形式。该方法接收 2 个参数：</p>
+<ul>
+<li><code>mimeType</code>(可选): 表示需要转换的图像的 <code>mimeType</code> 类型。默认值是 <code>image/png</code>，还可以是 <code>image/jpeg</code>， <code>image/webp</code> 等。</li>
+<li><code>quailty</code>(可选)：quality 表示转换的图片质量。范围是 0 到 1。图片的 <code>mimeType</code> 需要是 <code>image/jpeg</code> 或者 <code>image/webp</code>，其他 <code>mimeType</code> 值无效。默认压缩质量是 0.92。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;canvas&#x27;</span>)</span><br><span class="line">canvas.<span class="title function_">toDataURL</span>(<span class="string">&quot;image/jpeg&quot;</span> <span class="number">0.8</span>)</span><br></pre></td></tr></table></figure>
+
+<p>到这里，我们先来上 canvas 压缩图片的代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">compress</span>(<span class="params">base64, quality, mimeType</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> canvas = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;canvas&#x27;</span>)</span><br><span class="line">  <span class="keyword">let</span> img = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;img&#x27;</span>)</span><br><span class="line">  img.<span class="property">crossOrigin</span> = <span class="string">&#x27;anonymous&#x27;</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    img.<span class="property">src</span> = base64</span><br><span class="line">    img.<span class="property">onload</span> = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">let</span> targetWidth, targetHeight</span><br><span class="line">      <span class="keyword">if</span> (img.<span class="property">width</span> &gt; <span class="variable constant_">MAX_WIDTH</span>) &#123;</span><br><span class="line">        targetWidth = <span class="variable constant_">MAX_WIDTH</span></span><br><span class="line">        targetHeight = (img.<span class="property">height</span> * <span class="variable constant_">MAX_WIDTH</span>) / img.<span class="property">width</span></span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        targetWidth = img.<span class="property">width</span></span><br><span class="line">        targetHeight = img.<span class="property">height</span></span><br><span class="line">      &#125;</span><br><span class="line">      canvas.<span class="property">width</span> = targetWidth</span><br><span class="line">      canvas.<span class="property">height</span> = targetHeight</span><br><span class="line">      <span class="keyword">let</span> ctx = canvas.<span class="title function_">getContext</span>(<span class="string">&#x27;2d&#x27;</span>)</span><br><span class="line">      ctx.<span class="title function_">clearRect</span>(<span class="number">0</span>, <span class="number">0</span>, targetWidth, targetHeight) <span class="comment">// 清除画布</span></span><br><span class="line">      ctx.<span class="title function_">drawImage</span>(img, <span class="number">0</span>, <span class="number">0</span>, canvas.<span class="property">width</span>, canvas.<span class="property">height</span>)</span><br><span class="line">      <span class="keyword">let</span> imageData = canvas.<span class="title function_">toDataURL</span>(mimeType, quality / <span class="number">100</span>)</span><br><span class="line">      <span class="title function_">resolve</span>(imageData)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="将-base64-转化为文件"><a href="#将-base64-转化为文件" class="headerlink" title="将 base64 转化为文件"></a>将 base64 转化为文件</h3><ul>
+<li>通过 <code>window.atob</code> 将 <code>base-64</code> 字符串解码为 <code>binaryString</code>（二进制文本）；</li>
+<li>将 <code>binaryString</code> 构造为 <code>multipart/form-data</code> 格式；</li>
+<li>用 <code>Uint8Array</code> 将 <code>multipart</code> 格式的二进制文本转换为 <code>ArrayBuffer</code>。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">dataUrlToBlob</span>(<span class="params">base64, mimeType</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> bytes = <span class="variable language_">window</span>.<span class="title function_">atob</span>(base64.<span class="title function_">split</span>(<span class="string">&#x27;,&#x27;</span>)[<span class="number">1</span>])</span><br><span class="line">  <span class="keyword">let</span> ab = <span class="keyword">new</span> <span class="title class_">ArrayBuffer</span>(bytes.<span class="property">length</span>)</span><br><span class="line">  <span class="keyword">let</span> ia = <span class="keyword">new</span> <span class="title class_">Uint8Array</span>(ab)</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; bytes.<span class="property">length</span>; i++) &#123;</span><br><span class="line">    ia[i] = bytes.<span class="title function_">charCodeAt</span>(i)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Blob</span>([ab], &#123; <span class="attr">type</span>: mimeType &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="将图片上传到服务端"><a href="#将图片上传到服务端" class="headerlink" title="将图片上传到服务端"></a>将图片上传到服务端</h3><ul>
+<li>创建一个 <code>FormData</code>，把 <code>blob</code> append 到 <code>FormData</code> 里面</li>
+<li>请求服务端接口，提交图片</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">uploadFile</span>(<span class="params">url, blob</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> formData = <span class="keyword">new</span> <span class="title class_">FormData</span>()</span><br><span class="line">  <span class="keyword">let</span> request = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>()</span><br><span class="line">  formData.<span class="title function_">append</span>(<span class="string">&#x27;image&#x27;</span>, blob)</span><br><span class="line">  request.<span class="title function_">open</span>(<span class="string">&#x27;POST&#x27;</span>, url, <span class="literal">true</span>)</span><br><span class="line">  request.<span class="title function_">send</span>(formData)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ps：在实际开发中，我们要不要把图片转化为 <code>FormData</code> 形式上传到服务端，这就看具体的业务需要了。我们可以上图片上传到腾讯云，直接返回一个<code>&#39;https.xxx.jgp&#39;</code>的图片 url 用于上传。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2020-12-30T07:08:02.000Z" itemprop="dateUpdated">2020-12-30 15:08:02</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/LittleWhiteRabbit/2022/04/11/canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" target="_blank" rel="external">https://data-cz.github.io/2022/04/11/canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://data-cz.github.io">
+            <img src="/LittleWhiteRabbit/img/avatar.jpg" alt="Chen Daxian">
+            Chen Daxian
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://data-cz.github.io/2022/04/11/canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/&title=面试详解&pic=https://data-cz.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://data-cz.github.io/2022/04/11/canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/&title=面试详解&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://data-cz.github.io/2022/04/11/canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=面试详解&url=https://data-cz.github.io/2022/04/11/canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/&via=https://data-cz.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://data-cz.github.io/2022/04/11/canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/LittleWhiteRabbit/2022/04/11/cookie/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">请你谈谈Cookie的弊端</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/LittleWhiteRabbit/2022/04/11/canvas%E5%9F%BA%E7%A1%80/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">[no title]</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/LittleWhiteRabbit/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/LittleWhiteRabbit/img/wechat.jpg" data-alipay="/LittleWhiteRabbit/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/LittleWhiteRabbit/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Chen Daxian &copy; 2015 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://data-cz.github.io/2022/04/11/canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/&title=面试详解&pic=https://data-cz.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://data-cz.github.io/2022/04/11/canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/&title=面试详解&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://data-cz.github.io/2022/04/11/canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=面试详解&url=https://data-cz.github.io/2022/04/11/canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/&via=https://data-cz.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://data-cz.github.io/2022/04/11/canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACsklEQVR42u3a0UoEMQwFUP//pxV8EnRmbpJmFTl9WtbRyanQhiRvb/F6/1xfP39d98/ff59/c/U3Dyw8PDy8VuhXK3nm+5P553z78njw8PDwXsOrXgbVgK6O+PnGPVjw8PDwfpWX5645KYkEDw8P73/wkmQ3uTbyoPHw8PD+Gq+azs7LBNVNWa+14OHh4cW8XgPsdz+v9/fw8PDwWl315Fivpsi966EZLR4eHt4Cr9q+OjUUlTx/qoiMh4eHt82bFCmqv3u/ufOxLTw8PLwNXu9oro5YnSq85tuNh4eHt83Lm0zVA7o6BJBvWfSPwcPDw3s5Lz+ak5/2APnVVQ4XDw8Pb8DrjT1VX9lrj1XLFj9UWfDw8PDWeJNG16SwW23FFVJ2PDw8vAXepG3fK2HMG13VzBkPDw/vLK/3yh67OgeVb1ah1oKHh4e3xqsWKSajBtXE+n7LHhpgeHh4eGNetcGfB9RrfeXjBUmceHh4eBu83vE9T5qrLbTkKrocusLDw8Nb4+Xl1CSpndSV85GFwsWAh4eHd4iXpMXVQah5cysvOhS2Aw8PD+8Qr5yktpLmvJHWGzt4SKnx8PDwFnjJo/nh3gulWiaOtg8PDw9vgTdJjnukXmOsel3h4eHhbfMmpdLeQFVhiiF+8nKL8fDw8I7yJqXbPNmNUt7B6MBDfw8PDw9vjVctFhTa9sWVvCVKtfHw8PAWeOViaJzsVltrk3ZXodaCh4eHN+a9F1eS4Oav740d5Ik1Hh4e3gbvwH1yG3QvlCSBTsrKeHh4eHu8XqFhUnqYDApU23V4eHh4e7zecd8LZW/7Hgq4eHh4eC/n5WNV1VQ4L0kkRWQ8PDy8v8zLm/2Tltik8YaHh4e3x6uGmBQU8iP+Ph3vvR0PDw9vjzcvvPYaYz1MtbCLh4eHd5T3ARlOu2Aju547AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/LittleWhiteRabbit/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
