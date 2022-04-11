@@ -14,7 +14,7 @@
     
     
     
-    <title>Buffer对象 | 面试详解</title>
+    <title>Buffer | 面试详解</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
@@ -23,13 +23,13 @@
     <meta name="keywords" content="Node.js">
     <meta name="description" content="Buffer对象在 ECMAScript 2015 (ES6) 引入 TypedArray 之前，JavaScript 语言没有读取或操作二进制数据流的机制。 Buffer 类被引入作为 Node.js API 的一部分，使其可以在 TCP 流或文件系统操作等场景中处理二进制数据流。Buffer 类在 Node.js 中是一个全局变量，因此无需使用 require(‘buffer’)。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Buffer对象">
-<meta property="og:url" content="https://data-cz.github.io/2018/02/06/Buffer%E5%AF%B9%E8%B1%A1/index.html">
+<meta property="og:title" content="Buffer">
+<meta property="og:url" content="https://data-cz.github.io/2018/02/06/Buffer/index.html">
 <meta property="og:site_name" content="面试详解">
 <meta property="og:description" content="Buffer对象在 ECMAScript 2015 (ES6) 引入 TypedArray 之前，JavaScript 语言没有读取或操作二进制数据流的机制。 Buffer 类被引入作为 Node.js API 的一部分，使其可以在 TCP 流或文件系统操作等场景中处理二进制数据流。Buffer 类在 Node.js 中是一个全局变量，因此无需使用 require(‘buffer’)。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2018-02-06T05:43:40.000Z">
-<meta property="article:modified_time" content="2022-03-19T09:38:08.000Z">
+<meta property="article:modified_time" content="2022-04-11T06:12:10.638Z">
 <meta property="article:author" content="Chen Daxian">
 <meta property="article:tag" content="Node.js">
 <meta name="twitter:card" content="summary">
@@ -113,7 +113,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">Buffer对象</div>
+        <div class="flex-col header-title ellipsis">Buffer</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -135,7 +135,7 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">Buffer对象</h1>
+        <h1 class="title">Buffer</h1>
         <h5 class="subtitle">
             
                 <time datetime="2018-02-06T05:43:40.000Z" itemprop="datePublished" class="page-time">
@@ -158,16 +158,16 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Buffer%E5%AF%B9%E8%B1%A1"><span class="post-toc-number">1.</span> <span class="post-toc-text">Buffer对象</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AABuffer%E5%AF%B9%E8%B1%A1"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">创建一个Buffer对象</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Buffer-%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">Buffer 的转换</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%ACBuffer"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">字符串转Buffer</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%ACBuffer-1"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">字符串转Buffer</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%90%A6%E6%98%AFBuffer%E5%AF%B9%E8%B1%A1"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">判断一个对象是否是Buffer对象</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%90%88%E5%B9%B6Buffer"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">合并Buffer</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%8E%B7%E5%8F%96%E5%AD%97%E7%AC%A6%E9%95%BF%E5%BA%A6"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">获取字符长度</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#%E5%8F%82%E8%80%83"><span class="post-toc-number">2.</span> <span class="post-toc-text">参考</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Buffer%E5%AF%B9%E8%B1%A1"><span class="post-toc-number">1.</span> <span class="post-toc-text">Buffer对象</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AABuffer%E5%AF%B9%E8%B1%A1"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">创建一个Buffer对象</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Buffer-%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">Buffer 的转换</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%ACBuffer"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">字符串转Buffer</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%ACBuffer-1"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">字符串转Buffer</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%90%A6%E6%98%AFBuffer%E5%AF%B9%E8%B1%A1"><span class="post-toc-number">2.</span> <span class="post-toc-text">判断一个对象是否是Buffer对象</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%90%88%E5%B9%B6Buffer"><span class="post-toc-number">3.</span> <span class="post-toc-text">合并Buffer</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%8E%B7%E5%8F%96%E5%AD%97%E7%AC%A6%E9%95%BF%E5%BA%A6"><span class="post-toc-number">4.</span> <span class="post-toc-text">获取字符长度</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#%E5%8F%82%E8%80%83"><span class="post-toc-number"></span> <span class="post-toc-text">参考</span></a>
         </nav>
     </aside>
 
 
-<article id="post-Buffer对象"
+<article id="post-Buffer"
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">Buffer对象</h1>
+        <h1 class="post-card-title">Buffer</h1>
         <div class="post-meta">
             <time class="post-time" title="2018-02-06 13:43:40" datetime="2018-02-06T05:43:40.000Z"  itemprop="datePublished">2018-02-06</time>
 
@@ -182,9 +182,9 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h1 id="Buffer对象"><a href="#Buffer对象" class="headerlink" title="Buffer对象"></a>Buffer对象</h1><p>在 ECMAScript 2015 (ES6) 引入 TypedArray 之前，JavaScript 语言没有读取或操作二进制数据流的机制。 Buffer 类被引入作为 Node.js API 的一部分，使其可以在 TCP 流或文件系统操作等场景中处理二进制数据流。<br>Buffer 类在 Node.js 中是一个全局变量，因此无需使用 require(‘buffer’)。</p>
+            <h2 id="Buffer对象"><a href="#Buffer对象" class="headerlink" title="Buffer对象"></a>Buffer对象</h2><p>在 ECMAScript 2015 (ES6) 引入 TypedArray 之前，JavaScript 语言没有读取或操作二进制数据流的机制。 Buffer 类被引入作为 Node.js API 的一部分，使其可以在 TCP 流或文件系统操作等场景中处理二进制数据流。<br>Buffer 类在 Node.js 中是一个全局变量，因此无需使用 require(‘buffer’)。</p>
 <span id="more"></span>
-<h2 id="创建一个Buffer对象"><a href="#创建一个Buffer对象" class="headerlink" title="创建一个Buffer对象"></a>创建一个Buffer对象</h2><p>Buffer对象类似于数组，它的元素为16进制的两位数，即0到255的数值。</p>
+<h3 id="创建一个Buffer对象"><a href="#创建一个Buffer对象" class="headerlink" title="创建一个Buffer对象"></a>创建一个Buffer对象</h3><p>Buffer对象类似于数组，它的元素为16进制的两位数，即0到255的数值。</p>
 <ul>
 <li><strong>Buffer.from(array)</strong> 返回一个新建的包含所提供的字节数组的副本的 Buffer。</li>
 <li><strong>Buffer.from(arrayBuffer[, byteOffset [, length]])</strong> 返回一个新建的与给定的 ArrayBuffer 共享同一内存的 Buffer。</li>
@@ -195,7 +195,7 @@
 在 Node.js v6 之前的版本中Buffer 实例是通过 new Buffer 构造函数创建的，因为 new Buffer() 的行为会根据所传入的第一个参数的值的数据类型而明显地改变，所以如果应用程序没有正确地校验传给 new Buffer() 的参数、或未能正确地初始化新分配的 Buffer 的内容，就有可能在无意中为他们的代码引入安全性与可靠性问题。<br>为了使 Buffer 实例的创建更可靠、更不容易出错，各种 new Buffer() 构造函数已被 废弃，并由 Buffer.from()、Buffer.alloc()、和 Buffer.allocUnsafe() 方法替代。</li>
 </ul>
 <p>** Node.js 建议开发者们应当把所有正在使用的 new Buffer() 构造函数迁移到这些新的 API 上。**</p>
-<h2 id="Buffer-的转换"><a href="#Buffer-的转换" class="headerlink" title="Buffer 的转换"></a>Buffer 的转换</h2><p>Buffer对象与普通的 JavaScript 字符串的互相转换，需要指定编码格式。目前Node.js 目前支持以下的字符编码。</p>
+<h3 id="Buffer-的转换"><a href="#Buffer-的转换" class="headerlink" title="Buffer 的转换"></a>Buffer 的转换</h3><p>Buffer对象与普通的 JavaScript 字符串的互相转换，需要指定编码格式。目前Node.js 目前支持以下的字符编码。</p>
 <ul>
 <li>‘ascii’ - 仅支持 7 位 ASCII 数据。</li>
 <li>‘utf8’</li>
@@ -227,12 +227,12 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2022-03-19T09:38:08.000Z" itemprop="dateUpdated">2022-03-19 17:38:08</time>
+    Last updated: <time datetime="2022-04-11T06:12:10.638Z" itemprop="dateUpdated">2022-04-11 14:12:10</time>
 </span><br>
 
 
         
-        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/LittleWhiteRabbit/2018/02/06/Buffer%E5%AF%B9%E8%B1%A1/" target="_blank" rel="external">https://data-cz.github.io/2018/02/06/Buffer%E5%AF%B9%E8%B1%A1/</a>
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/LittleWhiteRabbit/2018/02/06/Buffer/" target="_blank" rel="external">https://data-cz.github.io/2018/02/06/Buffer/</a>
         
     </div>
     
@@ -263,7 +263,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://data-cz.github.io/2018/02/06/Buffer%E5%AF%B9%E8%B1%A1/&title=《Buffer对象》 — 面试详解&pic=https://data-cz.github.io/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://data-cz.github.io/2018/02/06/Buffer/&title=《Buffer》 — 面试详解&pic=https://data-cz.github.io/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -273,22 +273,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://data-cz.github.io/2018/02/06/Buffer%E5%AF%B9%E8%B1%A1/&title=《Buffer对象》 — 面试详解&source=Buffer对象在 ECMAScript 2015 (ES6) 引入 TypedArray 之前，JavaScript 语言没有读取或操作二进制数据流的机..." data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://data-cz.github.io/2018/02/06/Buffer/&title=《Buffer》 — 面试详解&source=Buffer对象在 ECMAScript 2015 (ES6) 引入 TypedArray 之前，JavaScript 语言没有读取或操作二进制数据流的机..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://data-cz.github.io/2018/02/06/Buffer%E5%AF%B9%E8%B1%A1/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://data-cz.github.io/2018/02/06/Buffer/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Buffer对象》 — 面试详解&url=https://data-cz.github.io/2018/02/06/Buffer%E5%AF%B9%E8%B1%A1/&via=https://data-cz.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Buffer》 — 面试详解&url=https://data-cz.github.io/2018/02/06/Buffer/&via=https://data-cz.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://data-cz.github.io/2018/02/06/Buffer%E5%AF%B9%E8%B1%A1/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://data-cz.github.io/2018/02/06/Buffer/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -415,7 +415,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://data-cz.github.io/2018/02/06/Buffer%E5%AF%B9%E8%B1%A1/&title=《Buffer对象》 — 面试详解&pic=https://data-cz.github.io/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://data-cz.github.io/2018/02/06/Buffer/&title=《Buffer》 — 面试详解&pic=https://data-cz.github.io/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -425,22 +425,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://data-cz.github.io/2018/02/06/Buffer%E5%AF%B9%E8%B1%A1/&title=《Buffer对象》 — 面试详解&source=Buffer对象在 ECMAScript 2015 (ES6) 引入 TypedArray 之前，JavaScript 语言没有读取或操作二进制数据流的机..." data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://data-cz.github.io/2018/02/06/Buffer/&title=《Buffer》 — 面试详解&source=Buffer对象在 ECMAScript 2015 (ES6) 引入 TypedArray 之前，JavaScript 语言没有读取或操作二进制数据流的机..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://data-cz.github.io/2018/02/06/Buffer%E5%AF%B9%E8%B1%A1/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://data-cz.github.io/2018/02/06/Buffer/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Buffer对象》 — 面试详解&url=https://data-cz.github.io/2018/02/06/Buffer%E5%AF%B9%E8%B1%A1/&via=https://data-cz.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Buffer》 — 面试详解&url=https://data-cz.github.io/2018/02/06/Buffer/&via=https://data-cz.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://data-cz.github.io/2018/02/06/Buffer%E5%AF%B9%E8%B1%A1/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://data-cz.github.io/2018/02/06/Buffer/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -451,7 +451,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLUlEQVR42u3aQW7jMAwF0N7/0hmgqwKdOv9T7mAsPa2CJJL9tCBEUh8f8Xh9jq+fv35z/Z/v/2xXvm1gYGA8lvG6HMkrXv//+lk57M1cDAyMAxhtKLx+6RVSPhcDAwMjCbg5KQ+dGBgYGPcG3DZBXdk+DAwMjCQpTZLVNq3Ng/ttuTgGBsYDGbPGwL/5/Ov9DQwMjP+e8SpHEmTbb254KwwMjK0Zs/SyLajN5rZ4DAyMvRn5oTBPR1cSzuSJw+MjBgbGAxl5WW0lo2yL/vn6GBgYpzHWR9u8nKXNdWcDAwNjC0aSpv5GwplsRNQixcDAOIBRTCiLaytJb16qw8DA2JsxK3jNYPlZrm0nYGBg7M1YCan5cXC96PaGh4GBcQAjeaGVEluObNfEwMA4gZGXt9pH5kFzdvHix7kYGBjbMdpLFW1BbaVwViTSGBgYBzBmD85/zQ+XbUOiiMoYGBiPZcwuUsxg+WrR67Y33TAwMB7OWGk35ilr2wpNgu8w9mNgYDyKMUsy22tkbRhtC3AYGBgnMPLkM9+CvBjXFtcwMDBOY8ySxlnQTC5zDAMuBgbG1oxXOWbB+t5y21/WxMDA2JoxSx1zZFvIy/EYGBinMZIgmy+30v5cOoBiYGAcwJgV3YbxezTrzfEUAwMDIyjit2E0P1BGG4qBgYERl71WSmzJNv24ERgYGAcw2mJ9UsO73qCVA2XdyMTAwHg4Y72WlV8jmx0626QaAwNjI8Yf/PiyUPtBfP8AAAAASUVORK5CYII=" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACO0lEQVR42u3asXLEIAxFUf//TztNihQxvg+xmSAuVSbjwToutEjiuvC6f6yn/4yfr++5YMmQIWNbxj1c4xfwFz/t+RQDj02GDBnnMJ5eTJ4ZBzfek3y+cWwyZMiQMQ4opfLULEOGDBmrEu74SXLETFO2DBkyTmakR7S5gnbuaLi4FpchQ8aGDN51//u/PzLfkCFDxlaMO1wk1aYHwUo83/vIkCGjNYMnOD7CnCt3SVH9Eo8MGTIOYPDSkZAqBScvmNE0VYYMGS0Y4yB4wq2MAeYGBkHvUIYMGS0YvJfFN02TNR8zLGjJyZAhY0PGqksSnJeWx+iSmQwZMtoxeJu+PiPlu/EDYpCbZciQsTkjPQimQ8dxcGk5+sueMmTIaM3gaZGEFb+sMLB8wcuQIaMdgwSXJlZeuPIGHJpsyJAhoylj7srFXLNs7tdgclQpQ4aMRgxeUvJkmiZZPtR8ORrKkCGjHYMn08pFsfSAGJe1MmTIaM3grTGeiONbHmBUSdp/MmTI6M1I7y2QgNLdKmMJGTJknMCoF7FrS1x+IWxxLS5Dhox/z6ik4EqyToejqIiVIUNGa0b9qkS9TCWNtoucSWXIkNGCcYdrbblbT+gyZMg4gcFX2iBLG3D1oleGDBm9GXMF5NwVLp6C4+8tQ4aMAxjpMHJuSFn/BQguWMiQIUMGPhpWwuWfT4YMGTIq7TZ+taLUyJMhQ8YBDH4l4hMdvrSRJ0OGjNMYaelIDn/kYFcpjCeHmjJkyNiP8QULbBkGFInU5gAAAABJRU5ErkJggg==" alt="微信分享二维码">
 </div>
 
 
