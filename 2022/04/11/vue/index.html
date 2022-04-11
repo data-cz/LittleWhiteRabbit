@@ -21,15 +21,15 @@
     
     
     <meta name="keywords" content="">
-    <meta name="description" content="什么是mvvm？ MVVM是Model-View-ViewModel的缩写。mvvm是一种设计思想。Model 层代表数据模型，也可以在Model中定义数据修改和操作的业务逻辑；View 代表UI 组件，它负责将数据模型转化成UI 展现出来，ViewModel 是一个同步View 和 Model的对象 1234- 低耦合。视图（View）可以独立于Model变化和修改，一个ViewModel可以绑">
+    <meta name="description" content="MVVM是Model-View-ViewModel的缩写。mvvm是一种设计思想。Model 层代表数据模型，也可以在Model中定义数据修改和操作的业务逻辑；View 代表UI 组件，它负责将数据模型转化成UI 展现出来，ViewModel 是一个同步View 和 Model的对象 什么是mvvm？1234- 低耦合。视图（View）可以独立于Model变化和修改，一个ViewModel可以绑">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vue">
 <meta property="og:url" content="https://data-cz.github.io/2022/04/11/vue/index.html">
 <meta property="og:site_name" content="面试详解">
-<meta property="og:description" content="什么是mvvm？ MVVM是Model-View-ViewModel的缩写。mvvm是一种设计思想。Model 层代表数据模型，也可以在Model中定义数据修改和操作的业务逻辑；View 代表UI 组件，它负责将数据模型转化成UI 展现出来，ViewModel 是一个同步View 和 Model的对象 1234- 低耦合。视图（View）可以独立于Model变化和修改，一个ViewModel可以绑">
+<meta property="og:description" content="MVVM是Model-View-ViewModel的缩写。mvvm是一种设计思想。Model 层代表数据模型，也可以在Model中定义数据修改和操作的业务逻辑；View 代表UI 组件，它负责将数据模型转化成UI 展现出来，ViewModel 是一个同步View 和 Model的对象 什么是mvvm？1234- 低耦合。视图（View）可以独立于Model变化和修改，一个ViewModel可以绑">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-04-11T06:03:51.364Z">
-<meta property="article:modified_time" content="2022-04-11T07:29:05.965Z">
+<meta property="article:modified_time" content="2022-04-11T08:49:37.492Z">
 <meta property="article:author" content="Chen Daxian">
 <meta name="twitter:card" content="summary">
     
@@ -157,7 +157,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFmvvm%EF%BC%9F"><span class="post-toc-number">1.</span> <span class="post-toc-text">什么是mvvm？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%AF%B7%E8%AF%A6%E7%BB%86%E8%AF%B4%E4%B8%8B%E4%BD%A0%E5%AF%B9vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9A%84%E7%90%86%E8%A7%A3"><span class="post-toc-number">2.</span> <span class="post-toc-text">请详细说下你对vue生命周期的理解</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFmvvm%EF%BC%9F"><span class="post-toc-number">1.</span> <span class="post-toc-text">什么是mvvm？</span></a></li></ol>
         </nav>
     </aside>
 
@@ -181,11 +181,10 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h2 id="什么是mvvm？"><a href="#什么是mvvm？" class="headerlink" title="什么是mvvm？"></a>什么是mvvm？</h2><p> MVVM是Model-View-ViewModel的缩写。mvvm是一种设计思想。Model 层代表数据模型，也可以在Model中定义数据修改和操作的业务逻辑；View 代表UI 组件，它负责将数据模型转化成UI 展现出来，ViewModel 是一个同步View 和 Model的对象</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- 低耦合。视图（View）可以独立于Model变化和修改，一个ViewModel可以绑定到不同的<span class="string">&quot;View&quot;</span>上，当View变化的时候Model可以不变，当Model变化的时候View也可以不变</span><br><span class="line">- 可重用性。你可以把一些视图逻辑放在一个ViewModel里面，让很多view重用这段视图逻辑</span><br><span class="line">- 可测试。界面素来是比较难于测试的，而现在测试可以针对ViewModel来写</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+            <p> MVVM是Model-View-ViewModel的缩写。mvvm是一种设计思想。Model 层代表数据模型，也可以在Model中定义数据修改和操作的业务逻辑；View 代表UI 组件，它负责将数据模型转化成UI 展现出来，ViewModel 是一个同步View 和 Model的对象</p>
+<h2 id="什么是mvvm？"><a href="#什么是mvvm？" class="headerlink" title="什么是mvvm？"></a>什么是mvvm？</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- 低耦合。视图（View）可以独立于Model变化和修改，一个ViewModel可以绑定到不同的<span class="string">&quot;View&quot;</span>上，当View变化的时候Model可以不变，当Model变化的时候View也可以不变</span><br><span class="line">- 可重用性。你可以把一些视图逻辑放在一个ViewModel里面，让很多view重用这段视图逻辑</span><br><span class="line">- 可测试。界面素来是比较难于测试的，而现在测试可以针对ViewModel来写</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2 id="请详细说下你对vue生命周期的理解"><a href="#请详细说下你对vue生命周期的理解" class="headerlink" title="请详细说下你对vue生命周期的理解"></a>请详细说下你对vue生命周期的理解</h2><p>答：总共分为8个阶段创建前&#x2F;后，载入前&#x2F;后，更新前&#x2F;后，销毁前&#x2F;后</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- 创建前/后： 在beforeCreate阶段，vue实例的挂载元素el和数据对象data都为undefined，还未初始化。在created阶段，vue实例的数据对象data有了，el还没有</span><br><span class="line">- 载入前/后：在beforeMount阶段，vue实例的<span class="variable">$el</span>和data都初始化了，但还是挂载之前为虚拟的dom节点，data.message还未替换。在mounted阶段，vue实例挂载完成，data.message成功渲染。</span><br><span class="line">- 更新前/后：当data变化时，会触发beforeUpdate和updated方法</span><br><span class="line">- 销毁前/后：在执行destroy方法后，对data的改变不会再触发周期函数，说明此时vue实例已经解除了事件监听以及和dom的绑定，但是dom结构依然存在</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 
 
         </div>
@@ -195,7 +194,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2022-04-11T07:29:05.965Z" itemprop="dateUpdated">2022-04-11 15:29:05</time>
+    Last updated: <time datetime="2022-04-11T08:49:37.492Z" itemprop="dateUpdated">2022-04-11 16:49:37</time>
 </span><br>
 
 
