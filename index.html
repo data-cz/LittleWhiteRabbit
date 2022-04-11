@@ -148,11 +148,11 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
-            <article id="post-总结移动端H5开发常用技巧"
+            <article id="post-js对象及深拷贝"
   class="article-card article-type-post" itemprop="blogPost">
 
     <div class="post-meta">
-        <time class="post-time" title="2022-04-11 09:44:53" datetime="2022-04-11T01:44:53.473Z"  itemprop="datePublished">2022-04-11</time>
+        <time class="post-time" title="2022-04-11 15:56:13" datetime="2022-04-11T07:56:13.000Z"  itemprop="datePublished">2022-04-11</time>
 
         
 
@@ -164,7 +164,7 @@
 
   
     <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/LittleWhiteRabbit/2022/04/11/%E6%80%BB%E7%BB%93%E7%A7%BB%E5%8A%A8%E7%AB%AFH5%E5%BC%80%E5%8F%91%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7/">No title</a>
+      <a class="post-title-link" href="/LittleWhiteRabbit/2022/04/11/js%E5%AF%B9%E8%B1%A1%E5%8F%8A%E6%B7%B1%E6%8B%B7%E8%B4%9D/">JS 对象创建与拷贝</a>
     </h3>
   
 
@@ -174,289 +174,21 @@
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        html 篇常用的meta属性设置meta对于移动端的一些特殊属性，可根据需要自行设置
-1234567&lt;meta name=&quot;screen-orientation&quot; content=&quot;portrait&quot;&gt; //Android 禁止屏幕旋转&lt;meta name=&quot;full-screen&quot; content=&quot;...
+        JS 对象创建与拷贝五种创建对象的方法1、对象字面量的方式
+1person = &#123; firstname: &#x27;Mark&#x27;, lastname: &#x27;Yun&#x27;, age: 25, eyecolor: &#x27;black&#x27; &#125;
+
+2、用 function 来模拟无参的构造函数
+12345678function Person()...
     
 
-        <a href="/LittleWhiteRabbit/2022/04/11/%E6%80%BB%E7%BB%93%E7%A7%BB%E5%8A%A8%E7%AB%AFH5%E5%BC%80%E5%8F%91%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-总结几个移动端H5软键盘的大坑"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2022-04-11 09:44:53" datetime="2022-04-11T01:44:53.468Z"  itemprop="datePublished">2022-04-11</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/LittleWhiteRabbit/2022/04/11/%E6%80%BB%E7%BB%93%E5%87%A0%E4%B8%AA%E7%A7%BB%E5%8A%A8%E7%AB%AFH5%E8%BD%AF%E9%94%AE%E7%9B%98%E7%9A%84%E5%A4%A7%E5%9D%91/">No title</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        1、部分机型软键盘弹起挡住原来的视图解决方法：可以通过监听移动端软键盘弹起
-Element.scrollIntoView() 方法让当前的元素滚动到浏览器窗口的可视区域内。参数如下。
-
-true，表示元素的顶部与当前区域的可见部分的顶部对齐
-false，表示元素的底部与当前区域的可见部分的尾部对齐
-
-Element.scrollIntoViewIfNeeded()方法也是用来将不在浏览器窗口...
-    
-
-        <a href="/LittleWhiteRabbit/2022/04/11/%E6%80%BB%E7%BB%93%E5%87%A0%E4%B8%AA%E7%A7%BB%E5%8A%A8%E7%AB%AFH5%E8%BD%AF%E9%94%AE%E7%9B%98%E7%9A%84%E5%A4%A7%E5%9D%91/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-总结vue知识体系之实用技巧"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2022-04-11 09:44:53" datetime="2022-04-11T01:44:53.462Z"  itemprop="datePublished">2022-04-11</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/LittleWhiteRabbit/2022/04/11/%E6%80%BB%E7%BB%93vue%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E4%B9%8B%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/">No title</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        监听组件的生命周期比如有父组件 Parent 和子组件 Child，如果父组件监听到子组件挂载 mounted 就做一些逻辑处理，常规的写法可能如下：
-1234567 // Parent.vue&lt;Child @mounted=&quot;doSomething&quot;/&gt;// Child.vuemounted() &#123;  this.$emit(&quot;mounte...
-    
-
-        <a href="/LittleWhiteRabbit/2022/04/11/%E6%80%BB%E7%BB%93vue%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E4%B9%8B%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-总结vue知识体系之基础入门篇"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2022-04-11 09:44:53" datetime="2022-04-11T01:44:53.457Z"  itemprop="datePublished">2022-04-11</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/LittleWhiteRabbit/2022/04/11/%E6%80%BB%E7%BB%93vue%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E7%AF%87/">No title</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        Vue 的优缺点是什么优点：
-
-低耦合。视图（View）可以独立于 Model 变化和修改，一个 ViewModel 可以绑定到不同的 View 上，当 View 变化的时候 Model 可以不变，当 Model 变化的时候 View 也可以不变。
-可重用性。你可以把一些视图逻辑放在一个 ViewModel 里面，让很多 view 重用这段视图逻辑。
-独立开发。开发人员可以专注于业务逻辑和数...
-    
-
-        <a href="/LittleWhiteRabbit/2022/04/11/%E6%80%BB%E7%BB%93vue%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E7%AF%87/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-总结vue知识体系之高级应用篇"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2022-04-11 09:44:53" datetime="2022-04-11T01:44:53.451Z"  itemprop="datePublished">2022-04-11</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/LittleWhiteRabbit/2022/04/11/%E6%80%BB%E7%BB%93vue%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E4%B9%8B%E9%AB%98%E7%BA%A7%E5%BA%94%E7%94%A8%E7%AF%87/">No title</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        Vue.use我们使用的第三方 Vue.js 插件。如果插件是一个对象，必须提供install方法。如果插件是一个函数，它会被作为install方法。install方法调用时，会将Vue作为参数传入。该方法需要在调用new Vue()之前被调用。
-我们在使用插件或者第三方组件库的时候用到Vue.use这个方法，比如
-12import iView from &#x27;iview&#x27;V...
-    
-
-        <a href="/LittleWhiteRabbit/2022/04/11/%E6%80%BB%E7%BB%93vue%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E4%B9%8B%E9%AB%98%E7%BA%A7%E5%BA%94%E7%94%A8%E7%AF%87/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-总结18个webpack插件"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2022-04-11 09:44:53" datetime="2022-04-11T01:44:53.445Z"  itemprop="datePublished">2022-04-11</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/LittleWhiteRabbit/2022/04/11/%E6%80%BB%E7%BB%9318%E4%B8%AAwebpack%E6%8F%92%E4%BB%B6/">No title</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        Plugin何为插件(Plugin)？专注处理 webpack 在编译过程中的某个特定的任务的功能模块，可以称为插件。plugin 是一个扩展器，它丰富了 webpack 本身，针对是 loader 结束后，webpack 打包的整个过程，它并不直接操作文件，而是基于事件机制工作，会监听 webpack 打包过程中的某些节点，执行广泛的任务。
-Plugin 的特点
-
-是一个独立的模块
-模块对...
-    
-
-        <a href="/LittleWhiteRabbit/2022/04/11/%E6%80%BB%E7%BB%9318%E4%B8%AAwebpack%E6%8F%92%E4%BB%B6/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-页面布局"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2022-04-11 09:44:53" datetime="2022-04-11T01:44:53.440Z"  itemprop="datePublished">2022-04-11</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/LittleWhiteRabbit/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/LittleWhiteRabbit/2022/04/11/%E9%A1%B5%E9%9D%A2%E5%B8%83%E5%B1%80/">页面布局</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        页面布局
-问题：假设高度默认100px ，请写出三栏布局，其中左栏、右栏各为300px，中间自适应。
-
-
-                
-                    
-                    
-                
-                
-            
-
-分析：
-初学者想到的答案有两种：
-
-方法1：浮动
-方法2：绝对定位
-
-
-但...
-    
-
-        <a href="/LittleWhiteRabbit/2022/04/11/%E9%A1%B5%E9%9D%A2%E5%B8%83%E5%B1%80/" class="post-more waves-effect waves-button">
+        <a href="/LittleWhiteRabbit/2022/04/11/js%E5%AF%B9%E8%B1%A1%E5%8F%8A%E6%B7%B1%E6%8B%B7%E8%B4%9D/" class="post-more waves-effect waves-button">
             Continue reading...
         </a>
     </div>
     
     <div class="post-footer">
         
-	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/LittleWhiteRabbit/tags/CSS/" rel="tag">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/LittleWhiteRabbit/tags/HTML/" rel="tag">HTML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/LittleWhiteRabbit/tags/JS/" rel="tag">JS</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/LittleWhiteRabbit/tags/JS/" rel="tag">JS</a></li></ul>
 
     </div>
     
@@ -465,15 +197,13 @@ Plugin 的特点
         </li>
     
         <li class="post-list-item fade">
-            <article id="post-性能"
+            <article id="post-js防抖与节流"
   class="article-card article-type-post" itemprop="blogPost">
 
     <div class="post-meta">
-        <time class="post-time" title="2022-04-11 09:44:53" datetime="2022-04-11T01:44:53.435Z"  itemprop="datePublished">2022-04-11</time>
+        <time class="post-time" title="2022-04-11 15:56:13" datetime="2022-04-11T07:56:13.000Z"  itemprop="datePublished">2022-04-11</time>
 
         
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/LittleWhiteRabbit/categories/%E6%B5%8F%E8%A7%88%E5%99%A8/">浏览器</a></li></ul>
-
 
 
     </div>
@@ -483,7 +213,7 @@ Plugin 的特点
 
   
     <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/LittleWhiteRabbit/2022/04/11/%E6%80%A7%E8%83%BD/">性能</a>
+      <a class="post-title-link" href="/LittleWhiteRabbit/2022/04/11/js%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81/">防抖与节流</a>
     </h3>
   
 
@@ -493,24 +223,18 @@ Plugin 的特点
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        一、网络相关1.1 DNS 预解析
-DNS 解析也是需要时间的，可以通过预解析的方式来预先获得域名所对应的 IP
-
-1&lt;link rel=&quot;dns-prefetch&quot; href=&quot;//yuchengkai.cn&quot;&gt;
-
-1.2 缓存
-缓存对于前端性能优化来说是个很重要的点，良好的缓存策略可以降低资源的重复加载提高网页的整体加载速度
-通常浏览器...
+        防抖与节流应用场景：在前端开发的过程中，我们经常会需要绑定一些持续触发的事件，如 resize、scroll、mousemove 等等，但有些时候我们并不希望在事件持续触发的过程中那么频繁地去执行函数。这时候就用到防抖与节流。
+函数防抖（debounce）：当持续触发事件时，一定时间段内没有再触发事件，事件处理函数才会执行一次，如果设定的时间到来之前，又一次触发了事件，就重新开始延时。如下图...
     
 
-        <a href="/LittleWhiteRabbit/2022/04/11/%E6%80%A7%E8%83%BD/" class="post-more waves-effect waves-button">
+        <a href="/LittleWhiteRabbit/2022/04/11/js%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81/" class="post-more waves-effect waves-button">
             Continue reading...
         </a>
     </div>
     
     <div class="post-footer">
         
-	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/LittleWhiteRabbit/tags/Web/" rel="tag">Web</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/LittleWhiteRabbit/tags/vue2-0/" rel="tag">vue2.0</a></li></ul>
 
     </div>
     
@@ -519,11 +243,11 @@ DNS 解析也是需要时间的，可以通过预解析的方式来预先获得�
         </li>
     
         <li class="post-list-item fade">
-            <article id="post-谈谈数据状态管理和实现一个简易版vuex"
+            <article id="post-vue3的生命周期"
   class="article-card article-type-post" itemprop="blogPost">
 
     <div class="post-meta">
-        <time class="post-time" title="2022-04-11 09:44:53" datetime="2022-04-11T01:44:53.428Z"  itemprop="datePublished">2022-04-11</time>
+        <time class="post-time" title="2022-04-11 15:56:13" datetime="2022-04-11T07:56:13.000Z"  itemprop="datePublished">2022-04-11</time>
 
         
 
@@ -535,7 +259,7 @@ DNS 解析也是需要时间的，可以通过预解析的方式来预先获得�
 
   
     <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/LittleWhiteRabbit/2022/04/11/%E8%B0%88%E8%B0%88%E6%95%B0%E6%8D%AE%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E6%98%93%E7%89%88vuex/">No title</a>
+      <a class="post-title-link" href="/LittleWhiteRabbit/2022/04/11/vue3%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">vue3的生命周期</a>
     </h3>
   
 
@@ -545,25 +269,30 @@ DNS 解析也是需要时间的，可以通过预解析的方式来预先获得�
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        数据状态管理首先说说什么叫“前端状态”。所有程序都有“状态”，状态表现在代码中的各种类型的变量，在程序运行的过程中发生改变的过程，而我们编写的程序就是在控制这些“状态”如何发生改变。
-为什么要进行数据状态管理数据状态管理是近年随着在 React&#x2F;Vue 等现代化的前端框架流行起来的，主要应用在单页应用 SPA(Single Page Application)中。在以前前端“刀耕火种...
+        vue3的生命周期vue3的生命周期对比vue2没有大的改变，只有beforeDestroy和destroyed换了名字，换成beforeUnmount和unmounted。注：如果在组合式API里面使用生命周期的变动就多了。
     
 
-        <a href="/LittleWhiteRabbit/2022/04/11/%E8%B0%88%E8%B0%88%E6%95%B0%E6%8D%AE%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E6%98%93%E7%89%88vuex/" class="post-more waves-effect waves-button">
+        <a href="/LittleWhiteRabbit/2022/04/11/vue3%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="post-more waves-effect waves-button">
             Continue reading...
         </a>
     </div>
     
+    <div class="post-footer">
+        
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/LittleWhiteRabbit/tags/vue3-0/" rel="tag">vue3.0</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/LittleWhiteRabbit/tags/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" rel="tag">生命周期</a></li></ul>
+
+    </div>
+    
 </article>
 
         </li>
     
         <li class="post-list-item fade">
-            <article id="post-谈谈关于文件上传下载那些事"
+            <article id="post-hello-world"
   class="article-card article-type-post" itemprop="blogPost">
 
     <div class="post-meta">
-        <time class="post-time" title="2022-04-11 09:44:53" datetime="2022-04-11T01:44:53.421Z"  itemprop="datePublished">2022-04-11</time>
+        <time class="post-time" title="2022-04-07 15:23:27" datetime="2022-04-07T07:23:27.048Z"  itemprop="datePublished">2022-04-07</time>
 
         
 
@@ -575,7 +304,7 @@ DNS 解析也是需要时间的，可以通过预解析的方式来预先获得�
 
   
     <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/LittleWhiteRabbit/2022/04/11/%E8%B0%88%E8%B0%88%E5%85%B3%E4%BA%8E%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E4%B8%8B%E8%BD%BD%E9%82%A3%E4%BA%9B%E4%BA%8B/">No title</a>
+      <a class="post-title-link" href="/LittleWhiteRabbit/2022/04/07/hello-world/">Hello World</a>
     </h3>
   
 
@@ -585,12 +314,11 @@ DNS 解析也是需要时间的，可以通过预解析的方式来预先获得�
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        前端开发中总免不了关于文件的上传、下载需求。下面来总结一下常用的方法，欢迎讨论和吐槽。
-form 表单提交最传统的文件上传方法是使用form表单上传文件的，只需要把enctype设置为 multipart/form-data。这种方式上传文件不需要 js ，而且没有兼容问题，所有浏览器都支持，就是体验很差，导致页面刷新，页面其他数据丢失。
-1234567&lt;form method=&qu...
+        Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Qu...
     
 
-        <a href="/LittleWhiteRabbit/2022/04/11/%E8%B0%88%E8%B0%88%E5%85%B3%E4%BA%8E%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E4%B8%8B%E8%BD%BD%E9%82%A3%E4%BA%9B%E4%BA%8B/" class="post-more waves-effect waves-button">
+        <a href="/LittleWhiteRabbit/2022/04/07/hello-world/" class="post-more waves-effect waves-button">
             Continue reading...
         </a>
     </div>
@@ -602,12 +330,6 @@ form 表单提交最传统的文件上传方法是使用form表单上传文件�
     </ul>
 
     
-<nav id="page-nav">
-    <div class="inner">
-    <span class="page-number current">1</span><a class="page-number" href="/LittleWhiteRabbit/page/2/">2</a><a class="page-number" href="/LittleWhiteRabbit/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/LittleWhiteRabbit/page/6/">6</a><a class="extend next" rel="next" href="/LittleWhiteRabbit/page/2/">下一页</a>
-    </div>
-</nav>
-
 
 </div>
 
