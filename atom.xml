@@ -6,7 +6,7 @@
   <link href="https://data-cz.github.io/atom.xml" rel="self"/>
   
   <link href="https://data-cz.github.io/"/>
-  <updated>2022-04-11T06:14:27.536Z</updated>
+  <updated>2022-04-11T01:46:40.656Z</updated>
   <id>https://data-cz.github.io/</id>
   
   <author>
@@ -15,23 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Buffer</title>
-    <link href="https://data-cz.github.io/2022/04/11/Buffer/"/>
-    <id>https://data-cz.github.io/2022/04/11/Buffer/</id>
-    <published>2022-04-11T06:03:51.364Z</published>
-    <updated>2022-04-11T06:14:27.536Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="Buffer对象"><a href="#Buffer对象" class="headerlink" title="Buffer对象"></a>Buffer对象</h2><p>在 ECMAScript 2015 (ES6) 引入 TypedArray 之前，JavaScript 语言没有读取或操作二进制数据流的机制。 Buffer 类被引入作为 Node.js API 的一部分，使其可以在 TCP 流或文件系统操作等场景中处理二进制数据流。<br>Buffer 类在 Node.js 中是一个全局变量，因此无需使用 require(‘buffer’)。</p><span id="more"></span><h3 id="创建一个Buffer对象"><a href="#创建一个Buffer对象" class="headerlink" title="创建一个Buffer对象"></a>创建一个Buffer对象</h3><p>Buffer对象类似于数组，它的元素为16进制的两位数，即0到255的数值。</p><ul><li><strong>Buffer.from(array)</strong> 返回一个新建的包含所提供的字节数组的副本的 Buffer。</li><li><strong>Buffer.from(arrayBuffer[, byteOffset [, length]])</strong> 返回一个新建的与给定的 ArrayBuffer 共享同一内存的 Buffer。</li><li><strong>Buffer.from(buffer)</strong> 返回一个新建的包含所提供的 Buffer 的内容的副本的 Buffer。</li><li><strong>Buffer.from(string[, encoding])</strong> 返回一个新建的包含所提供的字符串的副本的 Buffer。</li><li><strong>Buffer.alloc(size[, fill[, encoding]])</strong> 返回一个指定大小的被填满的 Buffer 实例。这个方法会明显地比 Buffer.allocUnsafe(size) 慢，但可确保新创建的 Buffer 实例绝不会包含旧的和潜在的敏感数据。</li><li><strong>Buffer.allocUnsafe(size)与 Buffer.allocUnsafeSlow(size)</strong> 返回一个新建的指定 size 的 Buffer，但它的内容必须被初始化，可以使用 buf.fill(0) 或完全写满。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">// 创建一个长度为 10、且用 0 填充的 Buffer。</span><br><span class="line">const buf1 = Buffer.alloc(10);</span><br><span class="line"></span><br><span class="line">// 创建一个长度为 10、且用 0x1 填充的 Buffer。 </span><br><span class="line">const buf2 = Buffer.alloc(10, 1);</span><br><span class="line"></span><br><span class="line">// 创建一个长度为 10、且未初始化的 Buffer。</span><br><span class="line">// 这个方法比调用 Buffer.alloc() 更快，</span><br><span class="line">// 但返回的 Buffer 实例可能包含旧数据，</span><br><span class="line">// 因此需要使用 fill() 或 write() 重写。</span><br><span class="line">const buf3 = Buffer.allocUnsafe(10);</span><br><span class="line">buf3.fill(0)</span><br><span class="line"></span><br><span class="line">// 创建一个包含 [0x1, 0x2, 0x3] 的 Buffer。数组里一定是0-255的数，否则会不识别，返回00</span><br><span class="line">const buf4 = Buffer.from([1, 2, 3]);</span><br><span class="line"></span><br><span class="line">// 创建一个包含 UTF-8 字节 [0x74, 0xc3, 0xa9, 0x73, 0x74] 的 Buffer。</span><br><span class="line">const buf5 = Buffer.from(&#x27;tést&#x27;);</span><br><span class="line"></span><br><span class="line">// 创建一个包含 Latin-1 字节 [0x74, 0xe9, 0x73, 0x74] 的 Buffer。</span><br><span class="line">const buf6 = Buffer.from(&#x27;tést&#x27;, &#x27;latin1&#x27;);</span><br></pre></td></tr></table></figure>在 Node.js v6 之前的版本中Buffer 实例是通过 new Buffer 构造函数创建的，因为 new Buffer() 的行为会根据所传入的第一个参数的值的数据类型而明显地改变，所以如果应用程序没有正确地校验传给 new Buffer() 的参数、或未能正确地初始化新分配的 Buffer 的内容，就有可能在无意中为他们的代码引入安全性与可靠性问题。<br>为了使 Buffer 实例的创建更可靠、更不容易出错，各种 new Buffer() 构造函数已被 废弃，并由 Buffer.from()、Buffer.alloc()、和 Buffer.allocUnsafe() 方法替代。</li></ul><p>** Node.js 建议开发者们应当把所有正在使用的 new Buffer() 构造函数迁移到这些新的 API 上。**</p><h3 id="Buffer-的转换"><a href="#Buffer-的转换" class="headerlink" title="Buffer 的转换"></a>Buffer 的转换</h3><p>Buffer对象与普通的 JavaScript 字符串的互相转换，需要指定编码格式。目前Node.js 目前支持以下的字符编码。</p><ul><li>‘ascii’ - 仅支持 7 位 ASCII 数据。</li><li>‘utf8’</li><li>‘utf16le’</li><li>‘ucs2’</li><li>‘base64’</li><li>‘latin1’</li><li>‘binary’</li><li>‘hex’</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 字符串转Buffer</span><br><span class="line">const buf = Buffer.from(&#x27;node&#x27;, &#x27;ascii&#x27;);  </span><br><span class="line"></span><br><span class="line">// Buffer转hex编码字符串 - 输出 6e6f6465</span><br><span class="line">console.log(buf.toString(&#x27;hex&#x27;));</span><br><span class="line"></span><br><span class="line">// Buffer转base64编码字符串 - 输出 bm9kZQ==</span><br><span class="line">console.log(buf.toString(&#x27;base64&#x27;));</span><br></pre></td></tr></table></figure><h3 id="字符串转Buffer"><a href="#字符串转Buffer" class="headerlink" title="字符串转Buffer"></a>字符串转Buffer</h3><p>Buffer.from(string[, encoding])<br>encoding 不传参数会默认utf8编码进行转码和存储。</p><h3 id="字符串转Buffer-1"><a href="#字符串转Buffer-1" class="headerlink" title="字符串转Buffer"></a>字符串转Buffer</h3><p>实例方法<br>buf.toString([encoding[, start[, end]]])<br>encoding 解码使用的字符编码。默认: ‘utf8’。<br>start 开始解码的字节偏移量。默认: 0。<br>end 结束解码的字节偏移量（不包含）。 默认: buf.length。<br>注：如果Buffer对象由多种编码写入，就需要在局部指定定不同的编码，才能转换回正常的编码。</p><h2 id="判断一个对象是否是Buffer对象"><a href="#判断一个对象是否是Buffer对象" class="headerlink" title="判断一个对象是否是Buffer对象"></a>判断一个对象是否是Buffer对象</h2><p>Buffer.isBuffer(obj)<br>如果 obj 是一个 Buffer 则返回 true ，否则返回 false 。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const buf1 = Buffer.alloc(10);</span><br><span class="line">console.log(Buffer.isBuffer(buf1)) # 返回true</span><br></pre></td></tr></table></figure><h2 id="合并Buffer"><a href="#合并Buffer" class="headerlink" title="合并Buffer"></a>合并Buffer</h2><p>Buffer.concat(list[, totalLength])<br>list &lt;Array&gt; 要合并的 Buffer 或 Uint8Array 实例的数组<br>totalLength &lt;integer&gt; 合并时 list 中 Buffer 实例的总长度<br>返回一个合并了 list 中所有 Buffer 实例的新建的 Buffer 。<br>如果 list 中没有元素、或 totalLength 为 0 ，则返回一个新建的长度为 0 的 Buffer 。<br>如果没有提供 totalLength ，则从 list 中的 Buffer 实例计算得到。 为了计算 totalLength 会导致需要执行额外的循环，所以提供明确的长度会运行更快。<br>如果提供了 totalLength，totalLength 必须是一个正整数。如果从 list 中计算得到的 Buffer 长度超过了 totalLength，则合并的结果将会被截断为 totalLength 的长度。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const buf1 = Buffer.from(&#x27;蓝&#x27;);</span><br><span class="line">const buf2 = Buffer.from(&#x27;胖&#x27;);</span><br><span class="line">const buf3 = Buffer.from(&#x27;纸&#x27;);</span><br><span class="line"></span><br><span class="line">const len =  buf1.length + buf2.length + buf3.length;</span><br><span class="line">console.log(len) # 输出9 一个汉字三个字节</span><br><span class="line"></span><br><span class="line">console.log(Buffer.concat([buf1, buf2, buf3], len).toString())</span><br></pre></td></tr></table></figure><h2 id="获取字符长度"><a href="#获取字符长度" class="headerlink" title="获取字符长度"></a>获取字符长度</h2><p>Buffer.byteLength(string[, encoding])<br>encoding 不传参数会默认utf8编码</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">console.log(Buffer.byteLength(&#x27;蓝胖&#x27;)) # 输出6 一个汉字三个字节</span><br></pre></td></tr></table></figure><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://nodejs.cn/api/buffer.html">http://nodejs.cn/api/buffer.html</a> </p>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;Buffer对象&quot;&gt;&lt;a href=&quot;#Buffer对象&quot; class=&quot;headerlink&quot; title=&quot;Buffer对象&quot;&gt;&lt;/a&gt;Buffer对象&lt;/h2&gt;&lt;p&gt;在 ECMAScript 2015 (ES6) 引入 TypedArray 之前，JavaScript 语言没有读取或操作二进制数据流的机制。 Buffer 类被引入作为 Node.js API 的一部分，使其可以在 TCP 流或文件系统操作等场景中处理二进制数据流。&lt;br&gt;Buffer 类在 Node.js 中是一个全局变量，因此无需使用 require(‘buffer’)。&lt;/p&gt;</summary>
-    
-    
-    
-    
-  </entry>
   
   <entry>
     <title>Hello World</title>
@@ -50,6 +33,28 @@
     
     
     
+    
+  </entry>
+  
+  <entry>
+    <title>Buffer</title>
+    <link href="https://data-cz.github.io/2018/02/06/Buffer/"/>
+    <id>https://data-cz.github.io/2018/02/06/Buffer/</id>
+    <published>2018-02-06T05:43:40.000Z</published>
+    <updated>2022-04-11T06:22:41.240Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for</summary>
+      
+    
+    
+    
+    
+    <category term="Node.js" scheme="https://data-cz.github.io/tags/Node-js/"/>
     
   </entry>
   
