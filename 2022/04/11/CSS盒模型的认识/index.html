@@ -1,27 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/LittleWhiteRabbit/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/LittleWhiteRabbit/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/LittleWhiteRabbit/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/LittleWhiteRabbit/images/logo.svg" color="#222">
 
-    
-
-    
+<link rel="stylesheet" href="/LittleWhiteRabbit/css/main.css">
 
 
+<link rel="stylesheet" href="/LittleWhiteRabbit/lib/font-awesome/css/all.min.css">
 
-    <meta charset="utf-8">
-    
-    
-    
-    
-    <title>CSS盒模型的认识 | 面试详解</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
-    <meta name="theme-color" content="#3F51B5">
-    
-    
-    <meta name="keywords" content="">
-    <meta name="description" content="题目：谈一谈你对CSS盒模型的认识 专业的面试，一定会问 CSS 盒模型。对于这个题目，我们要回答一下几个方面：   基本概念：content、padding、margin 标准盒模型、IE盒模型的区别。不要漏说了IE盒模型，通过这个问题，可以筛选一部分人 CSS如何设置这两种模型（即：如何设置某个盒子为其中一个模型）？如果回答了上面的第二条，还会继续追问这一条。 JS如何设置、获取盒模型对应的宽">
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"data-cz.github.io","root":"/LittleWhiteRabbit/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="题目：谈一谈你对CSS盒模型的认识 专业的面试，一定会问 CSS 盒模型。对于这个题目，我们要回答一下几个方面：   基本概念：content、padding、margin 标准盒模型、IE盒模型的区别。不要漏说了IE盒模型，通过这个问题，可以筛选一部分人 CSS如何设置这两种模型（即：如何设置某个盒子为其中一个模型）？如果回答了上面的第二条，还会继续追问这一条。 JS如何设置、获取盒模型对应的宽">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CSS盒模型的认识">
 <meta property="og:url" content="https://data-cz.github.io/2022/04/11/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%A4%E8%AF%86/index.html">
@@ -44,156 +43,171 @@
 <meta property="article:author" content="Chen Daxian">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://img.smyhvae.com/2015-10-03-css-27.jpg">
-    
-        <link rel="alternate" type="application/atom+xml" title="面试详解" href="/LittleWhiteRabbit/atom.xml">
-    
-    <link rel="shortcut icon" href="/LittleWhiteRabbit/favicon.ico">
-    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
-    <script>window.lazyScripts=[]</script>
 
-    <!-- custom head -->
-    
+<link rel="canonical" href="https://data-cz.github.io/2022/04/11/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%A4%E8%AF%86/">
 
-<meta name="generator" content="Hexo 6.1.0"></head>
 
-<body>
-    <div id="loading" class="active"></div>
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-    <aside id="menu" class="hide" >
-  <div class="inner flex-row-vertical">
-    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
-        <i class="icon icon-lg icon-close"></i>
-    </a>
-    <div class="brand-wrap" style="background-image:url(/LittleWhiteRabbit/img/brand.jpg)">
-      <div class="brand">
-        <a href="/LittleWhiteRabbit/" class="avatar waves-effect waves-circle waves-light">
-          <img src="/LittleWhiteRabbit/img/avatar.jpg">
-        </a>
-        <hgroup class="introduce">
-          <h5 class="nickname">Chen Daxian</h5>
-          <a href="mailto:136130658@qq.com" title="136130658@qq.com" class="mail">136130658@qq.com</a>
-        </hgroup>
-      </div>
-    </div>
-    <div class="scroll-wrap flex-col">
-      <ul class="nav">
-        
-            <li class="waves-block waves-effect">
-              <a href="/LittleWhiteRabbit/"  >
-                <i class="icon icon-lg icon-home"></i>
-                主页
-              </a>
-            </li>
-        
-            <li class="waves-block waves-effect">
-              <a href="/LittleWhiteRabbit/archives"  >
-                <i class="icon icon-lg icon-archives"></i>
-                Archives
-              </a>
-            </li>
-        
-            <li class="waves-block waves-effect">
-              <a href="/LittleWhiteRabbit/tags"  >
-                <i class="icon icon-lg icon-tags"></i>
-                Tags
-              </a>
-            </li>
-        
-            <li class="waves-block waves-effect">
-              <a href="/LittleWhiteRabbit/categories"  >
-                <i class="icon icon-lg icon-th-list"></i>
-                Categories
-              </a>
-            </li>
-        
-            <li class="waves-block waves-effect">
-              <a href="/LittleWhiteRabbit/custom"  >
-                <i class="icon icon-lg icon-link"></i>
-                测试
-              </a>
-            </li>
-        
-      </ul>
+  <title>CSS盒模型的认识 | 面试详解</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/LittleWhiteRabbit/atom.xml" title="面试详解" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
-</aside>
 
-    <main id="main">
-        <header class="top-header" id="header">
-    <div class="flex-row">
-        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
-          <i class="icon icon-lg icon-navicon"></i>
-        </a>
-        <div class="flex-col header-title ellipsis">CSS盒模型的认识</div>
-        
-        <div class="search-wrap" id="search-wrap">
-            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
-                <i class="icon icon-lg icon-chevron-left"></i>
-            </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
-            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
-                <i class="icon icon-lg icon-search"></i>
-            </a>
-        </div>
-        
-        
-        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
-            <i class="icon icon-lg icon-share-alt"></i>
-        </a>
-        
+  <div class="site-meta">
+
+    <a href="/LittleWhiteRabbit/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">面试详解</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
     </div>
-</header>
-<header class="content-header post-header">
-
-    <div class="container fade-scale">
-        <h1 class="title">CSS盒模型的认识</h1>
-        <h5 class="subtitle">
-            
-                <time datetime="2022-04-11T06:03:51.364Z" itemprop="datePublished" class="page-time">
-  2022-04-11
-</time>
+  </div>
+</div>
 
 
-            
-        </h5>
-    </div>
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/LittleWhiteRabbit/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/LittleWhiteRabbit/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
-</header>
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
 
+          <div class="content post posts-expand">
+            
 
-<div class="container body-wrap">
     
-    <aside class="post-widget">
-        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
-            <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%A2%98%E7%9B%AE%EF%BC%9A%E8%B0%88%E4%B8%80%E8%B0%88%E4%BD%A0%E5%AF%B9CSS%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%A4%E8%AF%86"><span class="post-toc-number">1.</span> <span class="post-toc-text">题目：谈一谈你对CSS盒模型的认识</span></a></li></ol>
-        </nav>
-    </aside>
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/11/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%A4%E8%AF%86/">
 
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
 
-<article id="post-CSS盒模型的认识"
-  class="post-article article-type-post fade" itemprop="blogPost">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CSS盒模型的认识
+        </h1>
 
-    <div class="post-card">
-        <h1 class="post-card-title">CSS盒模型的认识</h1>
         <div class="post-meta">
-            <time class="post-time" title="2022-04-11 14:03:51" datetime="2022-04-11T06:03:51.364Z"  itemprop="datePublished">2022-04-11</time>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
 
-            
+              <time title="Created: 2022-04-11 14:03:51" itemprop="dateCreated datePublished" datetime="2022-04-11T14:03:51+08:00">2022-04-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-12 09:27:20" itemprop="dateModified" datetime="2022-04-12T09:27:20+08:00">2022-04-12</time>
+              </span>
 
-
-            
-<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
-    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
-</span>
-
+          
 
         </div>
-        <div class="post-content" id="post-content" itemprop="postContent">
-            <h2 id="题目：谈一谈你对CSS盒模型的认识"><a href="#题目：谈一谈你对CSS盒模型的认识" class="headerlink" title="题目：谈一谈你对CSS盒模型的认识"></a>题目：谈一谈你对CSS盒模型的认识</h2><blockquote>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="题目：谈一谈你对CSS盒模型的认识"><a href="#题目：谈一谈你对CSS盒模型的认识" class="headerlink" title="题目：谈一谈你对CSS盒模型的认识"></a>题目：谈一谈你对CSS盒模型的认识</h2><blockquote>
 <p>专业的面试，一定会问 <code>CSS</code> 盒模型。对于这个题目，我们要回答一下几个方面：</p>
 </blockquote>
 <ol>
@@ -476,297 +490,183 @@
 <p>为什么父元素成为BFC之后，就有了高度呢？这就回到了<strong>第四条：计算BFC的高度时，浮动元素也参与计算</strong>。意思是，<strong>在计算BFC的高度时，子元素的float box也会参与计算</strong></p>
 </blockquote>
 
-        </div>
-
-        <blockquote class="post-copyright">
-    
-    <div class="content">
-        
-<span class="post-time">
-    Last updated: <time datetime="2022-04-12T01:27:20.145Z" itemprop="dateUpdated">2022-04-12 09:27:20</time>
-</span><br>
-
-
-        
-        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/LittleWhiteRabbit/2022/04/11/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%A4%E8%AF%86/" target="_blank" rel="external">https://data-cz.github.io/2022/04/11/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%A4%E8%AF%86/</a>
-        
-    </div>
-    
-    <footer>
-        <a href="https://data-cz.github.io">
-            <img src="/LittleWhiteRabbit/img/avatar.jpg" alt="Chen Daxian">
-            Chen Daxian
-        </a>
-    </footer>
-</blockquote>
-
-        
-<div class="page-reward">
-    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
-</div>
-
-
-
-        <div class="post-footer">
-            
-
-            
-<div class="page-share-wrap">
-    
-
-<div class="page-share" id="pageShare">
-    <ul class="reset share-icons">
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://data-cz.github.io/2022/04/11/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%A4%E8%AF%86/&title=《CSS盒模型的认识》 — 面试详解&pic=https://data-cz.github.io/img/avatar.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://data-cz.github.io/2022/04/11/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%A4%E8%AF%86/&title=《CSS盒模型的认识》 — 面试详解&source=" data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://data-cz.github.io/2022/04/11/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%A4%E8%AF%86/" data-title=" Facebook">
-          <i class="icon icon-facebook"></i>
-        </a>
-      </li>
-      <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《CSS盒模型的认识》 — 面试详解&url=https://data-cz.github.io/2022/04/11/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%A4%E8%AF%86/&via=https://data-cz.github.io" data-title=" Twitter">
-          <i class="icon icon-twitter"></i>
-        </a>
-      </li>
-      <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://data-cz.github.io/2022/04/11/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%A4%E8%AF%86/" data-title=" Google+">
-          <i class="icon icon-google-plus"></i>
-        </a>
-      </li>
-    </ul>
- </div>
-
-
-
-    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
-        <i class="icon icon-share-alt icon-lg"></i>
-    </a>
-</div>
-
-
-
-        </div>
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/LittleWhiteRabbit/2022/04/07/hello-world/" rel="prev" title="Hello World">
+      <i class="fa fa-chevron-left"></i> Hello World
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
-  
-    <div class="waves-block waves-effect next">
-      <a href="/LittleWhiteRabbit/2022/04/07/hello-world/" id="post-next" class="post-nav-link">
-        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">Hello World</h4>
-      </a>
-    </div>
-  
-</nav>
 
 
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</article>
-
-<div id="reward" class="page-modal reward-lay">
-    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <h3 class="reward-title">
-        <i class="icon icon-quote-left"></i>
-        谢谢大爷~
-        <i class="icon icon-quote-right"></i>
-    </h3>
-    <div class="reward-content">
-        
-        <div class="reward-code">
-            <img id="rewardCode" src="/LittleWhiteRabbit/img/wechat.jpg" alt="打赏二维码">
-        </div>
-        
-        <label class="reward-toggle">
-            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
-                data-wechat="/LittleWhiteRabbit/img/wechat.jpg" data-alipay="/LittleWhiteRabbit/img/alipay.jpg">
-            <div class="reward-toggle-ctrol">
-                <span class="reward-toggle-item wechat">微信</span>
-                <span class="reward-toggle-label"></span>
-                <span class="reward-toggle-item alipay">支付宝</span>
-            </div>
-        </label>
-        
-    </div>
-</div>
-
-
-
-</div>
-
-        <footer class="footer">
-    <div class="top">
-        
-<p>
-    <span id="busuanzi_container_site_uv" style='display:none'>
-        站点总访客数：<span id="busuanzi_value_site_uv"></span>
-    </span>
-    <span id="busuanzi_container_site_pv" style='display:none'>
-        站点总访问量：<span id="busuanzi_value_site_pv"></span>
-    </span>
-</p>
-
-
-        <p>
-            
-                <span><a href="/LittleWhiteRabbit/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
-            
-            <span>This blog is licensed under a <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
-        </p>
-    </div>
-    <div class="bottom">
-        <p><span>Chen Daxian &copy; 2015 - 2022</span>
-            <span>
-                
-                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
-            </span>
-        </p>
-    </div>
-</footer>
-
-    </main>
-    <div class="mask" id="mask"></div>
-<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
-
-
-
-<div class="global-share" id="globalShare">
-    <ul class="reset share-icons">
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://data-cz.github.io/2022/04/11/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%A4%E8%AF%86/&title=《CSS盒模型的认识》 — 面试详解&pic=https://data-cz.github.io/img/avatar.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://data-cz.github.io/2022/04/11/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%A4%E8%AF%86/&title=《CSS盒模型的认识》 — 面试详解&source=" data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://data-cz.github.io/2022/04/11/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%A4%E8%AF%86/" data-title=" Facebook">
-          <i class="icon icon-facebook"></i>
-        </a>
-      </li>
-      <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《CSS盒模型的认识》 — 面试详解&url=https://data-cz.github.io/2022/04/11/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%A4%E8%AF%86/&via=https://data-cz.github.io" data-title=" Twitter">
-          <i class="icon icon-twitter"></i>
-        </a>
-      </li>
-      <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://data-cz.github.io/2022/04/11/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%A4%E8%AF%86/" data-title=" Google+">
-          <i class="icon icon-google-plus"></i>
-        </a>
-      </li>
-    </ul>
- </div>
-
-
-<div class="page-modal wx-share" id="wxShare">
-    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADNklEQVR42u3a0YpqMQwFUP//p+/AfRoY9OydHsHW1ScZtacrwoQkfTzi9e//+v3693r992f7PPtWsv5+9/GOhY2Njb0JO39Au0MSstcBevaZPPRPn4KNjY19HLtNWrNkMwtWe84kcWJjY2N/JzspKu5KjXnaw8bGxsZ+dwIryoMgoO272NjY2N/DzhvxbTPojY2h8ufBxsbGPpU9G/R+5uu3z7exsbGxP4y9XjY8221lJJyPiocKbGxs7IPYs5Hq66Iiv+Kz0iRKQnCxAzY2NvYR7LZ5lCSb2dGTQ+dJ9CKg2NjY2F/AbkuINtW1F31WhgrY2NjY38BOHj8rOdoWf4vMB711lsPGxsbeip3z8qbSrCW0XsYkaRgbGxv7JPasNZM3mBLSXcVJO3LGxsbGPoO9nniSNlP+9zZMw/YWNjY29kHsPCG11yVno4W8tdSOEIq+GjY2NvZW7NmgNC9C1vecJdSLd7GxsbGPY7fHzQuP2XfbtTQVwcbGxt6c3V6pmSWMNuElJcoNiRAbGxv7IHbe0GkvzeSHa5tQbYodDn2xsbGxN2G37ZuVEqKFtaEvTo6NjY19BHtlAHDX5Zv1PZN0+JhthI2Njf3x7HZoOiO15UpOXQ8lNjY29knslXFv29yZJZ58lFsMgLGxsbE3ZxfTg+DBeQpp2e3IOZpsY2NjYx/Bzlv8bQjyMLUBvetCDzY2NvYZ7Pyffh6O9qAtKVnDqgsbGxt7W/Yszbxj+Pr6+s5t72JjY2MfxG6LkJXPvP58Pui9rRzCxsbGPoLdDm7zJDQbJ+TlzWy0PJxpY2NjY38wuz1oUnKsXMeZDYnzQfLFb46NjY29IXuliT8bx7bNo1kILsoebGxs7OPYK8dqS5E2xEm464YUNjY29nHsfM2u5rRN/3tLlHrEi42Njb0VO195KsobVW1A6wn2Oh4bGxt7E/asAJgNANqUM7skFAUOGxsb+zh2m7TatLGeqNpi5uLp2NjY2F/JXilX8pSWJ8I8uEsJDBsbG/tQdtudakuIvMxI3i1yIDY2Nva27HyjNkW9++JO0nJa6qVhY2Njfzx7ln5W0lJbzLTsvLDBxsbG3pz9A5dpWj1FpaN5AAAAAElFTkSuQmCC" alt="微信分享二维码">
-</div>
-
-
-
-
-    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
-<script>
-var BLOG = { ROOT: '/LittleWhiteRabbit/', SHARE: true, REWARD: true };
-
-
-</script>
-
-<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
-
-
-<div class="search-panel" id="search-panel">
-    <ul class="search-result" id="search-result"></ul>
-</div>
-<template id="search-tpl">
-<li class="item">
-    <a href="{path}" class="waves-block waves-effect">
-        <div class="title ellipsis" title="{title}">{title}</div>
-        <div class="flex-row flex-middle">
-            <div class="tags ellipsis">
-                {tags}
-            </div>
-            <time class="flex-col time">{date}</time>
-        </div>
-    </a>
-</li>
-</template>
-
-<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
-
-
-
-
-
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
+          </div>
+          
 
 <script>
-(function() {
-    var OriginTitile = document.title, titleTime;
-    document.addEventListener('visibilitychange', function() {
-        if (document.hidden) {
-            document.title = '死鬼去哪里了！';
-            clearTimeout(titleTime);
-        } else {
-            document.title = '(つェ⊂)咦!又好了!';
-            titleTime = setTimeout(function() {
-                document.title = OriginTitile;
-            },2000);
-        }
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
     });
-})();
+  }
 </script>
 
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
 
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%EF%BC%9A%E8%B0%88%E4%B8%80%E8%B0%88%E4%BD%A0%E5%AF%B9CSS%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%A4%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">题目：谈一谈你对CSS盒模型的认识</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Chen Daxian</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/LittleWhiteRabbit/archives/">
+        
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Daxian</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/LittleWhiteRabbit/lib/anime.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/LittleWhiteRabbit/js/utils.js"></script>
+
+<script src="/LittleWhiteRabbit/js/motion.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/schemes/muse.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
 
 </body>
 </html>
