@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/LittleWhiteRabbit/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/LittleWhiteRabbit/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/LittleWhiteRabbit/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/LittleWhiteRabbit/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/LittleWhiteRabbit/css/main.css">
+
+
+<link rel="stylesheet" href="/LittleWhiteRabbit/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"data-cz.github.io","root":"/LittleWhiteRabbit/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="webpack 插件原理在 webpack 中，专注于处理 webpack 在编译过程中的某个特定的任务的功能模块，可以称为插件。它和 loader 有以下区别：  loader 是一个转换器，将 A 文件进行编译成 B 文件，比如：将 A.less 转换为 A.css，单纯的文件转换过程。webpack 自身只支持 js 和 json 这两种格式的文件，对于其他文件需要通过 loader 将其转">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试详解">
+<meta property="og:url" content="https://data-cz.github.io/2022/04/13/webpack%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="面试详解">
+<meta property="og:description" content="webpack 插件原理在 webpack 中，专注于处理 webpack 在编译过程中的某个特定的任务的功能模块，可以称为插件。它和 loader 有以下区别：  loader 是一个转换器，将 A 文件进行编译成 B 文件，比如：将 A.less 转换为 A.css，单纯的文件转换过程。webpack 自身只支持 js 和 json 这两种格式的文件，对于其他文件需要通过 loader 将其转">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://data-cz.github.io/2022/04/13/img/plugin1.png">
+<meta property="og:image" content="https://data-cz.github.io/2022/04/13/img/compiler.png">
+<meta property="og:image" content="https://data-cz.github.io/2022/04/13/img/plugin2.png">
+<meta property="og:image" content="https://data-cz.github.io/2022/04/13/img/compilation.png">
+<meta property="article:published_time" content="2022-04-13T01:46:34.431Z">
+<meta property="article:modified_time" content="2020-12-30T07:08:02.000Z">
+<meta property="article:author" content="Chen Daxian">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://data-cz.github.io/2022/04/13/img/plugin1.png">
+
+<link rel="canonical" href="https://data-cz.github.io/2022/04/13/webpack%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title> | 面试详解</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/LittleWhiteRabbit/atom.xml" title="面试详解" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/LittleWhiteRabbit/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">面试详解</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/LittleWhiteRabbit/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/LittleWhiteRabbit/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/13/webpack%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-04-13 09:46:34" itemprop="dateCreated datePublished" datetime="2022-04-13T09:46:34+08:00">2022-04-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-30 15:08:02" itemprop="dateModified" datetime="2020-12-30T15:08:02+08:00">2020-12-30</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="webpack-插件原理"><a href="#webpack-插件原理" class="headerlink" title="webpack 插件原理"></a>webpack 插件原理</h1><p>在 webpack 中，专注于处理 webpack 在编译过程中的某个特定的任务的功能模块，可以称为插件。它和 <code>loader</code> 有以下区别：</p>
+<ol>
+<li><p><code>loader</code> 是一个转换器，将 A 文件进行编译成 B 文件，比如：将 <code>A.less</code> 转换为 <code>A.css</code>，单纯的文件转换过程。webpack 自身只支持 js 和 json 这两种格式的文件，对于其他文件需要通过 <code>loader</code> 将其转换为 commonJS 规范的文件后，webpack 才能解析到。</p>
+</li>
+<li><p><code>plugin</code> 是一个扩展器，它丰富了 webpack 本身，针对是 <code>loader</code> 结束后，webpack 打包的整个过程，它并不直接操作文件，而是基于事件机制工作，会监听 webpack 打包过程中的某些节点，执行广泛的任务。</p>
+</li>
+</ol>
+<h3 id="plugin-的特征"><a href="#plugin-的特征" class="headerlink" title="plugin 的特征"></a>plugin 的特征</h3><p>webpack 插件有以下特征</p>
+<ul>
+<li>是一个独立的模块。</li>
+<li>模块对外暴露一个 js 函数。</li>
+<li>函数的原型 <code>(prototype)</code> 上定义了一个注入 <code>compiler</code> 对象的 <code>apply</code> 方法。</li>
+<li><code>apply</code> 函数中需要有通过 <code>compiler</code> 对象挂载的 webpack 事件钩子，钩子的回调中能拿到当前编译的 <code>compilation</code> 对象，如果是异步编译插件的话可以拿到回调 callback。</li>
+<li>完成自定义子编译流程并处理 <code>complition</code> 对象的内部数据。</li>
+<li>如果异步编译插件的话，数据处理完成后执行 callback 回调。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">HelloPlugin</span> &#123;</span><br><span class="line">  <span class="comment">// 在构造函数中获取用户给该插件传入的配置</span></span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">options</span>) &#123;&#125;</span><br><span class="line">  <span class="comment">// Webpack 会调用 HelloPlugin 实例的 apply 方法给插件实例传入 compiler 对象</span></span><br><span class="line">  <span class="title function_">apply</span>(<span class="params">compiler</span>) &#123;</span><br><span class="line">    <span class="comment">// 在emit阶段插入钩子函数，用于特定时机处理额外的逻辑；</span></span><br><span class="line">    compiler.<span class="property">hooks</span>.<span class="property">emit</span>.<span class="title function_">tap</span>(<span class="string">&#x27;HelloPlugin&#x27;</span>, <span class="function">(<span class="params">compilation</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// 在功能流程完成后可以调用 webpack 提供的回调函数；</span></span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">// 如果事件是异步的，会带两个参数，第二个参数为回调函数，</span></span><br><span class="line">    compiler.<span class="title function_">plugin</span>(<span class="string">&#x27;emit&#x27;</span>, <span class="keyword">function</span> (<span class="params">compilation, callback</span>) &#123;</span><br><span class="line">      <span class="comment">// 处理完毕后执行 callback 以通知 Webpack</span></span><br><span class="line">      <span class="comment">// 如果不执行 callback，运行流程将会一直卡在这不往下执行</span></span><br><span class="line">      <span class="title function_">callback</span>()</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="title class_">HelloPlugin</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>webpack 读取配置的过程中会先执行 <code>new HelloPlugin(options)</code> 初始化一个 <code>HelloPlugin</code> 获得其实例。</li>
+<li>初始化 <code>compiler</code> 对象后调用 <code>HelloPlugin.apply(compiler)</code> 给插件实例传入 compiler 对象。</li>
+<li>插件实例在获取到 <code>compiler</code> 对象后，就可以通过 <code>compiler.plugin</code> (事件名称, 回调函数) 监听到 Webpack 广播出来的事件。 并且可以通过 <code>compiler</code> 对象去操作 Webpack。</li>
+</ol>
+<h3 id="事件流机制"><a href="#事件流机制" class="headerlink" title="事件流机制"></a>事件流机制</h3><p>webpack 本质上是一种事件流的机制，它的工作流程就是将各个插件串联起来，而实现这一切的核心就是 <code>Tapable</code>。</p>
+<p>Webpack 的 <code>Tapable</code> 事件流机制保证了插件的有序性，将各个插件串联起来， Webpack 在运行过程中会广播事件，插件只需要监听它所关心的事件，就能加入到这条 webapck 机制中，去改变 webapck 的运作，使得整个系统扩展性良好。</p>
+<p><code>Tapable</code> 也是一个小型的 library，是 Webpack 的一个核心工具。类似于 node 中的 events 库，核心原理就是一个<code>订阅发布模式</code>。作用是提供类似的插件接口。方法如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  广播事件</span></span><br><span class="line">compiler.<span class="title function_">apply</span>(<span class="string">&#x27;event-name&#x27;</span>, params)</span><br><span class="line">compilation.<span class="title function_">apply</span>(<span class="string">&#x27;event-name&#x27;</span>, params)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听事件</span></span><br><span class="line">compiler.<span class="title function_">plugin</span>(<span class="string">&#x27;event-name&#x27;</span>, <span class="keyword">function</span> (<span class="params">params</span>) &#123;&#125;)</span><br><span class="line">compilation.<span class="title function_">plugin</span>(<span class="string">&#x27;event-name&#x27;</span>, <span class="keyword">function</span> (<span class="params">params</span>) &#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>我们来看下 Tapable</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">Tapable</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">_plugins</span> = &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//发布name消息</span></span><br><span class="line"><span class="title class_">Tapable</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">applyPlugins</span> = <span class="keyword">function</span> <span class="title function_">applyPlugins</span>(<span class="params">name</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (!<span class="variable language_">this</span>.<span class="property">_plugins</span>[name]) <span class="keyword">return</span></span><br><span class="line">  <span class="keyword">var</span> args = <span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">slice</span>.<span class="title function_">call</span>(<span class="variable language_">arguments</span>, <span class="number">1</span>)</span><br><span class="line">  <span class="keyword">var</span> plugins = <span class="variable language_">this</span>.<span class="property">_plugins</span>[name]</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; plugins.<span class="property">length</span>; i++) &#123;</span><br><span class="line">    plugins[i].<span class="title function_">apply</span>(<span class="variable language_">this</span>, args)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// fn订阅name消息</span></span><br><span class="line"><span class="title class_">Tapable</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">plugin</span> = <span class="keyword">function</span> <span class="title function_">plugin</span>(<span class="params">name, fn</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (!<span class="variable language_">this</span>.<span class="property">_plugins</span>[name]) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">_plugins</span>[name] = [fn]</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">_plugins</span>[name].<span class="title function_">push</span>(fn)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//给定一个插件数组，对其中的每一个插件调用插件自身的apply方法注册插件</span></span><br><span class="line"><span class="title class_">Tapable</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">apply</span> = <span class="keyword">function</span> <span class="title function_">apply</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="variable language_">arguments</span>.<span class="property">length</span>; i++) &#123;</span><br><span class="line">    <span class="variable language_">arguments</span>[i].<span class="title function_">apply</span>(<span class="variable language_">this</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Tapable</code> 为 webpack 提供了统一的插件接口（钩子）类型定义，它是 webpack 的核心功能库。webpack 中目前有十种 hooks，在 Tapable 源码中可以看到，他们是：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exports</span>.<span class="property">SyncHook</span> = <span class="built_in">require</span>(<span class="string">&#x27;./SyncHook&#x27;</span>)</span><br><span class="line"><span class="built_in">exports</span>.<span class="property">SyncBailHook</span> = <span class="built_in">require</span>(<span class="string">&#x27;./SyncBailHook&#x27;</span>)</span><br><span class="line"><span class="built_in">exports</span>.<span class="property">SyncWaterfallHook</span> = <span class="built_in">require</span>(<span class="string">&#x27;./SyncWaterfallHook&#x27;</span>)</span><br><span class="line"><span class="built_in">exports</span>.<span class="property">SyncLoopHook</span> = <span class="built_in">require</span>(<span class="string">&#x27;./SyncLoopHook&#x27;</span>)</span><br><span class="line"><span class="built_in">exports</span>.<span class="property">AsyncParallelHook</span> = <span class="built_in">require</span>(<span class="string">&#x27;./AsyncParallelHook&#x27;</span>)</span><br><span class="line"><span class="built_in">exports</span>.<span class="property">AsyncParallelBailHook</span> = <span class="built_in">require</span>(<span class="string">&#x27;./AsyncParallelBailHook&#x27;</span>)</span><br><span class="line"><span class="built_in">exports</span>.<span class="property">AsyncSeriesHook</span> = <span class="built_in">require</span>(<span class="string">&#x27;./AsyncSeriesHook&#x27;</span>)</span><br><span class="line"><span class="built_in">exports</span>.<span class="property">AsyncSeriesBailHook</span> = <span class="built_in">require</span>(<span class="string">&#x27;./AsyncSeriesBailHook&#x27;</span>)</span><br><span class="line"><span class="built_in">exports</span>.<span class="property">AsyncSeriesLoopHook</span> = <span class="built_in">require</span>(<span class="string">&#x27;./AsyncSeriesLoopHook&#x27;</span>)</span><br><span class="line"><span class="built_in">exports</span>.<span class="property">AsyncSeriesWaterfallHook</span> = <span class="built_in">require</span>(<span class="string">&#x27;./AsyncSeriesWaterfallHook&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>Tapable</code> 还统一暴露了三个方法给插件，用于注入不同类型的自定义构建行为：</p>
+<ul>
+<li>tap：可以注册同步钩子和异步钩子。</li>
+<li>tapAsync：回调方式注册异步钩子。</li>
+<li>tapPromise：Promise 方式注册异步钩子。</li>
+</ul>
+<p>webpack 里的几个非常重要的对象，<code>Compiler</code>, <code>Compilation</code> 和 <code>JavascriptParser</code> 都继承了 <code>Tapable</code> 类，它们身上挂着丰富的钩子。</p>
+<h3 id="编写一个插件"><a href="#编写一个插件" class="headerlink" title="编写一个插件"></a>编写一个插件</h3><p>一个 webpack 插件由以下组成：</p>
+<ul>
+<li>一个 JavaScript 命名函数。</li>
+<li>在插件函数的 prototype 上定义一个 apply 方法。</li>
+<li>指定一个绑定到 webpack 自身的事件钩子。</li>
+<li>处理 webpack 内部实例的特定数据。</li>
+<li>功能完成后调用 webpack 提供的回调。</li>
+</ul>
+<p>下面实现一个最简单的插件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">WebpackPlugin1</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">options</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">options</span> = options</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">apply</span>(<span class="params">compiler</span>) &#123;</span><br><span class="line">    compiler.<span class="property">hooks</span>.<span class="property">done</span>.<span class="title function_">tap</span>(<span class="string">&#x27;MYWebpackPlugin&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">options</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="title class_">WebpackPlugin1</span></span><br></pre></td></tr></table></figure>
+
+<p>然后在 webpack 的配置中注册使用就行，只需要在 <code>webpack.config.js</code> 里引入并实例化就可以了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">WebpackPlugin1</span> = <span class="built_in">require</span>(<span class="string">&#x27;./src/plugin/plugin1&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="attr">entry</span>: &#123;</span><br><span class="line">    <span class="attr">index</span>: path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;/src/main.js&#x27;</span>),</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;/dist&#x27;</span>),</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;index.js&#x27;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">plugins</span>: [<span class="keyword">new</span> <span class="title class_">WebpackPlugin1</span>(&#123; <span class="attr">msg</span>: <span class="string">&#x27;hello world&#x27;</span> &#125;)],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时我们执行一下 <code>npm run build</code> 就能看到效果了</p>
+<img src="../img/plugin1.png">
+
+<h3 id="Compiler-对象-（负责编译）"><a href="#Compiler-对象-（负责编译）" class="headerlink" title="Compiler 对象 （负责编译）"></a>Compiler 对象 （负责编译）</h3><p><code>Compiler</code> 对象包含了当前运行 Webpack 的配置，包括 <code>entry</code>、<code>output</code>、<code>loaders</code> 等配置，这个对象在启动 Webpack 时被实例化，而且是全局唯一的。<code>Plugin</code> 可以通过该对象获取到 Webpack 的配置信息进行处理。</p>
+<p>compiler 上暴露的一些常用的钩子：</p>
+<img src="../img/compiler.png">
+
+<p>下面来举个例子</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">WebpackPlugin2</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">options</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">options</span> = options</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">apply</span>(<span class="params">compiler</span>) &#123;</span><br><span class="line">    compiler.<span class="property">hooks</span>.<span class="property">run</span>.<span class="title function_">tap</span>(<span class="string">&#x27;run&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;开始编译...&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    compiler.<span class="property">hooks</span>.<span class="property">compile</span>.<span class="title function_">tap</span>(<span class="string">&#x27;compile&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;compile&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    compiler.<span class="property">hooks</span>.<span class="property">done</span>.<span class="title function_">tap</span>(<span class="string">&#x27;compilation&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;compilation&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="title class_">WebpackPlugin2</span></span><br></pre></td></tr></table></figure>
+
+<p>此时我们执行一下 <code>npm run build</code> 就能看到效果了</p>
+<img src="../img/plugin2.png">
+
+<p>有一些编译插件中的步骤是异步的，这样就需要额外传入一个 callback 回调函数，并且在插件运行结束时执行这个回调函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">WebpackPlugin2</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">options</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">options</span> = options</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">apply</span>(<span class="params">compiler</span>) &#123;</span><br><span class="line">    compiler.<span class="property">hooks</span>.<span class="property">beforeCompile</span>.<span class="title function_">tapAsync</span>(<span class="string">&#x27;compilation&#x27;</span>, <span class="function">(<span class="params">compilation, cb</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;编译中...&#x27;</span>)</span><br><span class="line">        <span class="title function_">cb</span>()</span><br><span class="line">      &#125;, <span class="number">1000</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="title class_">WebpackPlugin2</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Compilation-对象"><a href="#Compilation-对象" class="headerlink" title="Compilation 对象"></a>Compilation 对象</h3><p><code>Compilation</code> 对象代表了一次资源版本构建。当运行 webpack 开发环境中间件时，每当检测到一个文件变化，就会创建一个新的 <code>compilation</code>，从而生成一组新的编译资源。一个 <code>Compilation</code> 对象表现了当前的模块资源、编译生成资源、变化的文件、以及被跟踪依赖的状态信息，简单来讲就是把本次打包编译的内容存到内存里。<code>Compilation</code> 对象也提供了插件需要自定义功能的回调，以供插件做自定义处理时选择使用拓展。</p>
+<p>简单来说，<code>Compilation</code> 的职责就是构建模块和 Chunk，并利用插件优化构建过程。</p>
+<p><code>Compiler</code> 代表了整个 Webpack 从启动到关闭的生命周期，而 <code>Compilation</code> 只是代表了一次新的编译，只要文件有改动，<code>compilation</code> 就会被重新创建。</p>
+<p><code>Compilation</code> 上暴露的一些常用的钩子：<br><img src="../img/compilation.png"></p>
+<p><code>Compiler</code> 和 <code>Compilation</code> 的区别</p>
+<ul>
+<li><code>Compiler</code> 代表了整个 Webpack 从启动到关闭的生命周期</li>
+<li><code>Compilation</code> 只是代表了一次新的编译，只要文件有改动，<code>compilation</code> 就会被重新创建。</li>
+</ul>
+<h3 id="手写插件-1：文件清单"><a href="#手写插件-1：文件清单" class="headerlink" title="手写插件 1：文件清单"></a>手写插件 1：文件清单</h3><p>在每次 webpack 打包之后，自动产生一个一个 markdown 文件清单，记录打包之后的文件夹 dist 里所有的文件的一些信息。</p>
+<p>思路：</p>
+<ol>
+<li>通过 <code>compiler.hooks.emit.tapAsync()</code> 来触发生成资源到 output 目录之前的钩子</li>
+<li>通过 <code>compilation.assets</code> 获取文件数量</li>
+<li>定义 markdown 文件的内容，将文件信息写入 markdown 文件内</li>
+<li>给 dist 文件夹里添加一个资源名称为 fileListName 的变量</li>
+<li>写入资源的内容和文件大小</li>
+<li>执行回调，让 webpack 继续执行</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">FileListPlugin</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">options</span>) &#123;</span><br><span class="line">    <span class="comment">// 获取插件配置项</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">filename</span> = options &amp;&amp; options.<span class="property">filename</span> ? options.<span class="property">filename</span> : <span class="string">&#x27;FILELIST.md&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">apply</span>(<span class="params">compiler</span>) &#123;</span><br><span class="line">    <span class="comment">// 注册 compiler 上的 emit 钩子</span></span><br><span class="line">    compiler.<span class="property">hooks</span>.<span class="property">emit</span>.<span class="title function_">tapAsync</span>(<span class="string">&#x27;FileListPlugin&#x27;</span>, <span class="function">(<span class="params">compilation, cb</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// 通过 compilation.assets 获取文件数量</span></span><br><span class="line">      <span class="keyword">let</span> len = <span class="title class_">Object</span>.<span class="title function_">keys</span>(compilation.<span class="property">assets</span>).<span class="property">length</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">// 添加统计信息</span></span><br><span class="line">      <span class="keyword">let</span> content = <span class="string">`# <span class="subst">$&#123;len&#125;</span> file<span class="subst">$&#123;len &gt; <span class="number">1</span> ? <span class="string">&#x27;s&#x27;</span> : <span class="string">&#x27;&#x27;</span>&#125;</span> emitted by webpack\n\n`</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">// 通过 compilation.assets 获取文件名列表</span></span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> filename <span class="keyword">in</span> compilation.<span class="property">assets</span>) &#123;</span><br><span class="line">        content += <span class="string">`- <span class="subst">$&#123;filename&#125;</span>\n`</span></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 往 compilation.assets 中添加清单文件</span></span><br><span class="line">      compilation.<span class="property">assets</span>[<span class="variable language_">this</span>.<span class="property">filename</span>] = &#123;</span><br><span class="line">        <span class="comment">// 写入新文件的内容</span></span><br><span class="line">        <span class="attr">source</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">          <span class="keyword">return</span> content</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">// 新文件大小（给 webapck 输出展示用）</span></span><br><span class="line">        <span class="attr">size</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">          <span class="keyword">return</span> content.<span class="property">length</span></span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 执行回调，让 webpack 继续执行</span></span><br><span class="line">      <span class="title function_">cb</span>()</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="title class_">FileListPlugin</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="手写插件-2：去除注释"><a href="#手写插件-2：去除注释" class="headerlink" title="手写插件 2：去除注释"></a>手写插件 2：去除注释</h3><p>开发一个插件能够去除打包后代码的注释，这样我们的 <code>bundle.js</code> 将更容易阅读</p>
+<p>思路：</p>
+<ol>
+<li>通过 <code>compiler.hooks.emit.tap()</code> 来触发生成文件后的钩子</li>
+<li>通过 <code>compilation.assets</code> 拿到生产后的文件，然后去遍历各个文件</li>
+<li>通过 <code>.source()</code> 获取构建产物的文本，然后用正则去 replace 调注释的代码</li>
+<li>更新构建产物对象</li>
+<li>执行回调，让 webpack 继续执行</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">RemoveCommentPlugin</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">options</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">options</span> = options</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">apply</span>(<span class="params">compiler</span>) &#123;</span><br><span class="line">    <span class="comment">// 去除注释正则</span></span><br><span class="line">    <span class="keyword">const</span> reg = <span class="regexp">/(&quot;([^\\\&quot;]*(\\.)?)*&quot;)|(&#x27;([^\\\&#x27;]*(\\.)?)*&#x27;)|(\/&#123;2,&#125;.*?(\r|\n))|(\/\*(\n|.)*?\*\/)|(\/\*\*\*\*\*\*\/)/g</span></span><br><span class="line"></span><br><span class="line">    compiler.<span class="property">hooks</span>.<span class="property">emit</span>.<span class="title function_">tap</span>(<span class="string">&#x27;RemoveComment&#x27;</span>, <span class="function">(<span class="params">compilation</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// 遍历构建产物，.assets中包含构建产物的文件名</span></span><br><span class="line">      <span class="title class_">Object</span>.<span class="title function_">keys</span>(compilation.<span class="property">assets</span>).<span class="title function_">forEach</span>(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// .source()是获取构建产物的文本</span></span><br><span class="line">        <span class="keyword">let</span> content = compilation.<span class="property">assets</span>[item].<span class="title function_">source</span>()</span><br><span class="line">        content = content.<span class="title function_">replace</span>(reg, <span class="keyword">function</span> (<span class="params">word</span>) &#123;</span><br><span class="line">          <span class="comment">// 去除注释后的文本</span></span><br><span class="line">          <span class="keyword">return</span> <span class="regexp">/^\/&#123;2,&#125;/</span>.<span class="title function_">test</span>(word) || <span class="regexp">/^\/\*!/</span>.<span class="title function_">test</span>(word) || <span class="regexp">/^\/\*&#123;3,&#125;\//</span>.<span class="title function_">test</span>(word) ? <span class="string">&#x27;&#x27;</span> : word</span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="comment">// 更新构建产物对象</span></span><br><span class="line">        compilation.<span class="property">assets</span>[item] = &#123;</span><br><span class="line">          <span class="attr">source</span>: <span class="function">() =&gt;</span> content,</span><br><span class="line">          <span class="attr">size</span>: <span class="function">() =&gt;</span> content.<span class="property">length</span>,</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="title class_">RemoveCommentPlugin</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/LittleWhiteRabbit/2022/04/13/Vue%20%E7%BB%84%E4%BB%B6%E4%B8%8B%E6%8B%89%20%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A/" rel="prev" title="Vue 组件下拉加载更多">
+      <i class="fa fa-chevron-left"></i> Vue 组件下拉加载更多
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/LittleWhiteRabbit/2022/04/13/webpack%E7%9A%84%E5%BC%82%E6%AD%A5%E5%8A%A0%E8%BD%BD%E5%8F%8A%E5%88%86%E5%8C%85%E7%AD%96%E7%95%A5/" rel="next" title="">
+       <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#webpack-%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">webpack 插件原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#plugin-%E7%9A%84%E7%89%B9%E5%BE%81"><span class="nav-number">1.0.1.</span> <span class="nav-text">plugin 的特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E6%B5%81%E6%9C%BA%E5%88%B6"><span class="nav-number">1.0.2.</span> <span class="nav-text">事件流机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E6%8F%92%E4%BB%B6"><span class="nav-number">1.0.3.</span> <span class="nav-text">编写一个插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Compiler-%E5%AF%B9%E8%B1%A1-%EF%BC%88%E8%B4%9F%E8%B4%A3%E7%BC%96%E8%AF%91%EF%BC%89"><span class="nav-number">1.0.4.</span> <span class="nav-text">Compiler 对象 （负责编译）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Compilation-%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.0.5.</span> <span class="nav-text">Compilation 对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%8B%E5%86%99%E6%8F%92%E4%BB%B6-1%EF%BC%9A%E6%96%87%E4%BB%B6%E6%B8%85%E5%8D%95"><span class="nav-number">1.0.6.</span> <span class="nav-text">手写插件 1：文件清单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%8B%E5%86%99%E6%8F%92%E4%BB%B6-2%EF%BC%9A%E5%8E%BB%E9%99%A4%E6%B3%A8%E9%87%8A"><span class="nav-number">1.0.7.</span> <span class="nav-text">手写插件 2：去除注释</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chen Daxian"
+      src="/LittleWhiteRabbit/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Chen Daxian</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/LittleWhiteRabbit/archives/">
+        
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Daxian</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/LittleWhiteRabbit/lib/anime.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/LittleWhiteRabbit/js/utils.js"></script>
+
+<script src="/LittleWhiteRabbit/js/motion.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/schemes/pisces.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/LittleWhiteRabbit/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
