@@ -28,7 +28,7 @@
 <meta property="og:description" content="如何解决跨域问题 JSONP：  原理是：动态插入script标签，通过script标签引入一个js文件，这个js文件载入成功后会执行我们在url参数中指定的函数，并且会把我们需要的json数据作为参数传入 由于同源策略的限制，XmlHttpRequest只允许请求当前源（域名、协议、端口）的资源，为了实现跨域请求，可以通过script标签实现跨域请求，然后在服务端输出JSON数据并执行回调函数，">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-04-13T01:46:32.673Z">
-<meta property="article:modified_time" content="2020-12-30T07:08:02.000Z">
+<meta property="article:modified_time" content="2022-04-13T01:51:23.776Z">
 <meta property="article:author" content="Chen Daxian">
 <meta property="article:tag" content="Web">
 <meta name="twitter:card" content="summary">
@@ -202,23 +202,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2022-04-13 09:46:32" itemprop="dateCreated datePublished" datetime="2022-04-13T09:46:32+08:00">2022-04-13</time>
+              <time title="Created: 2022-04-13 09:46:32 / Modified: 09:51:23" itemprop="dateCreated datePublished" datetime="2022-04-13T09:46:32+08:00">2022-04-13</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-30 15:08:02" itemprop="dateModified" datetime="2020-12-30T15:08:02+08:00">2020-12-30</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/LittleWhiteRabbit/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                  <a href="/LittleWhiteRabbit/categories/Web/" itemprop="url" rel="index"><span itemprop="name">Web</span></a>
                 </span>
             </span>
 
@@ -239,10 +233,9 @@
 <li>原理是：动态插入<code>script</code>标签，通过<code>script</code>标签引入一个<code>js</code>文件，这个<code>js</code>文件载入成功后会执行我们在<code>url</code>参数中指定的函数，并且会把我们需要的<code>json</code>数据作为参数传入</li>
 <li>由于同源策略的限制，<code>XmlHttpRequest</code>只允许请求当前源（域名、协议、端口）的资源，为了实现跨域请求，可以通过<code>script</code>标签实现跨域请求，然后在服务端输出<code>JSON</code>数据并执行回调函数，从而解决了跨域的数据请求</li>
 <li>优点是兼容性好，简单易用，支持浏览器与服务器双向通信。缺点是只支持GET请求</li>
-<li><code>JSONP</code>：<code>json+padding</code>（内填充），顾名思义，就是把<code>JSON</code>填充到一个盒子里</li>
+<li><code>JSONP</code>：<code>json+padding</code>（内填充），顾名思义，就是把<code>JSON</code>填充到一个盒子里<span id="more"></span>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">createJs</span>(<span class="params">sUrl</span>)&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> oScript = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;script&#x27;</span>);</span><br><span class="line">    oScript.<span class="property">type</span> = <span class="string">&#x27;text/javascript&#x27;</span>;</span><br><span class="line">    oScript.<span class="property">src</span> = sUrl;</span><br><span class="line">    <span class="variable language_">document</span>.<span class="title function_">getElementsByTagName</span>(<span class="string">&#x27;head&#x27;</span>)[<span class="number">0</span>].<span class="title function_">appendChild</span>(oScript);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">createJs</span>(<span class="string">&#x27;jsonp.js&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">box</span>(&#123;</span><br><span class="line">   <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;test&#x27;</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">box</span>(<span class="params">json</span>)&#123;</span><br><span class="line">    <span class="title function_">alert</span>(json.<span class="property">name</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">createJs</span>(<span class="params">sUrl</span>)&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> oScript = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;script&#x27;</span>);</span><br><span class="line">    oScript.<span class="property">type</span> = <span class="string">&#x27;text/javascript&#x27;</span>;</span><br><span class="line">    oScript.<span class="property">src</span> = sUrl;</span><br><span class="line">    <span class="variable language_">document</span>.<span class="title function_">getElementsByTagName</span>(<span class="string">&#x27;head&#x27;</span>)[<span class="number">0</span>].<span class="title function_">appendChild</span>(oScript);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">createJs</span>(<span class="string">&#x27;jsonp.js&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">box</span>(&#123;</span><br><span class="line">   <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;test&#x27;</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">box</span>(<span class="params">json</span>)&#123;</span><br><span class="line">    <span class="title function_">alert</span>(json.<span class="property">name</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p><strong>CORS</strong></p>
 <ul>
 <li>服务器端对于<code>CORS</code>的支持，主要就是通过设置<code>Access-Control-Allow-Origin</code>来进行的。如果浏览器检测到相应的设置，就可以允许<code>Ajax</code>进行跨域的访问</li>
@@ -373,16 +366,16 @@
       <div class="site-state-item site-state-posts">
           <a href="/LittleWhiteRabbit/archives/">
         
-          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

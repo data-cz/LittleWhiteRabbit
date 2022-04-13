@@ -22,14 +22,15 @@
 
   <meta name="description" content="图片上传压缩我们通常在做图片上传的时候都会遇上这样的情况，一是后端接口限制上传图片的大小，或者是即使后端没有限制大小，因为图片太大在前端渲染时太慢，造成页面加载体验较差。因此我们很有必要对上传的图片进行压缩。 本文主要包括以下流程：  用户通过 input 框选择图片 使用 FileReader 进行图片预览 将图片绘制到 canvas 画布上 使用 canvas 画布的能力进行图片压缩 将压缩后">
 <meta property="og:type" content="article">
-<meta property="og:title" content="面试详解">
+<meta property="og:title" content="canvas压缩图片">
 <meta property="og:url" content="https://data-cz.github.io/2022/04/13/canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/index.html">
 <meta property="og:site_name" content="面试详解">
 <meta property="og:description" content="图片上传压缩我们通常在做图片上传的时候都会遇上这样的情况，一是后端接口限制上传图片的大小，或者是即使后端没有限制大小，因为图片太大在前端渲染时太慢，造成页面加载体验较差。因此我们很有必要对上传的图片进行压缩。 本文主要包括以下流程：  用户通过 input 框选择图片 使用 FileReader 进行图片预览 将图片绘制到 canvas 画布上 使用 canvas 画布的能力进行图片压缩 将压缩后">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-04-13T01:46:32.663Z">
-<meta property="article:modified_time" content="2020-12-30T07:08:02.000Z">
+<meta property="article:modified_time" content="2022-04-13T01:49:42.081Z">
 <meta property="article:author" content="Chen Daxian">
+<meta property="article:tag" content="canvas">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://data-cz.github.io/2022/04/13/canvas%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/">
@@ -45,7 +46,7 @@
   };
 </script>
 
-  <title> | 面试详解</title>
+  <title>canvas压缩图片 | 面试详解</title>
   
 
 
@@ -192,7 +193,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
+          canvas压缩图片
         </h1>
 
         <div class="post-meta">
@@ -201,16 +202,19 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2022-04-13 09:46:32" itemprop="dateCreated datePublished" datetime="2022-04-13T09:46:32+08:00">2022-04-13</time>
+              <time title="Created: 2022-04-13 09:46:32 / Modified: 09:49:42" itemprop="dateCreated datePublished" datetime="2022-04-13T09:46:32+08:00">2022-04-13</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-30 15:08:02" itemprop="dateModified" datetime="2020-12-30T15:08:02+08:00">2020-12-30</time>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
               </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/LittleWhiteRabbit/categories/canvas/" itemprop="url" rel="index"><span itemprop="name">canvas</span></a>
+                </span>
+            </span>
 
           
 
@@ -230,9 +234,10 @@
 <li>使用 <code>FileReader</code> 进行图片预览</li>
 <li>将图片绘制到 <code>canvas</code> 画布上</li>
 <li>使用 <code>canvas</code> 画布的能力进行图片压缩</li>
-<li>将压缩后的 <code>Base64(DataURL)</code> 格式的数据转换成 <code>Blob</code> 对象进行上传</li>
+<li>将压缩后的 <code>Base64(DataURL)</code> 格式的数据转换成 <code>Blob</code> 对象进行上传<span id="more"></span>
+<h3 id="Input-标签来获取图片"><a href="#Input-标签来获取图片" class="headerlink" title="Input 标签来获取图片"></a>Input 标签来获取图片</h3></li>
 </ul>
-<h3 id="Input-标签来获取图片"><a href="#Input-标签来获取图片" class="headerlink" title="Input 标签来获取图片"></a>Input 标签来获取图片</h3><p>通过设置 <code>input</code> 标签的 <code>type</code> 属性为 <code>file</code>，来让用户可以选择文件，设置 <code>accept</code> 限制选择的文件类型，绑定 <code>onchange</code> 事件，来获取确认选择后的文件</p>
+<p>通过设置 <code>input</code> 标签的 <code>type</code> 属性为 <code>file</code>，来让用户可以选择文件，设置 <code>accept</code> 限制选择的文件类型，绑定 <code>onchange</code> 事件，来获取确认选择后的文件</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=<span class="string">&quot;file&quot;</span> accept=<span class="string">&quot;image/*&quot;</span> onchange=<span class="string">&quot;loadFile(event)&quot;</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="FileReader"><a href="#FileReader" class="headerlink" title="FileReader"></a>FileReader</h3><p><code>FileReader</code> 是什么，我们先来看看官方文档的介绍</p>
@@ -294,6 +299,9 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/LittleWhiteRabbit/tags/canvas/" rel="tag"># canvas</a>
+          </div>
 
         
 
@@ -301,8 +309,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/LittleWhiteRabbit/2022/04/13/canvas%E5%9F%BA%E7%A1%80/" rel="prev" title="">
-      <i class="fa fa-chevron-left"></i> 
+    <a href="/LittleWhiteRabbit/2022/04/13/canvas%E5%9F%BA%E7%A1%80/" rel="prev" title="canvas">
+      <i class="fa fa-chevron-left"></i> canvas
     </a></div>
       <div class="post-nav-item">
     <a href="/LittleWhiteRabbit/2022/04/13/cookie/" rel="next" title="请你谈谈Cookie的弊端">
@@ -382,16 +390,16 @@
       <div class="site-state-item site-state-posts">
           <a href="/LittleWhiteRabbit/archives/">
         
-          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

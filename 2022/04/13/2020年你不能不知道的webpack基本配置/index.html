@@ -20,16 +20,17 @@
     var CONFIG = {"hostname":"data-cz.github.io","root":"/LittleWhiteRabbit/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="前言在很久很久以前，在我们前端还只是页面切图仔的年代，我们开发一个html页面，通常会遇到这些情况：  需要引入十几个css和js文件，而且因为他们彼此间有着依赖关系，所以引入的顺序还不能乱。 传统的html+css+js开发方式不能不能很好地运用less&#x2F;scss等css预处理器以及ES6+的高级语法。 代码复用性差，可维护性差。  此时就需要一个处理这些问题的工具，webpack应运而生。 w">
+  <meta name="description" content="前言在很久很久以前，在我们前端还只是页面切图仔的年代，我们开发一个html页面，通常会遇到这些情况：  需要引入十几个css和js文件，而且因为他们彼此间有着依赖关系，所以引入的顺序还不能乱。 传统的html+css+js开发方式不能不能很好地运用less&#x2F;scss等css预处理器以及ES6+的高级语法。 代码复用性差，可维护性差。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="面试详解">
+<meta property="og:title" content="2020年你不能不知道的webpack基本配置">
 <meta property="og:url" content="https://data-cz.github.io/2022/04/13/2020%E5%B9%B4%E4%BD%A0%E4%B8%8D%E8%83%BD%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84webpack%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/index.html">
 <meta property="og:site_name" content="面试详解">
-<meta property="og:description" content="前言在很久很久以前，在我们前端还只是页面切图仔的年代，我们开发一个html页面，通常会遇到这些情况：  需要引入十几个css和js文件，而且因为他们彼此间有着依赖关系，所以引入的顺序还不能乱。 传统的html+css+js开发方式不能不能很好地运用less&#x2F;scss等css预处理器以及ES6+的高级语法。 代码复用性差，可维护性差。  此时就需要一个处理这些问题的工具，webpack应运而生。 w">
+<meta property="og:description" content="前言在很久很久以前，在我们前端还只是页面切图仔的年代，我们开发一个html页面，通常会遇到这些情况：  需要引入十几个css和js文件，而且因为他们彼此间有着依赖关系，所以引入的顺序还不能乱。 传统的html+css+js开发方式不能不能很好地运用less&#x2F;scss等css预处理器以及ES6+的高级语法。 代码复用性差，可维护性差。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-04-13T01:46:32.651Z">
-<meta property="article:modified_time" content="2020-12-30T07:08:02.000Z">
+<meta property="article:modified_time" content="2022-04-13T01:49:11.792Z">
 <meta property="article:author" content="Chen Daxian">
+<meta property="article:tag" content="webpack">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://data-cz.github.io/2022/04/13/2020%E5%B9%B4%E4%BD%A0%E4%B8%8D%E8%83%BD%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84webpack%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/">
@@ -45,7 +46,7 @@
   };
 </script>
 
-  <title> | 面试详解</title>
+  <title>2020年你不能不知道的webpack基本配置 | 面试详解</title>
   
 
 
@@ -192,7 +193,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
+          2020年你不能不知道的webpack基本配置
         </h1>
 
         <div class="post-meta">
@@ -201,16 +202,19 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2022-04-13 09:46:32" itemprop="dateCreated datePublished" datetime="2022-04-13T09:46:32+08:00">2022-04-13</time>
+              <time title="Created: 2022-04-13 09:46:32 / Modified: 09:49:11" itemprop="dateCreated datePublished" datetime="2022-04-13T09:46:32+08:00">2022-04-13</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-30 15:08:02" itemprop="dateModified" datetime="2020-12-30T15:08:02+08:00">2020-12-30</time>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
               </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/LittleWhiteRabbit/categories/webpack/" itemprop="url" rel="index"><span itemprop="name">webpack</span></a>
+                </span>
+            </span>
 
           
 
@@ -227,9 +231,9 @@
 <ul>
 <li>需要引入十几个css和js文件，而且因为他们彼此间有着依赖关系，所以引入的顺序还不能乱。</li>
 <li>传统的<code>html+css+js</code>开发方式不能不能很好地运用<code>less/scss</code>等css预处理器以及<code>ES6+</code>的高级语法。</li>
-<li>代码复用性差，可维护性差。</li>
+<li>代码复用性差，可维护性差。  <span id="more"></span>
+此时就需要一个处理这些问题的工具，webpack应运而生。</li>
 </ul>
-<p>此时就需要一个处理这些问题的工具，webpack应运而生。</p>
 <p>webpack可以看做是模块打包工具：它将各种静态资源（比如：<code>javaScript</code> 文件，图片文件，<code>css</code>文件等）视为模块，它能够对这些模块进行解析优化和转换等操作，最后将它们打包在一起，打包后的文件可用于在浏览器中使用。</p>
 <h3 id="webpack的优点："><a href="#webpack的优点：" class="headerlink" title="webpack的优点："></a>webpack的优点：</h3><ul>
 <li>代码转换: <code>typeScript</code> 编译成 <code>javaScript</code>、<code>scss，less</code> 编译成 <code>css</code>.</li>
@@ -356,6 +360,9 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/LittleWhiteRabbit/tags/webpack/" rel="tag"># webpack</a>
+          </div>
 
         
 
@@ -367,8 +374,8 @@
       <i class="fa fa-chevron-left"></i> 
     </a></div>
       <div class="post-nav-item">
-    <a href="/LittleWhiteRabbit/2022/04/13/canvas%E5%9F%BA%E7%A1%80/" rel="next" title="">
-       <i class="fa fa-chevron-right"></i>
+    <a href="/LittleWhiteRabbit/2022/04/13/canvas%E5%9F%BA%E7%A1%80/" rel="next" title="canvas">
+      canvas <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -444,16 +451,16 @@
       <div class="site-state-item site-state-posts">
           <a href="/LittleWhiteRabbit/archives/">
         
-          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

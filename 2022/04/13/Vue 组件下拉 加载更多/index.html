@@ -28,7 +28,7 @@
 <meta property="og:description" content="一、新建一个loadingMessage组件1.1 监听滑动1&lt;div ref&#x3D;&quot;content&quot;&gt;&lt;&#x2F;div&gt; 1.1 挂载监听12345mounted() &amp;#123;    this.$refs.content.scrollTag &#x3D; 0; &#x2F;&#x2F; 标记监听数    &#x2F;&#x2F; 挂载监听    this.listenerScroll();  &amp;#125;,">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-04-13T01:46:34.427Z">
-<meta property="article:modified_time" content="2020-12-30T07:08:02.000Z">
+<meta property="article:modified_time" content="2022-04-13T02:01:55.007Z">
 <meta property="article:author" content="Chen Daxian">
 <meta property="article:tag" content="Vue HTML">
 <meta name="twitter:card" content="summary">
@@ -202,16 +202,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2022-04-13 09:46:34" itemprop="dateCreated datePublished" datetime="2022-04-13T09:46:34+08:00">2022-04-13</time>
+              <time title="Created: 2022-04-13 09:46:34 / Modified: 10:01:55" itemprop="dateCreated datePublished" datetime="2022-04-13T09:46:34+08:00">2022-04-13</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-30 15:08:02" itemprop="dateModified" datetime="2020-12-30T15:08:02+08:00">2020-12-30</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -235,6 +229,7 @@
       
         <h2 id="一、新建一个loadingMessage组件"><a href="#一、新建一个loadingMessage组件" class="headerlink" title="一、新建一个loadingMessage组件"></a>一、新建一个loadingMessage组件</h2><h3 id="1-1-监听滑动"><a href="#1-1-监听滑动" class="headerlink" title="1.1 监听滑动"></a>1.1 监听滑动</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div ref=&quot;content&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 <h3 id="1-1-挂载监听"><a href="#1-1-挂载监听" class="headerlink" title="1.1 挂载监听"></a>1.1 挂载监听</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mounted() &#123;</span><br><span class="line">    this.$refs.content.scrollTag = 0; // 标记监听数</span><br><span class="line">    // 挂载监听</span><br><span class="line">    this.listenerScroll();</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
 <h3 id="1-2-加载数据时候设置高度"><a href="#1-2-加载数据时候设置高度" class="headerlink" title="1.2 加载数据时候设置高度"></a>1.2 加载数据时候设置高度</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">updated() &#123;</span><br><span class="line">  this.scrollHeight = this.$refs.content.scrollHeight; // 加载数据时设置滚动内容高</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
 <h3 id="1-3-离开页面销毁监听组件"><a href="#1-3-离开页面销毁监听组件" class="headerlink" title="1.3 离开页面销毁监听组件"></a>1.3 离开页面销毁监听组件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">beforeDestroy() &#123;</span><br><span class="line">  this.destroyScroll()</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
 <h3 id="1-3-watch-监听，滑动到顶部事件"><a href="#1-3-watch-监听，滑动到顶部事件" class="headerlink" title="1.3 watch 监听，滑动到顶部事件"></a>1.3 watch 监听，滑动到顶部事件</h3>   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">watch: &#123;</span><br><span class="line">  scrollHeight: function(newHeight,oldHeight)&#123; // 加载数据时设置滚动条</span><br><span class="line">    if(this.scrollTop === 0)&#123; // scrollTop 为0时说明时下拉加载操作</span><br><span class="line">      this.$refs.content.scrollTop = newHeight - oldHeight;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  interlocutor: function()&#123;</span><br><span class="line">    this.scrollToBottom();  // 滚动条至底</span><br><span class="line">    this.listenerScroll();  // 重现挂载监听</span><br><span class="line">  &#125;,</span><br><span class="line">  loadingStatus: function(newStatus,oldStatus) &#123; // 加载完全部数据时移除滚动条监听</span><br><span class="line">    if(newStatus === 2)&#123;</span><br><span class="line">      this.destroyScroll();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
@@ -260,8 +255,8 @@
       <i class="fa fa-chevron-left"></i> 基于 vue 的自定义指令集合
     </a></div>
       <div class="post-nav-item">
-    <a href="/LittleWhiteRabbit/2022/04/13/webpack%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/" rel="next" title="">
-       <i class="fa fa-chevron-right"></i>
+    <a href="/LittleWhiteRabbit/2022/04/13/webpack%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/" rel="next" title="webpack 插件原理">
+      webpack 插件原理 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -337,16 +332,16 @@
       <div class="site-state-item site-state-posts">
           <a href="/LittleWhiteRabbit/archives/">
         
-          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
