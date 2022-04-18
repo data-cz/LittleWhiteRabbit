@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/LittleWhiteRabbit/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/LittleWhiteRabbit/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/LittleWhiteRabbit/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/LittleWhiteRabbit/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/LittleWhiteRabbit/css/main.css">
+
+
+<link rel="stylesheet" href="/LittleWhiteRabbit/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"data-cz.github.io","root":"/LittleWhiteRabbit/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="this 指向使用 JavaScript 开发的时候，很多开发者多多少少会被 this 的指向搞蒙圈，但是实际上，关于 this 的指向，记住最核心的一句话：哪个对象调用函数，函数里面的 this 指向哪个对象。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="this指向问题">
+<meta property="og:url" content="https://data-cz.github.io/2022/04/13/this%E6%8C%87%E5%90%91%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="面试详解">
+<meta property="og:description" content="this 指向使用 JavaScript 开发的时候，很多开发者多多少少会被 this 的指向搞蒙圈，但是实际上，关于 this 的指向，记住最核心的一句话：哪个对象调用函数，函数里面的 this 指向哪个对象。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-04-13T02:16:10.128Z">
+<meta property="article:modified_time" content="2022-04-18T05:38:55.843Z">
+<meta property="article:author" content="Chen Daxian">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://data-cz.github.io/2022/04/13/this%E6%8C%87%E5%90%91%E9%97%AE%E9%A2%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>this指向问题 | 面试详解</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/LittleWhiteRabbit/atom.xml" title="面试详解" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/LittleWhiteRabbit/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">面试详解</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/LittleWhiteRabbit/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/LittleWhiteRabbit/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/13/this%E6%8C%87%E5%90%91%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          this指向问题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-04-13 10:16:10" itemprop="dateCreated datePublished" datetime="2022-04-13T10:16:10+08:00">2022-04-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-18 13:38:55" itemprop="dateModified" datetime="2022-04-18T13:38:55+08:00">2022-04-18</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="this-指向"><a href="#this-指向" class="headerlink" title="this 指向"></a>this 指向</h1><p>使用 JavaScript 开发的时候，很多开发者多多少少会被 this 的指向搞蒙圈，但是实际上，关于 this 的指向，记住最核心的一句话：<strong>哪个对象调用函数，函数里面的 this 指向哪个对象。</strong></p>
+<span id="more"></span>
+<h3 id="1、普通函数：谁调用指向谁"><a href="#1、普通函数：谁调用指向谁" class="headerlink" title="1、普通函数：谁调用指向谁"></a>1、普通函数：谁调用指向谁</h3><p>全局变量指向全局对象-window</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> username = <span class="string">&#x27;cn&#x27;</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">fn</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="title function_">alert</span>(<span class="variable language_">this</span>.<span class="property">username</span>) <span class="comment">//cn</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">fu</span>()</span><br></pre></td></tr></table></figure>
+
+<p>有一点需要注意，let 声明的全局变量，不是指向 window 对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> username = <span class="string">&#x27;cn&#x27;</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">fn</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="title function_">alert</span>(<span class="variable language_">this</span>.<span class="property">username</span>) <span class="comment">//undefined</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">fn</span>()</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、对象函数调用"><a href="#2、对象函数调用" class="headerlink" title="2、对象函数调用"></a>2、对象函数调用</h3><p>就是那个函数调用，this 指向哪里</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">b</span> = <span class="number">2222</span></span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  <span class="attr">a</span>: <span class="number">111</span>,</span><br><span class="line">  <span class="attr">fn</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title function_">alert</span>(<span class="variable language_">this</span>.<span class="property">a</span>) <span class="comment">//111</span></span><br><span class="line">    <span class="title function_">alert</span>(<span class="variable language_">this</span>.<span class="property">b</span>) <span class="comment">//undefined</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.<span class="title function_">fn</span>()</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-构造函数中调用"><a href="#3-构造函数中调用" class="headerlink" title="3.构造函数中调用"></a>3.构造函数中调用</h3><p>JS里的普通函数可以使用new操作符来创建一个对象，此时该函数就是一个构造函数，箭头函数不能作为构造函数。执行new操作符，其实JS内部完成了以下事情：</p>
+<ol>
+<li>创建一个空的简单JavaScript对象（即{}）；</li>
+<li>将构造函数的prototype绑定为新对象的原型对象 ；</li>
+<li>将步骤1新创建的对象作为this的上下文并执行函数 ；</li>
+<li>如果该函数没有返回对象，则返回this。</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">A</span> () &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">a</span> = <span class="number">1</span></span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">func</span> = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj = <span class="keyword">new</span> <span class="title function_">A</span>()</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(obj.<span class="property">a</span>) <span class="comment">// 1</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(obj.<span class="title function_">func</span>() === obj) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-箭头函数中调用"><a href="#4-箭头函数中调用" class="headerlink" title="4.箭头函数中调用"></a>4.箭头函数中调用</h3><p>箭头函数的this指向，和箭头函数定义所在上下文的this相同。对于普通函数，this在函数调用时才确定；而对于箭头函数，this在箭头函数定义时就已经确定了，并且不能再被修改。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  A () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">this</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  B () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">this</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> func = obj.<span class="title function_">A</span>()</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">func</span>() === obj) <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">func = obj.<span class="title function_">B</span>()</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">func</span>() === obj) <span class="comment">// false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">func</span>() === <span class="variable language_">window</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="apply、call、bind"><a href="#apply、call、bind" class="headerlink" title="apply、call、bind"></a>apply、call、bind</h3><p>在 javascript 中，call 和 apply 都是为了改变某个函数运行时的上下文（context）而存在的，换句话说，就是为了改变函数体内部 this 的指向。<br>举个例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">fruits</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line">fruits.<span class="property"><span class="keyword">prototype</span></span> = &#123;</span><br><span class="line">  <span class="attr">color</span>: <span class="string">&#x27;red&#x27;</span>,</span><br><span class="line">  <span class="attr">say</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;My color is &#x27;</span> + <span class="variable language_">this</span>.<span class="property">color</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> apple = <span class="keyword">new</span> <span class="title function_">fruits</span>()</span><br><span class="line">apple.<span class="title function_">say</span>() <span class="comment">//My color is red</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 但是如果我们有一个对象banana= &#123;color : &quot;yellow&quot;&#125; ,我们不想对它重新定义 say 方法，</span></span><br><span class="line"><span class="comment">//那么我们可以通过 call 或 apply 用 apple 的 say 方法：</span></span><br><span class="line">banana = &#123;</span><br><span class="line">  <span class="attr">color</span>: <span class="string">&#x27;yellow&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line">apple.<span class="property">say</span>.<span class="title function_">call</span>(banana) <span class="comment">//My color is yellow</span></span><br><span class="line">apple.<span class="property">say</span>.<span class="title function_">apply</span>(banana) <span class="comment">//My color is yellow</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="apply、call-区别"><a href="#apply、call-区别" class="headerlink" title="apply、call 区别"></a>apply、call 区别</h4><p>对于 apply、call 二者而言，作用完全一样，只是接受参数的方式不太一样</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">func.<span class="title function_">call</span>(<span class="variable language_">this</span>, arg1, arg2)</span><br><span class="line">func.<span class="title function_">apply</span>(<span class="variable language_">this</span>, [arg1, arg2])</span><br></pre></td></tr></table></figure>
+
+<p>apply、call 实例</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 数组追加</span></span><br><span class="line"><span class="keyword">var</span> array1 = [<span class="number">12</span> , <span class="string">&quot;foo&quot;</span> , &#123;<span class="attr">name</span>:<span class="string">&quot;Joe&quot;</span>&#125; , -<span class="number">2458</span>];</span><br><span class="line"><span class="keyword">var</span> array2 = [<span class="string">&quot;Doe&quot;</span> , <span class="number">555</span> , <span class="number">100</span>];</span><br><span class="line"><span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">push</span>.<span class="title function_">apply</span>(array1, array2);</span><br><span class="line"><span class="comment">// array1 值为  [12 , &quot;foo&quot; , &#123;name:&quot;Joe&quot;&#125; , -2458 , &quot;Doe&quot; , 555 , 100]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取数组中的最大值和最小值</span></span><br><span class="line"><span class="keyword">var</span>  numbers = [<span class="number">5</span>, <span class="number">458</span> , <span class="number">120</span> , -<span class="number">215</span> ];</span><br><span class="line"><span class="keyword">var</span> maxInNumbers = <span class="title class_">Math</span>.<span class="property">max</span>.<span class="title function_">apply</span>(<span class="title class_">Math</span>, numbers),   <span class="comment">//458</span></span><br><span class="line"><span class="keyword">var</span> maxInNumbers = <span class="title class_">Math</span>.<span class="property">max</span>.<span class="title function_">call</span>(<span class="title class_">Math</span>,<span class="number">5</span>, <span class="number">458</span> , <span class="number">120</span> , -<span class="number">215</span>); <span class="comment">//458</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 验证是否是数组</span></span><br><span class="line"><span class="title function_">functionisArray</span>(obj)&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="title class_">Object</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">toString</span>.<span class="title function_">call</span>(obj) === <span class="string">&#x27;[object Array]&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="bind"><a href="#bind" class="headerlink" title="bind()"></a>bind()</h4><p>bind()最简单的用法是创建一个函数，使这个函数不论怎么调用都有同样的 this 值。<br>bind()方法会创建一个新函数，称为绑定函数，当调用这个绑定函数时，绑定函数会以创建它时传入 bind()方法的第一个参数作为 this，传入 bind() 方法的第二个以及以后的参数加上绑定函数运行时本身的参数按照顺序作为原函数的参数来调用原函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">this</span>.<span class="property">num</span> = <span class="number">9</span></span><br><span class="line"><span class="keyword">var</span> mymodule = &#123;</span><br><span class="line">  <span class="attr">num</span>: <span class="number">81</span>,</span><br><span class="line">  <span class="attr">getNum</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">num</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">mymodule.<span class="title function_">getNum</span>() <span class="comment">// 81</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> getNum = mymodule.<span class="property">getNum</span></span><br><span class="line"><span class="title function_">getNum</span>() <span class="comment">// 9, 因为在这个例子中，&quot;this&quot;指向全局对象</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> boundGetNum = getNum.<span class="title function_">bind</span>(mymodule)</span><br><span class="line"><span class="title function_">boundGetNum</span>() <span class="comment">// 81</span></span><br></pre></td></tr></table></figure>
+
+<p>当调用 bind 函数后，bind 函数的第一个参数就是原函数作用域中 this 指向的值</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">func</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> newFunc = func.<span class="title function_">bind</span>(&#123; <span class="attr">a</span>: <span class="number">1</span> &#125;)</span><br><span class="line"><span class="title function_">newFunc</span>() <span class="comment">// 打印：&#123;a:1&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> newFunc2 = func.<span class="title function_">bind</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"><span class="title function_">newFunc2</span>() <span class="comment">// 打印：[1,2,3]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> newFunc3 = func.<span class="title function_">bind</span>(<span class="number">1</span>)</span><br><span class="line"><span class="title function_">newFunc3</span>() <span class="comment">// 打印：Number:&#123;1&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> newFunc4 = func.<span class="title function_">bind</span>(<span class="literal">undefined</span> / <span class="literal">null</span>)</span><br><span class="line"><span class="title function_">newFunc4</span>() <span class="comment">// 打印：window</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>当传入为 null 或者 undefined 时，在非严格模式下，this 指向为 window。</li>
+<li>当传入为简单值时，内部会将简单的值包装成对应类型的对象，数字就调用 Number 方法包装；字符串就调用 String 方法包装；true&#x2F;false 就调用 Boolean 方法包装。要想取到原始值，可以调用 valueOf 方法。</li>
+</ul>
+<p>传递的参数的顺序问题</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">func</span>(<span class="params">a, b, c</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(a, b, c) <span class="comment">// 打印传入的实参</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> newFunc = func.<span class="title function_">bind</span>(&#123;&#125;, <span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="title function_">newFunc</span>(<span class="number">3</span>) <span class="comment">//1,2,3</span></span><br><span class="line"><span class="comment">// 可以看到，在 bind 中传递的参数要先传入到原函数中。</span></span><br></pre></td></tr></table></figure>
+
+<p>返回的新函数被当成构造函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 原函数</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">func</span>(<span class="params">name</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>) <span class="comment">// 打印：通过&#123;name:&#x27;wy&#x27;&#125;</span></span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">name</span> = name</span><br><span class="line">&#125;</span><br><span class="line">func.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">hello</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">name</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> obj = &#123; <span class="attr">a</span>: <span class="number">1</span> &#125;</span><br><span class="line"><span class="comment">// 调用bind,返回新函数</span></span><br><span class="line"><span class="keyword">let</span> newFunc = func.<span class="title function_">bind</span>(obj)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 把新函数作为构造函数,创建实例</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> o = <span class="keyword">new</span> <span class="title function_">newFunc</span>(<span class="string">&#x27;seven&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(o.<span class="title function_">hello</span>()) <span class="comment">// 打印：&#x27;seven&#x27;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(obj) <span class="comment">// 打印：&#123;a:1&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>新函数被当成了构造函数，原函数 func 中的 this 不再指向传入给 bind 的第一个参数，而是指向用 new 创建的实例。在通过实例 o 找原型上的方法 hello 时，能够找到原函数 func 原型上的方法。</p>
+<h4 id="apply、call、bind-比较"><a href="#apply、call、bind-比较" class="headerlink" title="apply、call、bind 比较"></a>apply、call、bind 比较</h4><ul>
+<li>apply 、call 、bind 三者都是用来改变函数的 this 对象的指向的；</li>
+<li>apply 、call 、bind 三者第一个参数都是 this 要指向的对象，也就是想指定的上下文；</li>
+<li>apply 、call 、bind 三者都可以利用后续参数传参；</li>
+<li>bind 是返回对应函数，便于稍后调用；apply 、call 则是立即调用 。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  <span class="attr">x</span>: <span class="number">81</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> foo = &#123;</span><br><span class="line">  <span class="attr">getX</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">x</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(foo.<span class="property">getX</span>.<span class="title function_">bind</span>(obj)()) <span class="comment">//81</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(foo.<span class="property">getX</span>.<span class="title function_">call</span>(obj)) <span class="comment">//81</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(foo.<span class="property">getX</span>.<span class="title function_">apply</span>(obj)) <span class="comment">//81</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/LittleWhiteRabbit/2022/04/13/Vue%20%E7%BB%84%E4%BB%B6%E4%B8%8B%E6%8B%89%20%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A/" rel="prev" title="Vue 组件下拉加载更多">
+      <i class="fa fa-chevron-left"></i> Vue 组件下拉加载更多
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#this-%E6%8C%87%E5%90%91"><span class="nav-number">1.</span> <span class="nav-text">this 指向</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E6%99%AE%E9%80%9A%E5%87%BD%E6%95%B0%EF%BC%9A%E8%B0%81%E8%B0%83%E7%94%A8%E6%8C%87%E5%90%91%E8%B0%81"><span class="nav-number">1.0.1.</span> <span class="nav-text">1、普通函数：谁调用指向谁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%AF%B9%E8%B1%A1%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8"><span class="nav-number">1.0.2.</span> <span class="nav-text">2、对象函数调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%B8%AD%E8%B0%83%E7%94%A8"><span class="nav-number">1.0.3.</span> <span class="nav-text">3.构造函数中调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E4%B8%AD%E8%B0%83%E7%94%A8"><span class="nav-number">1.0.4.</span> <span class="nav-text">4.箭头函数中调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#apply%E3%80%81call%E3%80%81bind"><span class="nav-number">1.0.5.</span> <span class="nav-text">apply、call、bind</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#apply%E3%80%81call-%E5%8C%BA%E5%88%AB"><span class="nav-number">1.0.5.1.</span> <span class="nav-text">apply、call 区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bind"><span class="nav-number">1.0.5.2.</span> <span class="nav-text">bind()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#apply%E3%80%81call%E3%80%81bind-%E6%AF%94%E8%BE%83"><span class="nav-number">1.0.5.3.</span> <span class="nav-text">apply、call、bind 比较</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chen Daxian"
+      src="/LittleWhiteRabbit/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Chen Daxian</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/LittleWhiteRabbit/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Daxian</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/LittleWhiteRabbit/lib/anime.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/LittleWhiteRabbit/js/utils.js"></script>
+
+<script src="/LittleWhiteRabbit/js/motion.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/schemes/pisces.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/LittleWhiteRabbit/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
