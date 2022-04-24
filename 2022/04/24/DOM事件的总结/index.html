@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/LittleWhiteRabbit/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/LittleWhiteRabbit/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/LittleWhiteRabbit/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/LittleWhiteRabbit/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/LittleWhiteRabbit/css/main.css">
+
+
+<link rel="stylesheet" href="/LittleWhiteRabbit/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"data-cz.github.io","root":"/LittleWhiteRabbit/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="知识点主要包括以下几个方面：  基本概念：DOM事件的级别   面试不会直接问你，DOM有几个级别。但会在题目中体现：“请用DOM2 ….”。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DOM事件的总结">
+<meta property="og:url" content="https://data-cz.github.io/2022/04/24/DOM%E4%BA%8B%E4%BB%B6%E7%9A%84%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="面试详解">
+<meta property="og:description" content="知识点主要包括以下几个方面：  基本概念：DOM事件的级别   面试不会直接问你，DOM有几个级别。但会在题目中体现：“请用DOM2 ….”。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://img.smyhvae.com/20180306_1058.png">
+<meta property="og:image" content="http://img.smyhvae.com/20180204_1218.jpg">
+<meta property="og:image" content="http://img.smyhvae.com/20180306_1103.png">
+<meta property="article:published_time" content="2022-04-24T01:40:58.435Z">
+<meta property="article:modified_time" content="2022-04-24T01:59:31.980Z">
+<meta property="article:author" content="Chen Daxian">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://img.smyhvae.com/20180306_1058.png">
+
+<link rel="canonical" href="https://data-cz.github.io/2022/04/24/DOM%E4%BA%8B%E4%BB%B6%E7%9A%84%E6%80%BB%E7%BB%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>DOM事件的总结 | 面试详解</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/LittleWhiteRabbit/atom.xml" title="面试详解" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/LittleWhiteRabbit/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">面试详解</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/LittleWhiteRabbit/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/LittleWhiteRabbit/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/DOM%E4%BA%8B%E4%BB%B6%E7%9A%84%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DOM事件的总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:40:58 / Modified: 09:59:31" itemprop="dateCreated datePublished" datetime="2022-04-24T09:40:58+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>知识点主要包括以下几个方面：</strong></p>
+<ul>
+<li>基本概念：<code>DOM</code>事件的级别</li>
+</ul>
+<blockquote>
+<p>面试不会直接问你，DOM有几个级别。但会在题目中体现：“请用<code>DOM2</code> ….”。</p>
+</blockquote>
+<span id="more"></span>
+<ul>
+<li><code>DOM</code>事件模型、<code>DOM</code>事件流</li>
+</ul>
+<blockquote>
+<p>面试官如果问你“<strong>DOM事件模型</strong>”，你不一定知道怎么回事。其实说的就是<strong>捕获和冒泡</strong>。</p>
+</blockquote>
+<p><strong>DOM事件流</strong>，指的是事件传递的<strong>三个阶段</strong>。</p>
+<ul>
+<li>描述<code>DOM</code>事件捕获的具体流程</li>
+</ul>
+<blockquote>
+<p>讲的是事件的传递顺序。参数为<code>false</code>（默认）、参数为<code>true</code>，各自代表事件在什么阶段触发。</p>
+</blockquote>
+<p>能回答出来的人，寥寥无几。也许有些人可以说出一大半，但是一字不落的人，极少。</p>
+<ul>
+<li><code>Event</code>对象的常见应用（<code>Event</code>的常用<code>api</code>方法）</li>
+</ul>
+<blockquote>
+<p><code>DOM</code>事件的知识点，一方面包括事件的流程；另一方面就是：怎么去注册事件，也就是监听用户的交互行为。第三点：在响应时，<code>Event</code>对象是非常重要的。</p>
+</blockquote>
+<p><strong>自定义事件（非常重要）</strong></p>
+<blockquote>
+<p>一般人可以讲出事件和注册事件，但是如果让你讲<strong>自定义事件</strong>，能知道的人，就更少了。</p>
+</blockquote>
+<p><strong>DOM事件的级别</strong></p>
+<blockquote>
+<p><code>DOM</code>事件的级别，准确来说，是<strong>DOM标准</strong>定义的级别。包括：</p>
+</blockquote>
+<p><strong>DOM0的写法：</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">element.<span class="property">onclick</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>上面的代码是在 <code>js</code> 中的写法；如果要在<code>html</code>中写，写法是：在<code>onclick</code>属性中，加 <code>js</code> 语句。</p>
+</blockquote>
+<p><strong>DOM2的写法：</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">element.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line"></span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>【重要】上面的第三参数中，<strong>true</strong>表示事件在<strong>捕获阶段</strong>触发，<strong>false</strong>表示事件在<strong>冒泡阶段</strong>触发（默认）。如果不写，则默认为false。</p>
+</blockquote>
+<p><strong>DOM3的写法：</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">element.<span class="title function_">addEventListener</span>(<span class="string">&#x27;keyup&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line"></span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>DOM3</code>中，增加了很多事件类型，比如鼠标事件、键盘事件等。</p>
+</blockquote>
+<blockquote>
+<p>PS：为何事件没有<code>DOM1</code>的写法呢？因为，<code>DOM1</code>标准制定的时候，没有涉及与事件相关的内容。</p>
+</blockquote>
+<p><strong>总结</strong>：关于“DOM事件的级别”，能回答出以上内容即可，不会出题目让你做。</p>
+<p><strong>DOM事件模型</strong></p>
+<blockquote>
+<p><code>DOM</code>事件模型讲的就是<strong>捕获和冒泡</strong>，一般人都能回答出来。</p>
+</blockquote>
+<ul>
+<li>捕获：从上往下。</li>
+<li>冒泡：从下（目标元素）往上。</li>
+</ul>
+<p><strong>DOM事件流</strong></p>
+<blockquote>
+<p><code>DOM</code>事件流讲的就是：浏览器在于当前页面做交互时，这个事件是怎么传递到页面上的。</p>
+</blockquote>
+<p><strong>完整的事件流，分三个阶段：</strong></p>
+<ol>
+<li>捕获：从 <code>window</code> 对象传到 目标元素。</li>
+<li>目标阶段：事件通过捕获，到达目标元素，这个阶段就是目标阶段。</li>
+<li>冒泡：从<strong>目标元素</strong>传到 <code>Window</code> 对象。</li>
+</ol>
+<p><img src="http://img.smyhvae.com/20180306_1058.png"></p>
+<p><img src="http://img.smyhvae.com/20180204_1218.jpg"></p>
+<p><strong>描述DOM事件捕获的具体流程</strong></p>
+<blockquote>
+<p>很少有人能说完整。</p>
+</blockquote>
+<p><strong>捕获的流程</strong></p>
+<p><img src="http://img.smyhvae.com/20180306_1103.png"></p>
+<p><strong>说明</strong>：捕获阶段，事件依次传递的顺序是：<code>window</code> –&gt; <code>document</code> –&gt; <code>html</code>–&gt; <code>body</code> –&gt; 父元素、子元素、目标元素。</p>
+<ul>
+<li>PS1：第一个接收到事件的对象是 <strong>window</strong>（有人会说<code>body</code>，有人会说<code>html</code>，这都是错误的）。</li>
+<li>PS2：<code>JS</code>中涉及到<code>DOM</code>对象时，有两个对象最常用：<code>window</code>、<code>doucument</code>。它们俩也是最先获取到事件的。</li>
+</ul>
+<p>代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title function_">alert</span>(<span class="string">&quot;捕获 window&quot;</span>);</span><br><span class="line">&#125;, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title function_">alert</span>(<span class="string">&quot;捕获 document&quot;</span>);</span><br><span class="line">&#125;, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">document</span>.<span class="property">documentElement</span>.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title function_">alert</span>(<span class="string">&quot;捕获 html&quot;</span>);</span><br><span class="line">&#125;, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title function_">alert</span>(<span class="string">&quot;捕获 body&quot;</span>);</span><br><span class="line">&#125;, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">fatherBox.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title function_">alert</span>(<span class="string">&quot;捕获 father&quot;</span>);</span><br><span class="line">&#125;, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">childBox.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title function_">alert</span>(<span class="string">&quot;捕获 child&quot;</span>);</span><br><span class="line">&#125;, <span class="literal">true</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p><strong>补充一个知识点：</strong></p>
+<blockquote>
+<p>在 <code>js</code>中：</p>
+</blockquote>
+<ul>
+<li>如果想获取 <code>body</code> 节点，方法是：<code>document.body</code>；</li>
+<li>但是，如果想获取 <code>html</code>节点，方法是<code>document.documentElement</code>。</li>
+</ul>
+<p><strong>冒泡的流程</strong></p>
+<blockquote>
+<p>与捕获的流程相反</p>
+</blockquote>
+<p><strong>Event对象的常见 api 方法</strong></p>
+<blockquote>
+<p>用户做的是什么操作（比如，是敲键盘了，还是点击鼠标了），这些事件基本都是通过<code>Event</code>对象拿到的。这些都比较简单，我们就不讲了。我们来看看下面这几个方法：</p>
+</blockquote>
+<p><strong>方法一</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">event.<span class="title function_">preventDefault</span>();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>解释：阻止默认事件。</li>
+<li>比如，已知<code>&lt;a&gt;</code>标签绑定了click事件，此时，如果给<code>&lt;a&gt;</code>设置了这个方法，就阻止了链接的默认跳转。</li>
+</ul>
+<p><strong>方法二：阻止冒泡</strong></p>
+<blockquote>
+<p>这个在业务中很常见。</p>
+</blockquote>
+<blockquote>
+<p>有的时候，业务中不需要事件进行冒泡。比如说，业务这样要求：单击子元素做事件<code>A</code>，单击父元素做事件B，如果不阻止冒泡的话，出现的问题是：单击子元素时，子元素和父元素都会做事件<code>A</code>。这个时候，就要用到阻止冒泡了。</p>
+</blockquote>
+<blockquote>
+<p><code>w3c</code>的方法：（火狐、谷歌、<code>IE11</code>）</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">event.<span class="title function_">stopPropagation</span>();</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>IE10</code>以下则是：</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">event.<span class="property">cancelBubble</span> = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>兼容代码如下：</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">box3.<span class="property">onclick</span> = <span class="keyword">function</span> (<span class="params">event</span>) &#123;</span><br><span class="line"></span><br><span class="line">     <span class="title function_">alert</span>(<span class="string">&quot;child&quot;</span>);</span><br><span class="line"></span><br><span class="line">     <span class="comment">//阻止冒泡</span></span><br><span class="line">     event = event || <span class="variable language_">window</span>.<span class="property">event</span>;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (event &amp;&amp; event.<span class="property">stopPropagation</span>) &#123;</span><br><span class="line">         event.<span class="title function_">stopPropagation</span>();</span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">         event.<span class="property">cancelBubble</span> = <span class="literal">true</span>;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上方代码中，我们对<code>box3</code>进行了阻止冒泡，产生的效果是：事件不会继续传递到 <code>father</code>、<code>grandfather</code>、<code>body</code>了。</p>
+</blockquote>
+<p><strong>方法三：设置事件优先级</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">event.<span class="title function_">stopImmediatePropagation</span>();</span><br></pre></td></tr></table></figure>
+
+<p>这个方法比较长，一般人没听说过。解释如下：</p>
+<blockquote>
+<p>比如说，我用<code>addEventListener</code>给某按钮同时注册了事件<code>A</code>、事件<code>B</code>。此时，如果我单击按钮，就会依次执行事件A和事件<code>B</code>。现在要求：单击按钮时，只执行事件A，不执行事件<code>B</code>。该怎么做呢？这是时候，就可以用到<code>stopImmediatePropagation</code>方法了。做法是：在事件A的响应函数中加入这句话。</p>
+</blockquote>
+<blockquote>
+<p>大家要记住 <code>event</code> 有这个方法。</p>
+</blockquote>
+<p><strong>属性4、属性5（事件委托中用到）</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">event.<span class="property">currentTarget</span>   <span class="comment">//当前所绑定的事件对象。在事件委托中，指的是【父元素】。</span></span><br><span class="line"></span><br><span class="line">event.<span class="property">target</span>  <span class="comment">//当前被点击的元素。在事件委托中，指的是【子元素】。</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上面这两个属性，在事件委托中经常用到。</p>
+<blockquote>
+<p><strong>总结</strong>：上面这几项，非常重要，但是容易弄混淆。</p>
+</blockquote>
+<p><strong>自定义事件</strong></p>
+<blockquote>
+<p>自定义事件的代码如下：</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">var</span> myEvent = <span class="keyword">new</span> <span class="title class_">Event</span>(<span class="string">&#x27;clickTest&#x27;</span>);</span><br><span class="line">   element.<span class="title function_">addEventListener</span>(<span class="string">&#x27;clickTest&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">       <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;smyhvae&#x27;</span>);</span><br><span class="line">   &#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//元素注册事件</span></span><br><span class="line">   element.<span class="title function_">dispatchEvent</span>(myEvent); <span class="comment">//注意，参数是写事件对象 myEvent，不是写 事件名 clickTest</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上面这个事件是定义完了之后，就直接自动触发了。在正常的业务中，这个事件一般是和别的事件结合用的。比如延时器设置按钮的动作：</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myEvent = <span class="keyword">new</span> <span class="title class_">Event</span>(<span class="string">&#x27;clickTest&#x27;</span>);</span><br><span class="line"></span><br><span class="line">element.<span class="title function_">addEventListener</span>(<span class="string">&#x27;clickTest&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;smyhvae&#x27;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    element.<span class="title function_">dispatchEvent</span>(myEvent); <span class="comment">//注意，参数是写事件对象 myEvent，不是写 事件名 clickTest</span></span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/LittleWhiteRabbit/2022/04/24/canvas%E5%9F%BA%E7%A1%80/" rel="prev" title="canvas基础">
+      <i class="fa fa-chevron-left"></i> canvas基础
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/LittleWhiteRabbit/2022/04/24/HTML/" rel="next" title="HTML标签">
+      HTML标签 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chen Daxian"
+      src="/LittleWhiteRabbit/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Chen Daxian</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/LittleWhiteRabbit/archives/">
+        
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Daxian</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/LittleWhiteRabbit/lib/anime.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/LittleWhiteRabbit/js/utils.js"></script>
+
+<script src="/LittleWhiteRabbit/js/motion.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/schemes/pisces.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/LittleWhiteRabbit/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

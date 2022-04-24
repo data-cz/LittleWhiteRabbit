@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/LittleWhiteRabbit/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/LittleWhiteRabbit/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/LittleWhiteRabbit/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/LittleWhiteRabbit/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/LittleWhiteRabbit/css/main.css">
+
+
+<link rel="stylesheet" href="/LittleWhiteRabbit/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"data-cz.github.io","root":"/LittleWhiteRabbit/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="面试详解">
+<meta property="og:url" content="https://data-cz.github.io/page/4/index.html">
+<meta property="og:site_name" content="面试详解">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Chen Daxian">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://data-cz.github.io/page/4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>面试详解</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/LittleWhiteRabbit/atom.xml" title="面试详解" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/LittleWhiteRabbit/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">面试详解</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/LittleWhiteRabbit/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/LittleWhiteRabbit/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/js%E7%AE%97%E6%B3%95%E7%BB%8F%E5%85%B8%E6%A1%88%E4%BE%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/24/js%E7%AE%97%E6%B3%95%E7%BB%8F%E5%85%B8%E6%A1%88%E4%BE%8B/" class="post-title-link" itemprop="url">JS 算法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:31" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="递归算法"><a href="#递归算法" class="headerlink" title="递归算法"></a>递归算法</h1><p>递归算法，是将问题转化为规模缩小的同类问题的子问题，每一个子问题都用一个同样的算法去解决。一个递归算法就是<strong>函数调用自身去解决它的子问题</strong>。</p>
+<p><strong>递归算法的特点</strong>：</p>
+<ul>
+<li>在函数过程中调用自身。</li>
+<li>必须有一个明确的条件判断递归的结束，既递归出口。</li>
+</ul>
+<p><strong>递归算法的步骤</strong></p>
+<ul>
+<li>假设递归函数已经写好</li>
+<li>寻找递推关系</li>
+<li>将递推关系的结构转换为递归体</li>
+<li>将临界条件加入到递归体中
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/js%E7%AE%97%E6%B3%95%E7%BB%8F%E5%85%B8%E6%A1%88%E4%BE%8B/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/js%E6%95%B0%E7%BB%84%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/24/js%E6%95%B0%E7%BB%84%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">JS 数组操作</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:32" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="js-数组操作"><a href="#js-数组操作" class="headerlink" title="js 数组操作"></a>js 数组操作</h1><p>在开发中，数组的使用场景非常多，平日中也涉及到很多数组相关操作，对一些常见的操作方法进行总结和收藏，在开发中就能信手拈来，大大提高开发效率。</p>
+<h2 id="随机排序"><a href="#随机排序" class="headerlink" title="随机排序"></a>随机排序</h2><p>1、生成随机数</p>
+<p>遍历数组，每次循环都随机一个在数组长度范围内的数，并交换本次循环的位置和随机数位置上的元素</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/js%E6%95%B0%E7%BB%84%E6%93%8D%E4%BD%9C/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/js%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/24/js%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">JS 数组操作</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:32" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="JS-数据类型"><a href="#JS-数据类型" class="headerlink" title="JS 数据类型"></a>JS 数据类型</h1><p><strong>JavaScript 是弱类型语言</strong>，而且 JavaScript 声明变量的时候并没有预先确定的类型，变量的类型就是其值的类型，也就是说变量当前的类型由其值所决定,夸张点说上一秒种的 String，下一秒可能就是个 Number 类型了，这个过程可能就进行了某些操作发生了强制类型转换。</p>
+<p>js 数据分为两种类型：原始数据类型和引用数据类型。</p>
+<ul>
+<li>基本数据类型有：string、number、boolean、undefined、null 和 symbol（符号）</li>
+<li>引用数据类型有：Object、Function、Date、RegExp 等。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/js%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E6%80%BB%E7%BB%93/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/js%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6%E5%8F%8AeventLoop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/24/js%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6%E5%8F%8AeventLoop/" class="post-title-link" itemprop="url">JS 执行机制</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:31" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="JS-执行机制"><a href="#JS-执行机制" class="headerlink" title="JS 执行机制"></a>JS 执行机制</h1><p>js 是一门<strong>单线程语言</strong>。所谓单线程，是指在 JavaScript 引擎中负责解释和执行 JavaScript 代码的线程唯一，同一时间上只能执行一件任务。     </p>
+<p>js 引擎有一个主线程（main thread）用来解释和执行 js 程序，还存在其他的线程。例如：处理 ajax 请求的线程、处理 DOM 事件的线程、定时器线程、读写文件的线程(例如在 node.js 中)等等。这些线程可能存在于 js 引擎之内，也可能存在于 js 引擎之外，在此我们不做区分。不妨叫它们工作线程。  </p>
+<p>为什么是 js 是单线程的呢？这是因为 JavaScript 可以修改 DOM 结构，如果 JavaScript 引擎线程不是单线程的，那么可以同时执行多段 JavaScript，如果这多段 JavaScript 都修改 DOM，那么就会出现 DOM 冲突。为了避免 DOM 渲染的冲突，可以采用单线程或者死锁，JavaScript 采用了单线程方案。  </p>
+<p>但单线程有一个问题：如果任务队列里有一个任务耗时很长，导致这个任务后面的任务一直排队等待，就会发生页面卡死，严重影响用户体验。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/js%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6%E5%8F%8AeventLoop/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/js%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/24/js%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86/" class="post-title-link" itemprop="url">JS 异步处理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:32" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>javascript语言的执行环境是<strong>单线程</strong>（single thread），就是指一次只能完成一件任务。如果有多个任务，就必须排队，前面一个任务完成，再执行后面一个任务，以此类推。</p>
+<p>这种模式的好处是实现起来比较简单，执行环境相对单纯；但是只要耗时比较多，假如有一个任务耗时很长，后面的任务都必须排队等着，会拖延整个程序的执行。为了解决这个问题，Javascript语言将任务的执行模式分成两种：同步（Synchronous）和异步（Asynchronous）。  </p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/js%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/js%E5%8E%BB%E9%87%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/24/js%E5%8E%BB%E9%87%8D/" class="post-title-link" itemprop="url">JavaScript数组去重</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:32" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="JavaScript数组去重（12种方法，史上最全）"><a href="#JavaScript数组去重（12种方法，史上最全）" class="headerlink" title="JavaScript数组去重（12种方法，史上最全）"></a>JavaScript数组去重（12种方法，史上最全）</h1><p>数组去重，一般都是在面试的时候才会碰到，一般是要求手写数组去重方法的代码。如果是被提问到，数组去重的方法有哪些？你能答出其中的10种，面试官很有可能对你刮目相看。<br>在真实的项目中碰到的数组去重，一般都是后台去处理，很少让前端处理数组去重。虽然日常项目用到的概率比较低，但还是需要了解一下，以防面试的时候可能回被问到。<br>数组去重的方法</p>
+<h2 id="一、利用ES6-Set去重（ES6中最常用）"><a href="#一、利用ES6-Set去重（ES6中最常用）" class="headerlink" title="一、利用ES6 Set去重（ES6中最常用）"></a>一、利用ES6 Set去重（ES6中最常用）</h2> <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">unique</span> (arr) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="title class_">Array</span>.<span class="title function_">from</span>(<span class="keyword">new</span> <span class="title class_">Set</span>(arr))</span><br><span class="line">&#125;<span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">1</span>,<span class="string">&#x27;true&#x27;</span>,<span class="string">&#x27;true&#x27;</span>,<span class="literal">true</span>,<span class="literal">true</span>,<span class="number">15</span>,<span class="number">15</span>,<span class="literal">false</span>,<span class="literal">false</span>, <span class="literal">undefined</span>,<span class="literal">undefined</span>, <span class="literal">null</span>,<span class="literal">null</span>, <span class="title class_">NaN</span>, <span class="title class_">NaN</span>,<span class="string">&#x27;NaN&#x27;</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;a&#x27;</span>,&#123;&#125;,&#123;&#125;];<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">unique</span>(arr))</span><br><span class="line"> <span class="comment">//[1, &quot;true&quot;, true, 15, false, undefined, null, NaN, &quot;NaN&quot;, 0, &quot;a&quot;, &#123;&#125;, &#123;&#125;]</span></span><br></pre></td></tr></table></figure>
+
+<p>不考虑兼容性，这种去重的方法代码最少。这种方法还无法去掉“{}”空对象，后面的高阶方法会添加去掉重复“{}”的方法。</p>
+<h2 id="二、利用for嵌套for，然后splice去重（ES5中最常用）"><a href="#二、利用for嵌套for，然后splice去重（ES5中最常用）" class="headerlink" title="二、利用for嵌套for，然后splice去重（ES5中最常用）"></a>二、利用for嵌套for，然后splice去重（ES5中最常用）</h2> <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">unique</span>(<span class="params">arr</span>)&#123;            </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;arr.<span class="property">length</span>; i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">var</span> j=i+<span class="number">1</span>; j&lt;arr.<span class="property">length</span>; j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(arr[i]==arr[j])&#123;         <span class="comment">//第一个等同于第二个，splice方法删除第二个</span></span><br><span class="line">                    arr.<span class="title function_">splice</span>(j,<span class="number">1</span>);</span><br><span class="line">                    j--;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">return</span> arr;</span><br><span class="line">&#125;<span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">1</span>,<span class="string">&#x27;true&#x27;</span>,<span class="string">&#x27;true&#x27;</span>,<span class="literal">true</span>,<span class="literal">true</span>,<span class="number">15</span>,<span class="number">15</span>,<span class="literal">false</span>,<span class="literal">false</span>, <span class="literal">undefined</span>,<span class="literal">undefined</span>, <span class="literal">null</span>,<span class="literal">null</span>, <span class="title class_">NaN</span>, <span class="title class_">NaN</span>,<span class="string">&#x27;NaN&#x27;</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;a&#x27;</span>,&#123;&#125;,&#123;&#125;];</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">unique</span>(arr))</span><br><span class="line">    <span class="comment">//[1, &quot;true&quot;, 15, false, undefined, NaN, NaN, &quot;NaN&quot;, &quot;a&quot;, &#123;…&#125;, &#123;…&#125;]     //NaN和&#123;&#125;没有去重，两个null直接消失了</span></span><br></pre></td></tr></table></figure>
+<p>双层循环，外层循环元素，内层循环时比较值。值相同时，则删去这个值。<br>想快速学习更多常用的ES6语法，可以看我之前的文章《学习ES6笔记──工作中常用到的ES6语法》。</p>
+<h2 id="三、利用indexOf去重"><a href="#三、利用indexOf去重" class="headerlink" title="三、利用indexOf去重"></a>三、利用indexOf去重</h2> <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">unique</span>(<span class="params">arr</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="title class_">Array</span>.<span class="title function_">isArray</span>(arr)) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;type error!&#x27;</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> array = [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.<span class="property">length</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (array .<span class="title function_">indexOf</span>(arr[i]) === -<span class="number">1</span>) &#123;</span><br><span class="line">            array .<span class="title function_">push</span>(arr[i])</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> array;</span><br><span class="line">&#125;<span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">1</span>,<span class="string">&#x27;true&#x27;</span>,<span class="string">&#x27;true&#x27;</span>,<span class="literal">true</span>,<span class="literal">true</span>,<span class="number">15</span>,<span class="number">15</span>,<span class="literal">false</span>,<span class="literal">false</span>, <span class="literal">undefined</span>,<span class="literal">undefined</span>, <span class="literal">null</span>,<span class="literal">null</span>, <span class="title class_">NaN</span>, <span class="title class_">NaN</span>,<span class="string">&#x27;NaN&#x27;</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;a&#x27;</span>,&#123;&#125;,&#123;&#125;];<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">unique</span>(arr))</span><br><span class="line">   <span class="comment">// [1, &quot;true&quot;, true, 15, false, undefined, null, NaN, NaN, &quot;NaN&quot;, 0, &quot;a&quot;, &#123;…&#125;, &#123;…&#125;]  //NaN、&#123;&#125;没有去重</span></span><br></pre></td></tr></table></figure>
+<p>新建一个空的结果数组，for 循环原数组，判断结果数组是否存在当前元素，如果有相同的值则跳过，不相同则push进数组。</p>
+<h2 id="四、利用sort"><a href="#四、利用sort" class="headerlink" title="四、利用sort()"></a>四、利用sort()</h2> <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">unique</span>(<span class="params">arr</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="title class_">Array</span>.<span class="title function_">isArray</span>(arr)) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;type error!&#x27;</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    arr = arr.<span class="title function_">sort</span>()</span><br><span class="line">    <span class="keyword">var</span> arrry= [arr[<span class="number">0</span>]];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt; arr.<span class="property">length</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (arr[i] !== arr[i-<span class="number">1</span>]) &#123;</span><br><span class="line">            arrry.<span class="title function_">push</span>(arr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arrry;</span><br><span class="line">&#125;</span><br><span class="line">     <span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">1</span>,<span class="string">&#x27;true&#x27;</span>,<span class="string">&#x27;true&#x27;</span>,<span class="literal">true</span>,<span class="literal">true</span>,<span class="number">15</span>,<span class="number">15</span>,<span class="literal">false</span>,<span class="literal">false</span>, <span class="literal">undefined</span>,<span class="literal">undefined</span>, <span class="literal">null</span>,<span class="literal">null</span>, <span class="title class_">NaN</span>, <span class="title class_">NaN</span>,<span class="string">&#x27;NaN&#x27;</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;a&#x27;</span>,&#123;&#125;,&#123;&#125;];</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">unique</span>(arr))<span class="comment">// [0, 1, 15, &quot;NaN&quot;, NaN, NaN, &#123;…&#125;, &#123;…&#125;, &quot;a&quot;, false, null, true, &quot;true&quot;, undefined]      //NaN、&#123;&#125;没有去重</span></span><br></pre></td></tr></table></figure>
+<p>利用sort()排序方法，然后根据排序后的结果进行遍历及相邻元素比对。</p>
+<h2 id="五、利用对象的属性不能相同的特点进行去重（这种数组去重的方法有问题，不建议用，有待改进）"><a href="#五、利用对象的属性不能相同的特点进行去重（这种数组去重的方法有问题，不建议用，有待改进）" class="headerlink" title="五、利用对象的属性不能相同的特点进行去重（这种数组去重的方法有问题，不建议用，有待改进）"></a>五、利用对象的属性不能相同的特点进行去重（这种数组去重的方法有问题，不建议用，有待改进）</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">unique</span>(<span class="params">arr</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="title class_">Array</span>.<span class="title function_">isArray</span>(arr)) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;type error!&#x27;</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> arrry= [];</span><br><span class="line">     <span class="keyword">var</span>  obj = &#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.<span class="property">length</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!obj[arr[i]]) &#123;</span><br><span class="line">            arrry.<span class="title function_">push</span>(arr[i])</span><br><span class="line">            obj[arr[i]] = <span class="number">1</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            obj[arr[i]]++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arrry;</span><br><span class="line">&#125;</span><br><span class="line">    <span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">1</span>,<span class="string">&#x27;true&#x27;</span>,<span class="string">&#x27;true&#x27;</span>,<span class="literal">true</span>,<span class="literal">true</span>,<span class="number">15</span>,<span class="number">15</span>,<span class="literal">false</span>,<span class="literal">false</span>, <span class="literal">undefined</span>,<span class="literal">undefined</span>, <span class="literal">null</span>,<span class="literal">null</span>, <span class="title class_">NaN</span>, <span class="title class_">NaN</span>,<span class="string">&#x27;NaN&#x27;</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;a&#x27;</span>,&#123;&#125;,&#123;&#125;];</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">unique</span>(arr))<span class="comment">//[1, &quot;true&quot;, 15, false, undefined, null, NaN, 0, &quot;a&quot;, &#123;…&#125;]    //两个true直接去掉了，NaN和&#123;&#125;去重</span></span><br></pre></td></tr></table></figure>
+<h2 id="六、利用includes"><a href="#六、利用includes" class="headerlink" title="六、利用includes"></a>六、利用includes</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">unique</span>(<span class="params">arr</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="title class_">Array</span>.<span class="title function_">isArray</span>(arr)) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;type error!&#x27;</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> array =[];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.<span class="property">length</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>( !array.<span class="title function_">includes</span>( arr[i]) ) &#123;<span class="comment">//includes 检测数组是否有某个值</span></span><br><span class="line">                    array.<span class="title function_">push</span>(arr[i]);</span><br><span class="line">              &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> array</span><br><span class="line">&#125;<span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">1</span>,<span class="string">&#x27;true&#x27;</span>,<span class="string">&#x27;true&#x27;</span>,<span class="literal">true</span>,<span class="literal">true</span>,<span class="number">15</span>,<span class="number">15</span>,<span class="literal">false</span>,<span class="literal">false</span>, <span class="literal">undefined</span>,<span class="literal">undefined</span>, <span class="literal">null</span>,<span class="literal">null</span>, <span class="title class_">NaN</span>, <span class="title class_">NaN</span>,<span class="string">&#x27;NaN&#x27;</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;a&#x27;</span>,&#123;&#125;,&#123;&#125;];</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">unique</span>(arr))</span><br><span class="line">    <span class="comment">//[1, &quot;true&quot;, true, 15, false, undefined, null, NaN, &quot;NaN&quot;, 0, &quot;a&quot;, &#123;…&#125;, &#123;…&#125;]     //&#123;&#125;没有去重</span></span><br></pre></td></tr></table></figure>
+<h2 id="七、利用hasOwnProperty"><a href="#七、利用hasOwnProperty" class="headerlink" title="七、利用hasOwnProperty"></a>七、利用hasOwnProperty</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">unique</span>(<span class="params">arr</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> obj = &#123;&#125;;</span><br><span class="line">    <span class="keyword">return</span> arr.<span class="title function_">filter</span>(<span class="keyword">function</span>(<span class="params">item, index, arr</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> obj.<span class="title function_">hasOwnProperty</span>(<span class="keyword">typeof</span> item + item) ? <span class="literal">false</span> : (obj[<span class="keyword">typeof</span> item + item] = <span class="literal">true</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">    <span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">1</span>,<span class="string">&#x27;true&#x27;</span>,<span class="string">&#x27;true&#x27;</span>,<span class="literal">true</span>,<span class="literal">true</span>,<span class="number">15</span>,<span class="number">15</span>,<span class="literal">false</span>,<span class="literal">false</span>, <span class="literal">undefined</span>,<span class="literal">undefined</span>, <span class="literal">null</span>,<span class="literal">null</span>, <span class="title class_">NaN</span>, <span class="title class_">NaN</span>,<span class="string">&#x27;NaN&#x27;</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;a&#x27;</span>,&#123;&#125;,&#123;&#125;];</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">unique</span>(arr))<span class="comment">//[1, &quot;true&quot;, true, 15, false, undefined, null, NaN, &quot;NaN&quot;, 0, &quot;a&quot;, &#123;…&#125;]   //所有的都去重了</span></span><br></pre></td></tr></table></figure>
+<p> 利用hasOwnProperty 判断是否存在对象属性</p>
+<h2 id="八、利用filter"><a href="#八、利用filter" class="headerlink" title="八、利用filter"></a>八、利用filter</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">unique</span>(<span class="params">arr</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> arr.<span class="title function_">filter</span>(<span class="keyword">function</span>(<span class="params">item, index, arr</span>) &#123;</span><br><span class="line">    <span class="comment">//当前元素，在原始数组中的第一个索引==当前索引值，否则返回当前元素</span></span><br><span class="line">    <span class="keyword">return</span> arr.<span class="title function_">indexOf</span>(item, <span class="number">0</span>) === index;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line">    <span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">1</span>,<span class="string">&#x27;true&#x27;</span>,<span class="string">&#x27;true&#x27;</span>,<span class="literal">true</span>,<span class="literal">true</span>,<span class="number">15</span>,<span class="number">15</span>,<span class="literal">false</span>,<span class="literal">false</span>, <span class="literal">undefined</span>,<span class="literal">undefined</span>, <span class="literal">null</span>,<span class="literal">null</span>, <span class="title class_">NaN</span>, <span class="title class_">NaN</span>,<span class="string">&#x27;NaN&#x27;</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;a&#x27;</span>,&#123;&#125;,&#123;&#125;];</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">unique</span>(arr))<span class="comment">//[1, &quot;true&quot;, true, 15, false, undefined, null, &quot;NaN&quot;, 0, &quot;a&quot;, &#123;…&#125;, &#123;…&#125;]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="九、利用递归去重"><a href="#九、利用递归去重" class="headerlink" title="九、利用递归去重"></a>九、利用递归去重</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">unique</span>(<span class="params">arr</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> array= arr;</span><br><span class="line">        <span class="keyword">var</span> len = array.<span class="property">length</span>;</span><br><span class="line"></span><br><span class="line">    array.<span class="title function_">sort</span>(<span class="keyword">function</span>(<span class="params">a,b</span>)&#123;   <span class="comment">//排序后更加方便去重</span></span><br><span class="line">        <span class="keyword">return</span> a - b;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">loop</span>(<span class="params">index</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(index &gt;= <span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(array[index] === array[index-<span class="number">1</span>])&#123;</span><br><span class="line">                array.<span class="title function_">splice</span>(index,<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="title function_">loop</span>(index - <span class="number">1</span>);    <span class="comment">//递归loop，然后数组去重</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_">loop</span>(len-<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> array;</span><br><span class="line">&#125;</span><br><span class="line"> <span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">1</span>,<span class="string">&#x27;true&#x27;</span>,<span class="string">&#x27;true&#x27;</span>,<span class="literal">true</span>,<span class="literal">true</span>,<span class="number">15</span>,<span class="number">15</span>,<span class="literal">false</span>,<span class="literal">false</span>, <span class="literal">undefined</span>,<span class="literal">undefined</span>, <span class="literal">null</span>,<span class="literal">null</span>, <span class="title class_">NaN</span>, <span class="title class_">NaN</span>,<span class="string">&#x27;NaN&#x27;</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;a&#x27;</span>,&#123;&#125;,&#123;&#125;];</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">unique</span>(arr))<span class="comment">//[1, &quot;a&quot;, &quot;true&quot;, true, 15, false, 1, &#123;…&#125;, null, NaN, NaN, &quot;NaN&quot;, 0, &quot;a&quot;, &#123;…&#125;, undefined]</span></span><br></pre></td></tr></table></figure>
+<h2 id="十、利用Map数据结构去重"><a href="#十、利用Map数据结构去重" class="headerlink" title="十、利用Map数据结构去重"></a>十、利用Map数据结构去重</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">arrayNonRepeatfy</span>(<span class="params">arr</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> map = <span class="keyword">new</span> <span class="title class_">Map</span>();</span><br><span class="line">  <span class="keyword">let</span> array = <span class="keyword">new</span> <span class="title class_">Array</span>();  <span class="comment">// 数组用于返回结果</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; arr.<span class="property">length</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span>(map .<span class="title function_">has</span>(arr[i])) &#123;  <span class="comment">// 如果有该key值</span></span><br><span class="line">      map .<span class="title function_">set</span>(arr[i], <span class="literal">true</span>); </span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; </span><br><span class="line">      map .<span class="title function_">set</span>(arr[i], <span class="literal">false</span>);   <span class="comment">// 如果没有该key值</span></span><br><span class="line">      array .<span class="title function_">push</span>(arr[i]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; </span><br><span class="line">  <span class="keyword">return</span> array ;</span><br><span class="line">&#125;</span><br><span class="line"> <span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">1</span>,<span class="string">&#x27;true&#x27;</span>,<span class="string">&#x27;true&#x27;</span>,<span class="literal">true</span>,<span class="literal">true</span>,<span class="number">15</span>,<span class="number">15</span>,<span class="literal">false</span>,<span class="literal">false</span>, <span class="literal">undefined</span>,<span class="literal">undefined</span>, <span class="literal">null</span>,<span class="literal">null</span>, <span class="title class_">NaN</span>, <span class="title class_">NaN</span>,<span class="string">&#x27;NaN&#x27;</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;a&#x27;</span>,&#123;&#125;,&#123;&#125;];</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">unique</span>(arr))<span class="comment">//[1, &quot;a&quot;, &quot;true&quot;, true, 15, false, 1, &#123;…&#125;, null, NaN, NaN, &quot;NaN&quot;, 0, &quot;a&quot;, &#123;…&#125;, undefined]</span></span><br></pre></td></tr></table></figure>
+<p>创建一个空Map数据结构，遍历需要去重的数组，把数组的每一个元素作为key存到Map中。由于Map中不会出现相同的key值，所以最终得到的就是去重后的结果。</p>
+<h2 id="十一、利用reduce-includes"><a href="#十一、利用reduce-includes" class="headerlink" title="十一、利用reduce+includes"></a>十一、利用reduce+includes</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">unique</span>(<span class="params">arr</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> arr.<span class="title function_">reduce</span>(<span class="function">(<span class="params">prev,cur</span>) =&gt;</span> prev.<span class="title function_">includes</span>(cur) ? prev : [...prev,cur],[]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">1</span>,<span class="string">&#x27;true&#x27;</span>,<span class="string">&#x27;true&#x27;</span>,<span class="literal">true</span>,<span class="literal">true</span>,<span class="number">15</span>,<span class="number">15</span>,<span class="literal">false</span>,<span class="literal">false</span>, <span class="literal">undefined</span>,<span class="literal">undefined</span>, <span class="literal">null</span>,<span class="literal">null</span>, <span class="title class_">NaN</span>, <span class="title class_">NaN</span>,<span class="string">&#x27;NaN&#x27;</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;a&#x27;</span>,&#123;&#125;,&#123;&#125;];<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">unique</span>(arr));<span class="comment">// [1, &quot;true&quot;, true, 15, false, undefined, null, NaN, &quot;NaN&quot;, 0, &quot;a&quot;, &#123;…&#125;, &#123;…&#125;]</span></span><br></pre></td></tr></table></figure>
+<h2 id="十二、-…new-Set-arr"><a href="#十二、-…new-Set-arr" class="headerlink" title="十二、[…new Set(arr)]"></a>十二、[…new Set(arr)]</h2> <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[...<span class="keyword">new</span> <span class="title class_">Set</span>(arr)] <span class="comment">//代码就是这么少----（其实，严格来说并不算是一种，相对于第一种方法来说只是简化了代码）</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/js%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/24/js%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/" class="post-title-link" itemprop="url">JS原型和原型链</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:32" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="JS原型和原型链"><a href="#JS原型和原型链" class="headerlink" title="JS原型和原型链"></a>JS原型和原型链</h1><h3 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h3><blockquote>
+<p>每个构造函数(constructor)都有一个原型对象(prototype), 原型对象都包含一个指向构造函数的指针, 而实例(instance)都包含一个指向原型对象的内部指针.</p>
+</blockquote>
+<p>我们先来看一个例子</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/js%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/js%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%8F%8A%E9%97%AD%E5%8C%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/24/js%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%8F%8A%E9%97%AD%E5%8C%85/" class="post-title-link" itemprop="url">JS 作用域与闭包</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:32" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="JS-作用域与闭包"><a href="#JS-作用域与闭包" class="headerlink" title="JS 作用域与闭包"></a>JS 作用域与闭包</h1><h3 id="JS-作用域"><a href="#JS-作用域" class="headerlink" title="JS 作用域"></a>JS 作用域</h3><p>Javascript 变量的作用域无非就是两种：<strong>全局变量和局部变量</strong>。Javascript 语言的特殊之处，就在于函数内部可以直接读取全局变量。</p>
+<h4 id="全局作用域-Global-Scope"><a href="#全局作用域-Global-Scope" class="headerlink" title="全局作用域(Global Scope)"></a>全局作用域(Global Scope)</h4><p>在代码中任何地方都能访问到的对象拥有全局作用域，一般来说一下几种情形拥有全局作用域：</p>
+<ol>
+<li><p>最外层函数和在最外层函数外面定义的变量拥有全局作用域</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/js%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%8F%8A%E9%97%AD%E5%8C%85/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/Handwritten-code/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/24/Handwritten-code/" class="post-title-link" itemprop="url">手写事件侦听器，并要求兼容浏览器</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:32" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>手写事件侦听器，并要求兼容浏览器</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> eventUtil = &#123;</span><br><span class="line">  <span class="attr">getEvent</span>: <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> event || <span class="variable language_">window</span>.<span class="property">event</span>;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="attr">getTarget</span>: <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> event.<span class="property">target</span> || event.<span class="property">srcElement</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&lt;!--more--&gt;</span><br><span class="line">  <span class="attr">addListener</span>: <span class="keyword">function</span>(<span class="params">element, type, hander</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (element.<span class="property">addEventListener</span>) &#123;</span><br><span class="line">          element.<span class="title function_">addEventListener</span>(type, hander, <span class="literal">false</span>);</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (element.<span class="property">attachEvent</span>) &#123;</span><br><span class="line">          element.<span class="title function_">attachEvent</span>(<span class="string">&#x27;on&#x27;</span> + type, hander);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          element[<span class="string">&#x27;on&#x27;</span> + type] = hander;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="attr">removeListener</span>: <span class="keyword">function</span>(<span class="params">element, type, hander</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (element.<span class="property">removeEventListener</span>) &#123;</span><br><span class="line">          element.<span class="title function_">removeEventListener</span>(type, hander, <span class="literal">false</span>);</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (element.<span class="property">deattachEvent</span>) &#123;</span><br><span class="line">          element.<span class="title function_">detachEvent</span>(type, hander);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          element[<span class="string">&#x27;on&#x27;</span> + type] = <span class="literal">null</span>;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="attr">preventDefault</span>: <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (event.<span class="property">preventDefault</span>) &#123;</span><br><span class="line">          event.<span class="title function_">preventDefault</span>();</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          event.<span class="property">returnValue</span> = <span class="literal">false</span>;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="attr">stopPropagation</span>: <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (event.<span class="property">stopPropagation</span>) &#123;</span><br><span class="line">          event.<span class="title function_">stopPropagation</span>();</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          event.<span class="property">cancelBubble</span> = <span class="literal">true</span>;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line">(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> btn = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;btn&quot;</span>);</span><br><span class="line">  <span class="keyword">var</span> link = <span class="variable language_">document</span>.<span class="title function_">getElementsByTagName</span>(<span class="string">&quot;a&quot;</span>)[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">  eventUtil.<span class="title function_">addListener</span>(btn, <span class="string">&quot;click&quot;</span>, <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">      <span class="keyword">var</span> event = eventUtil.<span class="title function_">getEvent</span>(event);</span><br><span class="line">      <span class="keyword">var</span> target = eventUtil.<span class="title function_">getTarget</span>(event);</span><br><span class="line">      <span class="title function_">alert</span>(event.<span class="property">type</span>);</span><br><span class="line">      <span class="title function_">alert</span>(target);</span><br><span class="line">      eventUtil.<span class="title function_">stopPropagation</span>(event);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  eventUtil.<span class="title function_">addListener</span>(link, <span class="string">&quot;click&quot;</span>, <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">      <span class="title function_">alert</span>(<span class="string">&quot;prevent default event&quot;</span>);</span><br><span class="line">      <span class="keyword">var</span> event = eventUtil.<span class="title function_">getEvent</span>(event);</span><br><span class="line">      eventUtil.<span class="title function_">preventDefault</span>(event);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  eventUtil.<span class="title function_">addListener</span>(<span class="variable language_">document</span>.<span class="property">body</span>, <span class="string">&quot;click&quot;</span>, <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="title function_">alert</span>(<span class="string">&quot;click body&quot;</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<p><strong>手写事件模型</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="title class_">Event</span> = (<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> list = &#123;&#125;, bind, trigger, remove;</span><br><span class="line">    bind = <span class="keyword">function</span> (<span class="params">key, fn</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!list[key]) &#123;</span><br><span class="line">            list[key] = [];</span><br><span class="line">        &#125;</span><br><span class="line">        list[key].<span class="title function_">push</span>(fn);</span><br><span class="line">    &#125;;</span><br><span class="line">    trigger = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> key = <span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">shift</span>.<span class="title function_">call</span>(<span class="variable language_">arguments</span>);</span><br><span class="line">        <span class="keyword">var</span> fns = list[key];</span><br><span class="line">        <span class="keyword">if</span> (!fns || fns.<span class="property">length</span> === <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, fn; fn = fns[i++];) &#123;</span><br><span class="line">            fn.<span class="title function_">apply</span>(<span class="variable language_">this</span>, <span class="variable language_">arguments</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    remove = <span class="keyword">function</span> (<span class="params">key, fn</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> fns = list[key];</span><br><span class="line">        <span class="keyword">if</span> (!fns) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!fn) &#123;</span><br><span class="line">            fns &amp; (fns.<span class="property">length</span> = <span class="number">0</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> i = fns.<span class="property">length</span> - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">                <span class="keyword">var</span> _fn = fns[i];</span><br><span class="line">                <span class="keyword">if</span> (_fn === fn) &#123;</span><br><span class="line">                    fns.<span class="title function_">splice</span>(i, <span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="attr">bind</span>: bind,</span><br><span class="line">        <span class="attr">trigger</span>: trigger,</span><br><span class="line">        <span class="attr">remove</span>: remove</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line"><span class="title class_">Event</span>.<span class="title function_">bind</span>(<span class="string">&#x27;Hit&#x27;</span>, <span class="keyword">function</span>(<span class="params"></span>)&#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;bind event&#x27;</span>); &#125;); <span class="comment">// 绑定事件</span></span><br><span class="line"><span class="title class_">Event</span>.<span class="title function_">trigger</span>(<span class="string">&quot;Hit&quot;</span>, <span class="keyword">function</span>(<span class="params"></span>)&#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;trigger event&#x27;</span>); &#125;); <span class="comment">// 触发事件</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>手写事件代理，并要求兼容浏览器</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">delegateEvent</span>(<span class="params">parentEl, selector, type, fn</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> handler = <span class="keyword">function</span>(<span class="params">e</span>)&#123;</span><br><span class="line">          <span class="keyword">var</span> e = e || <span class="variable language_">window</span>.<span class="property">event</span>;</span><br><span class="line">          <span class="keyword">var</span> target = e.<span class="property">target</span> || e.<span class="property">srcElement</span>;</span><br><span class="line">          <span class="keyword">if</span> (<span class="title function_">matchSelector</span>(target, selector)) &#123;</span><br><span class="line">              <span class="keyword">if</span>(fn) &#123;</span><br><span class="line">                  fn.<span class="title function_">call</span>(target, e);</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">if</span>(parentEl.<span class="property">addEventListener</span>)&#123;</span><br><span class="line">        parentEl.<span class="title function_">addEventListener</span>(type, handler);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        parentEl.<span class="title function_">attachEvent</span>(<span class="string">&quot;on&quot;</span> + type, handler);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * support #id, tagName, .className</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">matchSelector</span>(<span class="params">ele, selector</span>) &#123;</span><br><span class="line">    <span class="comment">// if use id</span></span><br><span class="line">    <span class="keyword">if</span> (selector.<span class="title function_">charAt</span>(<span class="number">0</span>) === <span class="string">&quot;#&quot;</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> ele.<span class="property">id</span> === selector.<span class="title function_">slice</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// if use class</span></span><br><span class="line">    <span class="keyword">if</span> (selector.<span class="title function_">charAt</span>(<span class="number">0</span>) === <span class="string">&quot;.&quot;</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot; &quot;</span> + ele.<span class="property">className</span> + <span class="string">&quot; &quot;</span>).<span class="title function_">indexOf</span>(<span class="string">&quot; &quot;</span> + selector.<span class="title function_">slice</span>(<span class="number">1</span>) + <span class="string">&quot; &quot;</span>) != -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// if use tagName</span></span><br><span class="line">    <span class="keyword">return</span> ele.<span class="property">tagName</span>.<span class="title function_">toLowerCase</span>() === selector.<span class="title function_">toLowerCase</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line"><span class="keyword">var</span> box = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;box&quot;</span>);</span><br><span class="line"><span class="title function_">delegateEvent</span>(box, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;click&quot;</span>, <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">href</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>手写事件触发器，并要求兼容浏览器</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fireEvent = <span class="keyword">function</span>(<span class="params">element, event</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="property">createEventObject</span>)&#123;</span><br><span class="line">        <span class="keyword">var</span> mockEvent = <span class="variable language_">document</span>.<span class="title function_">createEventObject</span>();</span><br><span class="line">        <span class="keyword">return</span> element.<span class="title function_">fireEvent</span>(<span class="string">&#x27;on&#x27;</span> + event, mockEvent)</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> mockEvent = <span class="variable language_">document</span>.<span class="title function_">createEvent</span>(<span class="string">&#x27;HTMLEvents&#x27;</span>);</span><br><span class="line">        mockEvent.<span class="title function_">initEvent</span>(event, <span class="literal">true</span>, <span class="literal">true</span>);</span><br><span class="line">        <span class="keyword">return</span> element.<span class="title function_">dispatchEvent</span>(mockEvent);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>手写 Function.bind 函数</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">bind</span>) &#123;</span><br><span class="line">  <span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">bind</span> = <span class="keyword">function</span> (<span class="params">oThis</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable language_">this</span> !== <span class="string">&quot;function&quot;</span>) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">TypeError</span>(<span class="string">&quot;&#x27;this&#x27; is not function&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// bind&#x27;s default arguments, array without first element</span></span><br><span class="line">    <span class="comment">// first part arguments for the function</span></span><br><span class="line">    <span class="keyword">var</span> aBindArgs = <span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">slice</span>.<span class="title function_">call</span>(<span class="variable language_">arguments</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">var</span> fToBind = <span class="variable language_">this</span>; <span class="comment">// the function will be binding</span></span><br><span class="line">    <span class="keyword">var</span> fNOP = <span class="keyword">function</span> (<span class="params"></span>) &#123;&#125;;</span><br><span class="line">    <span class="keyword">var</span> fBound = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">          <span class="comment">// target this will be binding</span></span><br><span class="line">          <span class="keyword">var</span> oThis = <span class="variable language_">this</span> <span class="keyword">instanceof</span> fNOP ? <span class="variable language_">this</span> : oThis || <span class="variable language_">this</span>;</span><br><span class="line">          <span class="comment">// last part arguments for the function</span></span><br><span class="line">          <span class="keyword">var</span> aCallArgs = <span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">slice</span>.<span class="title function_">call</span>(<span class="variable language_">arguments</span>);</span><br><span class="line">          <span class="comment">// complete arguments for the function</span></span><br><span class="line">          <span class="keyword">var</span> aFuncArgs = aBindArgs.<span class="title function_">concat</span>(aCallArgs);</span><br><span class="line">          <span class="keyword">return</span> fToBind.<span class="title function_">apply</span>(oThis, aFuncArgs);</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// fBound extends fToBind</span></span><br><span class="line">    fNOP.<span class="property"><span class="keyword">prototype</span></span> = <span class="variable language_">this</span>.<span class="property"><span class="keyword">prototype</span></span>;</span><br><span class="line">    fBound.<span class="property"><span class="keyword">prototype</span></span> = <span class="keyword">new</span> <span class="title function_">fNOP</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> fBound;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line"><span class="keyword">var</span> add = <span class="keyword">function</span>(<span class="params">a, b, c</span>)&#123; <span class="keyword">return</span> a + b + c;&#125;;</span><br><span class="line"><span class="keyword">var</span> newAdd = add.<span class="title function_">bind</span>(<span class="literal">null</span>, <span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line"><span class="keyword">var</span> result = <span class="title function_">newAdd</span>(<span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>手写数组快速排序</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> quickSort = <span class="keyword">function</span>(<span class="params">arr</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr.<span class="property">length</span> &lt;= <span class="number">1</span>) &#123; <span class="keyword">return</span> arr; &#125;</span><br><span class="line">    <span class="keyword">var</span> pivotIndex = <span class="title class_">Math</span>.<span class="title function_">floor</span>(arr.<span class="property">length</span> / <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">var</span> pivot = arr.<span class="title function_">splice</span>(pivotIndex, <span class="number">1</span>)[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">var</span> left = [];</span><br><span class="line">    <span class="keyword">var</span> right = [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = arr.<span class="property">length</span>; i &lt; len; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span> (arr[i] &lt; pivot) &#123;</span><br><span class="line">          left.<span class="title function_">push</span>(arr[i]);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          right.<span class="title function_">push</span>(arr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">quickSort</span>(left).<span class="title function_">concat</span>([pivot], <span class="title function_">quickSort</span>(right));</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line"><span class="title function_">quickSort</span>([<span class="number">9</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">7</span>]);</span><br></pre></td></tr></table></figure>
+
+<p><strong>手写数组冒泡排序</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bubble = <span class="keyword">function</span>(<span class="params">arr</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> maxIndex = arr.<span class="property">length</span> - <span class="number">1</span>, temp, flag;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = maxIndex; i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line">        flag = <span class="literal">true</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; i; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123;</span><br><span class="line">                temp = arr[j];</span><br><span class="line">                arr[j] = arr[j + <span class="number">1</span>];</span><br><span class="line">                arr[j + <span class="number">1</span>] = temp;</span><br><span class="line">                flag = <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(! flag)&#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line"><span class="keyword">var</span> arr = <span class="title function_">bubble</span>([<span class="number">13</span>, <span class="number">69</span>, <span class="number">28</span>, <span class="number">93</span>, <span class="number">55</span>, <span class="number">75</span>, <span class="number">34</span>]);</span><br></pre></td></tr></table></figure>
+
+<p><strong>手写数组去重</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">unique</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123; <span class="keyword">return</span> [...<span class="keyword">new</span> <span class="title class_">Set</span>(<span class="variable language_">this</span>)];&#125;;</span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>].<span class="title function_">unique</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">unique1</span>(<span class="params">arr</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> hash = &#123;&#125;, result = [];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>, len=arr.<span class="property">length</span>; i&lt;len; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(! hash[arr[i]])&#123;</span><br><span class="line">          result.<span class="title function_">push</span>(arr[i]);</span><br><span class="line">          hash[arr[i]] = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line"><span class="title function_">unique1</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line"><span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">unique2</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">sort</span>();</span><br><span class="line">    <span class="keyword">var</span> result = [<span class="variable language_">this</span>[<span class="number">0</span>]];</span><br><span class="line">    <span class="keyword">var</span> len = <span class="variable language_">this</span>.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; len; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable language_">this</span>[i] !== result[result.<span class="property">length</span> - <span class="number">1</span>])&#123;</span><br><span class="line">          result.<span class="title function_">push</span>(<span class="variable language_">this</span>[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>].<span class="title function_">unique2</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">unique3</span>(<span class="params">arr</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> result = [];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;arr.<span class="property">length</span>; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(result.<span class="title function_">indexOf</span>(arr[i]) == -<span class="number">1</span>)&#123;</span><br><span class="line">          result.<span class="title function_">push</span>(arr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line"><span class="title function_">unique3</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]);</span><br></pre></td></tr></table></figure>
+
+<p><strong>将url的查询参数解析成字典对象</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">parseQuery</span>(<span class="params">url</span>) &#123;</span><br><span class="line">  url = url == <span class="literal">null</span> ? <span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">href</span> : url;</span><br><span class="line">  <span class="keyword">var</span> search = url.<span class="title function_">substring</span>(url.<span class="title function_">lastIndexOf</span>(<span class="string">&quot;?&quot;</span>) + <span class="number">1</span>);</span><br><span class="line">  <span class="keyword">var</span> hash = &#123;&#125;;</span><br><span class="line">  <span class="keyword">var</span> reg = <span class="regexp">/([^?&amp;=]+)=([^?&amp;=]*)/g</span>;</span><br><span class="line">  search.<span class="title function_">replace</span>(reg, <span class="keyword">function</span> (<span class="params">match, $<span class="number">1</span>, $<span class="number">2</span></span>) &#123;</span><br><span class="line">      <span class="keyword">var</span> name = <span class="built_in">decodeURIComponent</span>($<span class="number">1</span>);</span><br><span class="line">      <span class="keyword">var</span> val = <span class="built_in">decodeURIComponent</span>($<span class="number">2</span>);</span><br><span class="line">      hash[name] = <span class="title class_">String</span>(val);</span><br><span class="line">      <span class="keyword">return</span> match;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> hash;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>封装函数节流函数</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> throttle = <span class="keyword">function</span>(<span class="params">fn, delay, mustRunDelay</span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> timer = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">var</span> t_start;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> context = <span class="variable language_">this</span>, args = <span class="variable language_">arguments</span>, t_curr = +<span class="keyword">new</span> <span class="title class_">Date</span>();</span><br><span class="line">    <span class="built_in">clearTimeout</span>(timer);</span><br><span class="line">    <span class="keyword">if</span>(!t_start)&#123;</span><br><span class="line">      t_start = t_curr;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(t_curr - t_start &gt;= mustRunDelay)&#123;</span><br><span class="line">      fn.<span class="title function_">apply</span>(context, args);</span><br><span class="line">      t_start = t_curr;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      timer = <span class="built_in">setTimeout</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">        fn.<span class="title function_">apply</span>(context, args);</span><br><span class="line">      &#125;, delay);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用（两次间隔50ms内连续触发不执行，但每累计100ms至少执行一次</span></span><br><span class="line"><span class="variable language_">window</span>.<span class="property">onresize</span> = <span class="title function_">throttle</span>(myFunc, <span class="number">50</span>, <span class="number">100</span>);</span><br><span class="line"><span class="string">``</span><span class="string">``</span></span><br><span class="line"></span><br><span class="line">**用<span class="variable constant_">JS</span>实现千位分隔符**</span><br><span class="line"></span><br><span class="line"><span class="string">``</span><span class="string">`JavaScript</span></span><br><span class="line"><span class="string">function test1(num)&#123;</span></span><br><span class="line"><span class="string">  var str = (+ num) + &#x27;&#x27;;</span></span><br><span class="line"><span class="string">  var len = str.length;</span></span><br><span class="line"><span class="string">  if(len &lt;= 3) return str;</span></span><br><span class="line"><span class="string">  num = &#x27;&#x27;;</span></span><br><span class="line"><span class="string">  while(len &gt; 3)&#123;</span></span><br><span class="line"><span class="string">      len -= 3;</span></span><br><span class="line"><span class="string">      num = &#x27;,&#x27; + str.substr(len, 3) + num;</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">  return str.substr(0, len) + num;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">function test2(num)&#123;</span></span><br><span class="line"><span class="string">  // ?= 正向匹配:匹配位置</span></span><br><span class="line"><span class="string">  // ?! 正向不匹配:排除位置</span></span><br><span class="line"><span class="string">  var str = (+num).toString();</span></span><br><span class="line"><span class="string">  var reg = /(?=(?!\b)(\d&#123;3&#125;)+$)/g;</span></span><br><span class="line"><span class="string">  return str.replace(reg, &#x27;,&#x27;);</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/ES6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/24/ES6/" class="post-title-link" itemprop="url">ES6 语法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:32" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="1、ES5、ES6和ES2015有什么区别"><a href="#1、ES5、ES6和ES2015有什么区别" class="headerlink" title="1、ES5、ES6和ES2015有什么区别?"></a>1、ES5、ES6和ES2015有什么区别?</h2><blockquote>
+<p><code>ES2015</code>特指在<code>2015</code>年发布的新一代<code>JS</code>语言标准，<code>ES6</code>泛指下一代JS语言标准，包含<code>ES2015</code>、<code>ES2016</code>、<code>ES2017</code>、<code>ES2018</code>等。现阶段在绝大部分场景下，<code>ES2015</code>默认等同<code>ES6</code>。<code>ES5</code>泛指上一代语言标准。<code>ES2015</code>可以理解为<code>ES5</code>和<code>ES6</code>的时间分界线</p>
+</blockquote>
+<h2 id="2、babel是什么，有什么作用"><a href="#2、babel是什么，有什么作用" class="headerlink" title="2、babel是什么，有什么作用?"></a>2、babel是什么，有什么作用?</h2><blockquote>
+<p><code>babel</code>是一个 <code>ES6</code> 转码器，可以将 <code>ES6</code> 代码转为 <code>ES5</code> 代码，以便兼容那些还没支持<code>ES6</code>的平台</p>
+</blockquote>
+<h2 id="3、let有什么用，有了var为什么还要用let？"><a href="#3、let有什么用，有了var为什么还要用let？" class="headerlink" title="3、let有什么用，有了var为什么还要用let？"></a>3、let有什么用，有了var为什么还要用let？</h2><blockquote>
+<p>在<code>ES6</code>之前，声明变量只能用<code>var</code>，<code>var</code>方式声明变量其实是很不合理的，准确的说，是因为<code>ES5</code>里面没有块级作用域是很不合理的。没有块级作用域回来带很多难以理解的问题，比如<code>for</code>循环<code>var</code>变量泄露，变量覆盖等问题。<code>let</code>声明的变量拥有自己的块级作用域，且修复了<code>var</code>声明变量带来的变量提升问题。</p>
+</blockquote>
+<h2 id="4、举一些ES6对String字符串类型做的常用升级优化"><a href="#4、举一些ES6对String字符串类型做的常用升级优化" class="headerlink" title="4、举一些ES6对String字符串类型做的常用升级优化?"></a>4、举一些ES6对String字符串类型做的常用升级优化?</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/ES6/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/LittleWhiteRabbit/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/LittleWhiteRabbit/">1</a><span class="space">&hellip;</span><a class="page-number" href="/LittleWhiteRabbit/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/LittleWhiteRabbit/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/LittleWhiteRabbit/page/7/">7</a><a class="extend next" rel="next" href="/LittleWhiteRabbit/page/5/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chen Daxian"
+      src="/LittleWhiteRabbit/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Chen Daxian</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/LittleWhiteRabbit/archives/">
+        
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Daxian</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/LittleWhiteRabbit/lib/anime.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/LittleWhiteRabbit/js/utils.js"></script>
+
+<script src="/LittleWhiteRabbit/js/motion.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/schemes/pisces.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/LittleWhiteRabbit/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

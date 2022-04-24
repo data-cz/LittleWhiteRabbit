@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/LittleWhiteRabbit/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/LittleWhiteRabbit/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/LittleWhiteRabbit/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/LittleWhiteRabbit/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/LittleWhiteRabbit/css/main.css">
+
+
+<link rel="stylesheet" href="/LittleWhiteRabbit/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"data-cz.github.io","root":"/LittleWhiteRabbit/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="面试详解">
+<meta property="og:url" content="https://data-cz.github.io/page/3/index.html">
+<meta property="og:site_name" content="面试详解">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Chen Daxian">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://data-cz.github.io/page/3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>面试详解</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/LittleWhiteRabbit/atom.xml" title="面试详解" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/LittleWhiteRabbit/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">面试详解</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/LittleWhiteRabbit/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/LittleWhiteRabbit/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/%E6%80%BB%E7%BB%93vue%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E7%AF%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/24/%E6%80%BB%E7%BB%93vue%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E7%AF%87/" class="post-title-link" itemprop="url">Vue 的优缺点是什么</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:45:19 / Modified: 09:59:31" itemprop="dateCreated datePublished" datetime="2022-04-24T09:45:19+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Vue-的优缺点是什么"><a href="#Vue-的优缺点是什么" class="headerlink" title="Vue 的优缺点是什么"></a>Vue 的优缺点是什么</h3><p>优点：</p>
+<ol>
+<li>低耦合。视图（View）可以独立于 Model 变化和修改，一个 ViewModel 可以绑定到不同的 View 上，当 View 变化的时候 Model 可以不变，当 Model 变化的时候 View 也可以不变。</li>
+<li>可重用性。你可以把一些视图逻辑放在一个 ViewModel 里面，让很多 view 重用这段视图逻辑。</li>
+<li>独立开发。开发人员可以专注于业务逻辑和数据的开发（ViewModel），设计人员可以专注于页面设计，使用 Expression Blend 可以很容易设计界面并生成 xml 代码。</li>
+<li>可测试。界面素来是比较难于测试的，而现在测试可以针对 ViewModel 来写。</li>
+<li>vue 是单页面应用，使页面局部刷新，不用每次跳转页面都要请求所有数据和 dom，这样大大加快了访问速度和提升用户体验。而且他的第三方 ui 库很多节省开发时间</li>
+</ol>
+<p>缺点：不利于 SEO，社区维护力度不强，相比还不够成熟</p>
+<h3 id="vue-常用指令"><a href="#vue-常用指令" class="headerlink" title="vue 常用指令"></a>vue 常用指令</h3><ul>
+<li><code>v-html / v-text</code>：把值中的标签渲染出来</li>
+<li><code>v-model</code>： 放在表单元素上的，实现双向数据绑定</li>
+<li><code>v-bind</code>（缩写 :）：用于绑定行内属性</li>
+<li><code>v-if / v-show</code> 是否能显示，true 能显示，false 不能显示</li>
+<li><code>v-cloak</code>：需要配合 css 使用：解决小胡子显示问题</li>
+<li><code>v-once</code> 对应的标签只渲染一次</li>
+<li><code>v-for</code> ：循环显示元素</li>
+<li><code>v-on</code> 事件绑定</li>
+</ul>
+<h3 id="事件修饰符"><a href="#事件修饰符" class="headerlink" title="事件修饰符"></a>事件修饰符</h3><p><code>Vue.js</code> 为 <code>v-on</code> 提供了事件修饰符，修饰符是由点开头的指令后缀来表示的。</p>
+<ul>
+<li><code>stop</code>：阻止事件继续传播</li>
+<li><code>prevent</code>：阻止事件默认行为</li>
+<li><code>capture</code>：添加事件监听器时使用事件捕获模式</li>
+<li><code>self</code>：当前元素触发时才触发事件处理函数</li>
+<li><code>once</code>：事件只触发一次</li>
+<li><code>passive</code>：告诉浏览器你不想阻止事件的默认行为，不能和.prevent 一起使用。</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 阻止单击事件继续传播 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">v-on:click.stop</span>=<span class="string">&quot;toDo&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 提交事件不再重载页面 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">v-on:submit.prevent</span>=<span class="string">&quot;toSubmit&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 修饰符可以串联 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">v-on:click.stop.prevent</span>=<span class="string">&quot;toDo&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 只有修饰符 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">v-on:submit.prevent</span>&gt;</span><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 添加事件监听器时使用事件捕获模式 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 即内部元素触发的事件先在此处理，然后才交由内部元素进行处理 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-on:click.capture</span>=<span class="string">&quot;toDo&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 只当在 event.target 是当前元素自身时触发处理函数 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-on:click.self</span>=<span class="string">&quot;toDo&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 点击事件将只会触发一次 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">v-on:click.once</span>=<span class="string">&quot;toDo&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 滚动事件的默认行为 (即滚动行为) 将会立即触发 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-on:scroll.passive</span>=<span class="string">&quot;onScroll&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="表单修饰符"><a href="#表单修饰符" class="headerlink" title="表单修饰符"></a>表单修饰符</h3><ul>
+<li>.lazy 在输入框输入完内容，光标离开时才更新视图</li>
+<li>.trim 过滤首尾空格</li>
+<li>.number 如果先输入数字，那它就会限制你输入的只能是数字;如果先输入字符串，那就相当于没有加.number</li>
+</ul>
+<h3 id="过滤器-filter"><a href="#过滤器-filter" class="headerlink" title="过滤器 filter"></a>过滤器 filter</h3><p>过滤器是对即将显示的数据做进一步的筛选处理，然后进行显示，值得注意的是过滤器并没有改变原来的数据，只是在原数据的基础上产生新的数据。</p>
+<ol>
+<li>定义过滤器<br>全局注册</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Vue</span>.<span class="title function_">filter</span>(<span class="string">&#x27;myFilter&#x27;</span>, <span class="keyword">function</span> (<span class="params">value1[,value2,...] </span>) &#123;</span><br><span class="line"><span class="comment">// 代码逻辑</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>局部注册</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line"> <span class="attr">filters</span>: &#123;</span><br><span class="line">    <span class="string">&#x27;myFilter&#x27;</span>: <span class="keyword">function</span> (<span class="params">value1[,value2,...] </span>) &#123;</span><br><span class="line">       <span class="comment">// 代码逻辑</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">　&#125;)</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>使用过滤器</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 在双花括号中 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;&#123; message | myFilter &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 在 `v-bind` 中 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-bind:id</span>=<span class="string">&quot;message | myFilter&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="计算属性-computed"><a href="#计算属性-computed" class="headerlink" title="计算属性 computed"></a>计算属性 computed</h3><p>依赖其它属性值，并且 <code>computed</code> 的值有缓存，只有它依赖的属性值发生改变，下一次获取 <code>computed</code> 的值时才会重新计算 <code>computed</code> 的值；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;example&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>Original message: &quot;&#123;&#123; message &#125;&#125;&quot;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>Computed reversed message: &quot;&#123;&#123; reversedMessage &#125;&#125;&quot;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> vm = <span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">el</span>: <span class="string">&#x27;#example&#x27;</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">data</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="attr">message</span>: <span class="string">&#x27;Hello&#x27;</span></span></span><br><span class="line"><span class="language-javascript">    &#125;,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">computed</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="comment">// 计算属性的 getter</span></span></span><br><span class="line"><span class="language-javascript">      <span class="attr">reversedMessage</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// `this` 指向 vm 实例</span></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">message</span>.<span class="title function_">split</span>(<span class="string">&#x27;&#x27;</span>).<span class="title function_">reverse</span>().<span class="title function_">join</span>(<span class="string">&#x27;&#x27;</span>)</span></span><br><span class="line"><span class="language-javascript">      &#125;</span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">  &#125;)</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="监听属性-watch"><a href="#监听属性-watch" class="headerlink" title="监听属性 watch"></a>监听属性 watch</h3><p>观察和响应 Vue 实例上的数据变动。类似于某些数据的监听回调 ，每当监听的数据变化时都会执行回调进行后续操作。它可以有三个参数</p>
+<ul>
+<li><code>handler</code>：其值是一个回调函数。即监听到变化时应该执行的函数</li>
+<li><code>deep</code>：其值是 true 或 false；确认是否深入监听。</li>
+<li><code>immediate</code>：其值是 true 或 false，确认是否以当前的初始值执行 handler 的函数</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">watch</span>:&#123;</span><br><span class="line">  <span class="attr">message</span>:&#123;</span><br><span class="line">    <span class="attr">handler</span>:<span class="keyword">function</span>(<span class="params">val, oldVal</span>)&#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(val, oldVal)</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">deep</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">immediate</span>: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="computed-和-watch-的区别"><a href="#computed-和-watch-的区别" class="headerlink" title="computed 和 watch 的区别"></a>computed 和 watch 的区别</h3><ul>
+<li><code>computed</code>： 是计算属性，依赖其它属性值，并且 computed 的值有缓存，只有它依赖的属性值发生改变，下一次获取 computed 的值时才会重新计算 computed 的值；</li>
+<li><code>watch</code>： 更多的是「观察」的作用，类似于某些数据的监听回调 ，每当监听的数据变化时都会执行回调进行后续操作。</li>
+</ul>
+<p><strong>运用场景</strong></p>
+<ul>
+<li>当我们需要进行数值计算，并且依赖于其它数据时，应该使用 computed，因为可以利用 computed 的缓存特性，避免每次获取值时，都要重新计算；</li>
+<li>当我们需要在数据变化时执行异步或开销较大的操作时，应该使用 watch，使用  watch  选项允许我们执行异步操作 ( 访问一个 API )，限制我们执行该操作的频率，并在我们得到最终结果前，设置中间状态。这些都是计算属性无法做到的。</li>
+</ul>
+<h3 id="生命周期函数"><a href="#生命周期函数" class="headerlink" title="生命周期函数"></a>生命周期函数</h3><ul>
+<li><code>beforeCreate</code>(创建前) vue 实例的挂载元素$el 和数据对象 data 都是 undefined, 还未初始化</li>
+<li><code>created</code>(创建后) 完成了 data 数据初始化, el 还未初始化</li>
+<li><code>beforeMount</code>(载入前) vue 实例的$el 和 data 都初始化了, 相关的 render 函数首次被调用</li>
+<li><code>mounted</code>(载入后) 此过程中进行 ajax 交互</li>
+<li><code>beforeUpdate</code>(更新前)</li>
+<li><code>updated</code>(更新后)</li>
+<li><code>beforeDestroy</code>(销毁前)</li>
+<li><code>destroyed</code>(销毁后)</li>
+</ul>
+<p><strong>Vue 的父组件和子组件生命周期钩子执行顺序是什么?</strong></p>
+<ol>
+<li>渲染过程：父组件挂载完成一定是等子组件都挂载完成后，才算是父组件挂载完，所以父组件的 mounted 在子组件 mouted 之后。</li>
+</ol>
+<ul>
+<li>父 beforeCreate -&gt; 父 created -&gt; 父 beforeMount -&gt; 子 beforeCreate -&gt; 子 created -&gt; 子 beforeMount -&gt; 子 mounted -&gt; 父 mounted</li>
+</ul>
+<ol start="2">
+<li>子组件更新过程：</li>
+</ol>
+<ul>
+<li>影响到父组件：父 beforeUpdate -&gt; 子 beforeUpdate-&gt;子 updated -&gt; 父 updted</li>
+<li>不影响父组件：子 beforeUpdate -&gt; 子 updated</li>
+</ul>
+<ol start="3">
+<li>父组件更新过程：</li>
+</ol>
+<ul>
+<li>影响到子组件：父 beforeUpdate -&gt; 子 beforeUpdate-&gt;子 updated -&gt; 父 updted</li>
+<li>不影响子组件：父 beforeUpdate -&gt; 父 updated</li>
+</ul>
+<ol start="4">
+<li>销毁过程：</li>
+</ol>
+<ul>
+<li>父 beforeDestroy -&gt; 子 beforeDestroy -&gt; 子 destroyed -&gt; 父 destroyed</li>
+</ul>
+<h3 id="组件注册"><a href="#组件注册" class="headerlink" title="组件注册"></a>组件注册</h3><p>组件<code>（component）</code>是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。组件的使用过程包括定义和注册的过程。</p>
+<ol>
+<li>定义组件</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方法一 Vue.extend</span></span><br><span class="line"><span class="keyword">var</span> <span class="title class_">MyComponent</span> = <span class="title class_">Vue</span>.<span class="title function_">extend</span>(&#123;</span><br><span class="line">  <span class="attr">template</span>: <span class="string">&#x27;&lt;div&gt;A custom component!&lt;/div&gt;&#x27;</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 方法二：新建一个.vue 文件</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>注册组件</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局注册</span></span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">component</span>(<span class="string">&#x27;my-component&#x27;</span>, <span class="title class_">MyComponent</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 局部注册</span></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">  <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span><br><span class="line">  <span class="attr">components</span>: &#123;</span><br><span class="line">    <span class="string">&#x27;my-component&#x27;</span>: <span class="title class_">MyComponent</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>使用组件</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;example&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">my-component</span>&gt;</span><span class="tag">&lt;/<span class="name">my-component</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="组件传值"><a href="#组件传值" class="headerlink" title="组件传值"></a>组件传值</h3><h4 id="1-props-父组件给子组件传值"><a href="#1-props-父组件给子组件传值" class="headerlink" title="1. props 父组件给子组件传值"></a>1. props 父组件给子组件传值</h4><p>props 值可以是一个数组或对象;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 数组:不建议使用</span></span><br><span class="line"><span class="attr">props</span>:[]</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对象</span></span><br><span class="line"><span class="attr">props</span>:&#123;</span><br><span class="line"> <span class="attr">inpVal</span>:&#123;</span><br><span class="line">  <span class="attr">type</span>:<span class="title class_">Number</span>, <span class="comment">//传入值限定类型</span></span><br><span class="line">  <span class="comment">// type 值可为String,Number,Boolean,Array,Object,Date,Function,Symbol</span></span><br><span class="line">  <span class="comment">// type 还可以是一个自定义的构造函数，并且通过 instanceof 来进行检查确认</span></span><br><span class="line">  <span class="attr">required</span>: <span class="literal">true</span>, <span class="comment">//是否必传</span></span><br><span class="line">  <span class="attr">default</span>:<span class="number">200</span>,  <span class="comment">//默认值,对象或数组默认值必须从一个工厂函数获取如 default:()=&gt;[]</span></span><br><span class="line">  <span class="attr">validator</span>:(value) &#123;</span><br><span class="line">    <span class="comment">// 这个值必须匹配下列字符串中的一个</span></span><br><span class="line">    <span class="keyword">return</span> [<span class="string">&#x27;success&#x27;</span>, <span class="string">&#x27;warning&#x27;</span>, <span class="string">&#x27;danger&#x27;</span>].<span class="title function_">indexOf</span>(value) !== -<span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-emit-子组件给父组件传值"><a href="#2-emit-子组件给父组件传值" class="headerlink" title="2. $emit 子组件给父组件传值"></a>2. $emit 子组件给父组件传值</h4><p>触发子组件触发父组件给自己绑定的事件,其实就是子传父的方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父组件</span></span><br><span class="line">&lt;v-<span class="title class_">Header</span> @title=<span class="string">&quot;title&quot;</span>&gt;</span><br><span class="line"><span class="comment">// 子组件</span></span><br><span class="line"><span class="variable language_">this</span>.$emit(<span class="string">&#x27;title&#x27;</span>,&#123;<span class="attr">title</span>: <span class="string">&#x27;这是title&#x27;</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-vuex-数据状态管理"><a href="#3-vuex-数据状态管理" class="headerlink" title="3. vuex 数据状态管理"></a>3. vuex 数据状态管理</h4><ul>
+<li><code>state</code>:定义存贮数据的仓库 ,可通过 this.$store.state 或 mapState 访问</li>
+<li><code>getter</code>:获取 store 值,可认为是 store 的计算属性,可通过 this.$store.getter 或 mapGetters 访问</li>
+<li><code>mutation</code>:同步改变 store 值,可通过 mapMutations 调用</li>
+<li><code>action</code>:异步调用函数执行 mutation,进而改变 store 值,可通过 this.$dispatch 或 mapActions 访问</li>
+<li><code>modules</code>:模块,如果状态过多,可以拆分成模块,最后在入口通过…解构引入</li>
+</ul>
+<h4 id="4-attrs-和-listeners"><a href="#4-attrs-和-listeners" class="headerlink" title="4. attrs 和 listeners"></a>4. attrs 和 listeners</h4><p><code>attrs</code> 获取子传父中未在 props 定义的值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父组件</span></span><br><span class="line">&lt;home title=<span class="string">&quot;这是标题&quot;</span> width=<span class="string">&quot;80&quot;</span> height=<span class="string">&quot;80&quot;</span> imgUrl=<span class="string">&quot;imgUrl&quot;</span>/&gt;</span><br><span class="line"><span class="comment">// 子组件</span></span><br><span class="line"><span class="title function_">mounted</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">$attrs</span>) <span class="comment">//&#123;title:  &quot;这是标题&quot;, width: &quot;80&quot;, height: &quot;80&quot;, imgUrl: &quot;imgUrl&quot;&#125;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 相对应的如果子组件定义了 props,打印的值就是剔除定义的属性</span></span><br><span class="line"><span class="attr">props</span>: &#123;</span><br><span class="line">  <span class="attr">width</span>: &#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="title class_">String</span>,</span><br><span class="line">    <span class="attr">default</span>: <span class="string">&#x27;&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br><span class="line"><span class="title function_">mounted</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">$attrs</span>) <span class="comment">//&#123;title:  &quot;这是标题&quot;, height: &quot;80&quot;, imgUrl: &quot;imgUrl&quot;&#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>listeners</code>:场景:子组件需要调用父组件的方法。<br>解决:父组件的方法可以通过 <code>v-on=&quot;listeners&quot;</code> 传入内部组件——在创建更高层次的组件时非常有用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父组件</span></span><br><span class="line">&lt;home @change=<span class="string">&quot;change&quot;</span>/&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 子组件</span></span><br><span class="line"><span class="title function_">mounted</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">$listeners</span>) <span class="comment">//即可拿到 change 事件</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-provide-和-inject"><a href="#5-provide-和-inject" class="headerlink" title="5. provide 和 inject"></a>5. provide 和 inject</h4><p><code>provide</code> 和 <code>inject</code> 主要为高阶插件&#x2F;组件库提供用例。并不推荐直接用于应用程序代码中; 并且这对选项需要一起使用; 以允许一个祖先组件向其所有子孙后代注入一个依赖，不论组件层次有多深，并在起上下游关系成立的时间里始终生效。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//父组件:</span></span><br><span class="line"><span class="attr">provide</span>: &#123; <span class="comment">//provide 是一个对象,提供一个属性或方法</span></span><br><span class="line">  <span class="attr">foo</span>: <span class="string">&#x27;这是 foo&#x27;</span>,</span><br><span class="line">  <span class="attr">fooMethod</span>:<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;父组件 fooMethod 被调用&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"><span class="comment">// 子或者孙子组件</span></span><br><span class="line"><span class="attr">inject</span>: [<span class="string">&#x27;foo&#x27;</span>,<span class="string">&#x27;fooMethod&#x27;</span>], <span class="comment">//数组或者对象,注入到子组件</span></span><br><span class="line"><span class="title function_">mounted</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="title function_">fooMethod</span>()</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">foo</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//在父组件下面所有的子组件都可以利用inject</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="6-refs"><a href="#6-refs" class="headerlink" title="6. $refs"></a>6. $refs</h4><p>通常用于父组件调用子组件的方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父组件</span></span><br><span class="line">&lt;home ref=<span class="string">&quot;child&quot;</span>/&gt;</span><br><span class="line"></span><br><span class="line"><span class="title function_">mounted</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">$refs</span>.<span class="property">child</span>) <span class="comment">//即可拿到子组件的实例,就可以直接操作 data 和 methods</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="7-EventBus"><a href="#7-EventBus" class="headerlink" title="7. EventBus"></a>7. EventBus</h4><ol>
+<li>就是声明一个全局 Vue 实例变量 EventBus , 把所有的通信数据，事件监听都存储到这个变量上;</li>
+<li>类似于 Vuex。但这种方式只适用于极小的项目 3.原理就是利用 emit 并实例化一个全局 vue 实现数据共享</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在 main.js</span></span><br><span class="line"><span class="title class_">Vue</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">$eventBus</span> = <span class="keyword">new</span> <span class="title class_">Vue</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 传值组件</span></span><br><span class="line"><span class="variable language_">this</span>.<span class="property">$eventBus</span>.$emit(<span class="string">&#x27;eventTarget&#x27;</span>, <span class="string">&#x27;这是eventTarget传过来的值&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 接收组件</span></span><br><span class="line"><span class="variable language_">this</span>.<span class="property">$eventBus</span>.$on(<span class="string">&#x27;eventTarget&#x27;</span>, <span class="function"><span class="params">v</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;eventTarget&#x27;</span>, v) <span class="comment">//这是eventTarget传过来的值</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="路由配置和使用"><a href="#路由配置和使用" class="headerlink" title="路由配置和使用"></a>路由配置和使用</h3><ol>
+<li>配置路由信息<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> routes = [</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&#x27;/home&#x27;</span>,</span><br><span class="line">    <span class="attr">component</span>: home</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&#x27;/list&#x27;</span>,</span><br><span class="line">    <span class="attr">component</span>: list</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> router = <span class="keyword">new</span> <span class="title class_">VueRouter</span>(&#123;</span><br><span class="line">  <span class="attr">routes</span>: routes</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> vm = <span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">  <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span><br><span class="line">  router</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>在html使用</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">&#x27;/home&#x27;</span> <span class="attr">active-class</span>=<span class="string">&#x27;current&#x27;</span>&gt;</span>首页<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">&#x27;/list&#x27;</span> <span class="attr">tag</span>=<span class="string">&#x27;div&#x27;</span>&gt;</span>列表<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">router-view</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>此外，<code>vue-router</code>还可以通过一下方式配置动态路由</p>
+<ul>
+<li><code>query</code>传参（问号传参）</li>
+<li><code>params</code>传参（路径传参）</li>
+</ul>
+<h3 id="路由懒加载"><a href="#路由懒加载" class="headerlink" title="路由懒加载"></a>路由懒加载</h3><p>Vue 项目中实现路由按需加载（路由懒加载）的 3 中方式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1、Vue异步组件技术：</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="attr">path</span>: <span class="string">&#x27;/home&#x27;</span>,</span><br><span class="line">	<span class="attr">name</span>: <span class="string">&#x27;Home&#x27;</span>,</span><br><span class="line">	<span class="attr">component</span>: <span class="function"><span class="params">resolve</span> =&gt;</span> <span class="title function_">reqire</span>([<span class="string">&#x27;path路径&#x27;</span>], resolve)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2、es6提案的import()</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">Home</span> = (<span class="params"></span>) =&gt; <span class="title function_">import</span>(<span class="string">&#x27;path路径&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3、webpack提供的require.ensure()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="attr">path</span>: <span class="string">&#x27;/home&#x27;</span>,</span><br><span class="line">	<span class="attr">name</span>: <span class="string">&#x27;Home&#x27;</span>,</span><br><span class="line">	<span class="attr">component</span>: <span class="function"><span class="params">r</span> =&gt;</span> <span class="built_in">require</span>.<span class="title function_">ensure</span>([],<span class="function">() =&gt;</span>  <span class="title function_">r</span>(<span class="built_in">require</span>(<span class="string">&#x27;path路径&#x27;</span>)), <span class="string">&#x27;demo&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="路由守卫"><a href="#路由守卫" class="headerlink" title="路由守卫"></a>路由守卫</h3><p>vue-router 提供的导航守卫主要用来通过跳转或取消的方式守卫导航。有多种机会植入路由导航过程中：全局的, 单个路由独享的, 或者组件级的。  </p>
+<p><strong>全局前置守卫</strong><br>常用于判断登录状态和菜单权限校验</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">router.<span class="title function_">beforeEach</span>(<span class="function">(<span class="params">to, <span class="keyword">from</span>, next</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> isLogin = sessionStorage.<span class="title function_">getItem</span>(<span class="string">&#x27;isLogin&#x27;</span>) || <span class="string">&#x27;&#x27;</span></span><br><span class="line">  <span class="keyword">if</span> (!isLogin &amp;&amp; to.<span class="property">meta</span>.<span class="property">auth</span>) &#123;</span><br><span class="line">    <span class="title function_">next</span>(<span class="string">&#x27;/login&#x27;</span>)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="title function_">next</span>()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>to</code>: Route: 即将要进入的目标 路由对象</li>
+<li><code>from</code>: Route: 当前导航正要离开的路由</li>
+<li><code>next</code>: Function: 一定要调用该方法来 resolve 这个钩子。执行效果依赖 next 方法的调用参数。</li>
+</ul>
+<p><strong>组件内的守卫</strong></p>
+<ul>
+<li><code>beforeRouteEnter</code></li>
+<li><code>beforeRouteUpdate</code> </li>
+<li><code>beforeRouteLeave</code></li>
+</ul>
+<h3 id="路由缓存-keepalive"><a href="#路由缓存-keepalive" class="headerlink" title="路由缓存 keepalive"></a>路由缓存 keepalive</h3><p><code>keep-alive</code> 是 Vue 提供的一个抽象组件，用来对组件进行缓存，从而节省性能，由于是一个抽象组件，所以在 v 页面渲染完毕后不会被渲染成一个 DOM 元素。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">keep-alive</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">router-view</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">keep-alive</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>当组件在 <code>keep-alive</code> 内被切换时组件的 <code>activated</code>、<code>deactivated</code> 这两个生命周期钩子函数会被执行</p>
+<h4 id="1-使用参数include-x2F-exclude"><a href="#1-使用参数include-x2F-exclude" class="headerlink" title="1. 使用参数include&#x2F;exclude"></a>1. 使用参数include&#x2F;exclude</h4><ul>
+<li>include: 字符串或正则表达式。只有匹配的组件会被缓存。</li>
+<li>exclude: 字符串或正则表达式。任何匹配的组件都不会被缓存。</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">keep-alive</span> <span class="attr">include</span>=<span class="string">&quot;a,b&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">router-view</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">keep-alive</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">keep-alive</span> <span class="attr">exclude</span>=<span class="string">&quot;c&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">router-view</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">keep-alive</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>include</code> 属性表示只有 name 属性为 a，b 的组件会被缓存，（注意是组件的名字，不是路由的名字）其它组件不会被缓存。<br><code>exclude</code> 属性表示除了 name 属性为 c 的组件不会被缓存，其它组件都会被缓存。</p>
+<h4 id="2-使用-route-meta-的-keepAlive-属性"><a href="#2-使用-route-meta-的-keepAlive-属性" class="headerlink" title="2. 使用$route.meta 的 keepAlive 属性"></a>2. 使用$route.meta 的 keepAlive 属性</h4><p>需要在 router 中设置 router 的元信息 meta</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> <span class="title class_">Router</span>(&#123;</span><br><span class="line">  <span class="attr">routes</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">path</span>: <span class="string">&#x27;/&#x27;</span>,</span><br><span class="line">      <span class="attr">name</span>: <span class="string">&#x27;Hello&#x27;</span>,</span><br><span class="line">      <span class="attr">component</span>: <span class="title class_">Hello</span>,</span><br><span class="line">      <span class="attr">meta</span>: &#123;</span><br><span class="line">        <span class="attr">keepAlive</span>: <span class="literal">false</span> <span class="comment">// 不需要缓存</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">path</span>: <span class="string">&#x27;/page1&#x27;</span>,</span><br><span class="line">      <span class="attr">name</span>: <span class="string">&#x27;Page1&#x27;</span>,</span><br><span class="line">      <span class="attr">component</span>: <span class="title class_">Page1</span>,</span><br><span class="line">      <span class="attr">meta</span>: &#123;</span><br><span class="line">        <span class="attr">keepAlive</span>: <span class="literal">true</span> <span class="comment">// 需要被缓存</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>在 app.vue 进行区别缓存和不用缓存的页面</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">router-view</span> <span class="attr">v-if</span>=<span class="string">&quot;!$route.meta.keepAlive&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">keep-alive</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">router-view</span> <span class="attr">v-if</span>=<span class="string">&quot;$route.meta.keepAlive&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">keep-alive</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="hash-和-history模式"><a href="#hash-和-history模式" class="headerlink" title="hash 和 history模式"></a>hash 和 history模式</h3><ul>
+<li><p>hash 模式：在浏览器中符号“#”，#以及#后面的字符称之为 hash，用 <code>window.location.hash</code> 读取。特点：hash 虽然在 URL 中，但不被包括在 HTTP 请求中；用来指导浏览器动作，对服务端安全无用，hash 不会重加载页面。</p>
+</li>
+<li><p>history 模式：history 采用 HTML5 的新特性；且提供了两个新方法： <code>pushState()， replaceState()</code>可以对浏览器历史记录栈进行修改，以及<code>popState</code>事件的监听到状态变更。</p>
+</li>
+<li><p>hash 模式中<code>（ http://localhost:8080#home）</code>，即使不需要配置，静态服务器始终会去寻找<code>index.html</code>并返回给我们，然后<code>vue-router</code>会获取 #后面的字符作为参数，对前端页面进行变换。</p>
+</li>
+<li><p>history 模式中，我们所想要的情况就是：输入<code>http://localhost:8080/home</code>，但最终返回的也是<code>index.html</code>，然后<code>vue-router</code>会获取 home 作为参数，对前端页面进行变换。那么在<code>nginx</code>中，谁能做到这件事呢？答案就是<code>try_files</code>。</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/%E5%88%86%E4%BA%AB8%E4%B8%AAVue%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/24/%E5%88%86%E4%BA%AB8%E4%B8%AAVue%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4/" class="post-title-link" itemprop="url">Vue 自定义指令</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:45:19 / Modified: 09:59:31" itemprop="dateCreated datePublished" datetime="2022-04-24T09:45:19+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Vue-自定义指令"><a href="#Vue-自定义指令" class="headerlink" title="Vue 自定义指令"></a>Vue 自定义指令</h1><p>在 Vue，除了核心功能默认内置的指令 ( v-model 和 v-show )，Vue 也允许注册自定义指令。它的作用价值在于当开发人员在某些场景下需要对普通 DOM 元素进行操作。</p>
+<p>Vue 自定义指令有全局注册和局部注册两种方式。先来看看注册全局指令的方式，通过 <code>Vue.directive( id, [definition] )</code> 方式注册全局指令。然后在入口文件中进行 <code>Vue.use()</code> 调用。</p>
+<p>批量注册指令，新建 <code>directives/index.js</code> 文件</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/%E5%88%86%E4%BA%AB8%E4%B8%AAVue%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/%E4%BB%8E%E9%9B%B6%E6%9E%84%E5%BB%BA%E5%88%B0%E4%BC%98%E5%8C%96%E4%B8%80%E4%B8%AA%E7%B1%BB%E4%BC%BCvue-cli%E7%9A%84%E8%84%9A%E6%89%8B%E6%9E%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/24/%E4%BB%8E%E9%9B%B6%E6%9E%84%E5%BB%BA%E5%88%B0%E4%BC%98%E5%8C%96%E4%B8%80%E4%B8%AA%E7%B1%BB%E4%BC%BCvue-cli%E7%9A%84%E8%84%9A%E6%89%8B%E6%9E%B6/" class="post-title-link" itemprop="url">vue构建</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:45:19 / Modified: 09:59:32" itemprop="dateCreated datePublished" datetime="2022-04-24T09:45:19+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>想必大多数人在开发 vue 等 SPA 项目都时候都会直接用 <code>vue-cli</code> 等脚手架开发，一是方便省去了好多配置上的功夫，二是 <code>vue-cli</code> 毕竟是久经考验较为成熟的东西，遇到问题也能在网上找到相应解决方案。</p>
+<p>但是，如果我们要更好地理解脚手架的配置及其构建打包的机制，我们就有必要从零开始，依葫芦画瓢自己配置一个类似于 vue-cli 这样的项目了。在此，我做了以下简单配置，请各位大佬批评指正，并诚心希望能得到大佬的指点，解决文章最后关于 <code>Tree Shaking</code> 导致打包缺失 css 的问题。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/%E4%BB%8E%E9%9B%B6%E6%9E%84%E5%BB%BA%E5%88%B0%E4%BC%98%E5%8C%96%E4%B8%80%E4%B8%AA%E7%B1%BB%E4%BC%BCvue-cli%E7%9A%84%E8%84%9A%E6%89%8B%E6%9E%B6/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/vue%20%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/24/vue%20%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4/" class="post-title-link" itemprop="url">基于 vue 的自定义指令集合</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:45:19 / Modified: 09:59:31" itemprop="dateCreated datePublished" datetime="2022-04-24T09:45:19+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="v-directives"><a href="#v-directives" class="headerlink" title="v-directives"></a>v-directives</h1><p>基于 vue 的自定义指令集合，包含</p>
+<ul>
+<li>复制粘贴指令 v-copy</li>
+<li>长按指令 v-longpress</li>
+<li>输入框防抖指令 v-debounce</li>
+<li>禁止表情及特殊字符 v-emoji</li>
+<li>图片懒加载 v-LazyLoad</li>
+<li>权限校验指令 v-premission</li>
+<li>实现页面水印 v-waterMarker</li>
+<li>拖拽指令 v-draggable
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/vue%20%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/%E6%B5%85%E8%B0%88webscoket%E5%8E%9F%E7%90%86%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/24/%E6%B5%85%E8%B0%88webscoket%E5%8E%9F%E7%90%86%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/" class="post-title-link" itemprop="url">webSocket</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:32" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="什么是-webSocket"><a href="#什么是-webSocket" class="headerlink" title="什么是 webSocket"></a>什么是 webSocket</h3><p>WebSocket 是一种在单个 TCP 连接上进行全双工通信的协议。使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据。  </p>
+<p>在 WebSocket API 中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。</p>
+<h3 id="WebSocket-解决了什么问题："><a href="#WebSocket-解决了什么问题：" class="headerlink" title="WebSocket 解决了什么问题："></a>WebSocket 解决了什么问题：</h3><p>在不使用 WebSocket 时，如果我们需要建立一条长连接，有以下几种方法：</p>
+<ul>
+<li>轮询</li>
+<li>长轮询（常用）</li>
+<li>SSE(Server Send Event)</li>
+</ul>
+<p>当出现类似体育赛事、聊天室、实时位置之类的场景时，客户端要获取服务器端的变化，就只能通过轮询(定时请求)来了解服务器端有没有新的信息变化。WebSocket 的出现，让服务器端可以主动向服务器端发送信息，使得浏览器具备了实时双向通信的能力,这就是 WebSocket 解决的问题</p>
+<ul>
+<li>带宽问题：WebSocket 相对于 HTTP 来说协议头更加小，同时按需传递。</li>
+<li>数据实时性问题：WebSocket 相对于轮询和长轮询来说，能够实时传递数据，延迟更小。</li>
+<li>状态问题：相较于 HTTP 的无状态请求，WebSocket 在建立连接后能够维持特定的状态。</li>
+</ul>
+<h3 id="WebSocket-与-HTTP-对比"><a href="#WebSocket-与-HTTP-对比" class="headerlink" title="WebSocket 与 HTTP 对比"></a>WebSocket 与 HTTP 对比</h3><p><img src="https://user-gold-cdn.xitu.io/2019/12/3/16ec9bc6c28a9a19?w=1014&h=442&f=png&s=225703"></p>
+<h3 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h3><p><strong>客户端</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ws = <span class="keyword">new</span> <span class="title class_">WebSocket</span>(<span class="string">&#x27;ws://localhost:8888&#x27;</span>)</span><br><span class="line"></span><br><span class="line">ws.<span class="property">onopen</span> = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;WebSocket onopen&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ws.<span class="property">onmessage</span> = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(e)</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(e.<span class="property">data</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ws.<span class="property">onclose</span> = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;WebSocket onclose&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ws.<span class="property">onerror</span> = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;WebSocket onerror&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>WebSocket.onopen： 连接成功后调用</li>
+<li>WebSocket.onmessage： 当接收到服务器消息时调用</li>
+<li>WebSocket.onclose： 连接关闭后调用</li>
+<li>WebSocket.onerror： 发生错误后调用</li>
+</ul>
+<p><strong>服务端例子(koa)</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">Koa</span> = <span class="built_in">require</span>(<span class="string">&#x27;koa&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> <span class="title class_">WebSocket</span> = <span class="built_in">require</span>(<span class="string">&#x27;ws&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="keyword">new</span> <span class="title class_">Koa</span>()</span><br><span class="line"><span class="keyword">const</span> ws = <span class="keyword">new</span> <span class="title class_">WebSocket</span>.<span class="title class_">Server</span>(&#123; <span class="attr">port</span>: <span class="number">8888</span> &#125;)</span><br><span class="line"></span><br><span class="line">ws.<span class="title function_">on</span>(<span class="string">&#x27;connection&#x27;</span>, <span class="function"><span class="params">ws</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;server connection&#x27;</span>)</span><br><span class="line"></span><br><span class="line">  ws.<span class="title function_">on</span>(<span class="string">&#x27;message&#x27;</span>, <span class="function"><span class="params">msg</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;server receive msg：&#x27;</span>, msg)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  ws.<span class="title function_">send</span>(<span class="string">&#x27;Information from the server&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">listen</span>(<span class="number">3000</span>)</span><br></pre></td></tr></table></figure>
+
+<p>WebSocket 可以传递 String、ArrayBuffer 和 Blob 三种数据类型，因此在收到消息时可能是其中的任意一种。其中，String 和 ArrayBuffer 使用的最多。</p>
+<ul>
+<li>如果是 String 类型，直接通过字符串处理函数即可进行相关转换，如 JSON 等格式。</li>
+<li>如果是二进制 blob 类型，则需要使用 ArrayBuffer 和 DataView 来进行处理，下面简单介绍。</li>
+</ul>
+<p>二进制数据包括：blob 对象和 Arraybuffer 对象，所以我们需要分开来处理。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 接收数据</span></span><br><span class="line">ws.<span class="property">onmessage</span> = <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (event.<span class="property">data</span> <span class="keyword">instanceof</span> <span class="title class_">ArrayBuffer</span>) &#123;</span><br><span class="line">    <span class="comment">// 判断 ArrayBuffer 对象</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (event.<span class="property">data</span> <span class="keyword">instanceof</span> <span class="title class_">Blob</span>) &#123;</span><br><span class="line">    <span class="comment">// 判断 Blob 对象</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发送 Blob 对象的例子</span></span><br><span class="line"><span class="keyword">let</span> file = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;input[type=&quot;file&quot;]&#x27;</span>).<span class="property">files</span>[<span class="number">0</span>]</span><br><span class="line">ws.<span class="title function_">send</span>(file)</span><br><span class="line"><span class="comment">// 发送 ArrayBuffer 对象的例子</span></span><br><span class="line"><span class="keyword">var</span> img = canvas_context.<span class="title function_">getImageData</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">400</span>, <span class="number">320</span>)</span><br><span class="line"><span class="keyword">var</span> binary = <span class="keyword">new</span> <span class="title class_">Uint8Array</span>(img.<span class="property">data</span>.<span class="property">length</span>)</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; img.<span class="property">data</span>.<span class="property">length</span>; i++) &#123;</span><br><span class="line">  binary[i] = img.<span class="property">data</span>[i]</span><br><span class="line">&#125;</span><br><span class="line">ws.<span class="title function_">send</span>(binary.<span class="property">buffer</span>)</span><br></pre></td></tr></table></figure>
+
+<p>webSocket.bufferedAmount 属性，表示还有多少字节的二进制数据没有发送出去<br>如果发送的二进制数据很大的话，可以这样判断</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> data = <span class="keyword">new</span> <span class="title class_">ArrayBuffer</span>(<span class="number">10000000</span>)</span><br><span class="line">socket.<span class="title function_">send</span>(data)</span><br><span class="line"><span class="keyword">if</span> (socket.<span class="property">bufferedAmount</span> === <span class="number">0</span>) &#123;</span><br><span class="line">  <span class="comment">// 发送完毕</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">// 发送还没结束</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结-WebSocket-的优点"><a href="#总结-WebSocket-的优点" class="headerlink" title="总结 WebSocket 的优点"></a>总结 WebSocket 的优点</h3><ul>
+<li>双向通信(一开始说的，也是最重要的一点)。</li>
+<li>数据格式比较轻量，性能开销小，通信高效</li>
+<li>协议控制的数据包头部较小，而 HTTP 协议每次通信都需要携带完整的头部</li>
+<li>更好的二进制支持</li>
+<li>没有同源限制，客户端可以与任意服务器通信</li>
+<li>与 HTTP 协议有着良好的兼容性。默认端口也是 80 和 443，并且握手阶段采用 HTTP 协议，因此握手时不容易屏蔽，能通过各种 HTTP 代理服务器</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/24/%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE/" class="post-title-link" itemprop="url">JS 基本知识</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:32" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1 前言"></a>1 前言</h2><h3 id="1-1-面向对象的三大特性"><a href="#1-1-面向对象的三大特性" class="headerlink" title="1.1 面向对象的三大特性"></a>1.1 面向对象的三大特性</h3><ul>
+<li>封装</li>
+<li>继承</li>
+<li>多态</li>
+</ul>
+<h3 id="1-2-原型链的知识"><a href="#1-2-原型链的知识" class="headerlink" title="1.2 原型链的知识"></a>1.2 原型链的知识</h3><blockquote>
+<p>原型链是面向对象的基础，是非常重要的部分。有以下几种知识：</p>
+</blockquote>
+<ul>
+<li>创建对象有几种方法</li>
+<li>原型、构造函数、实例、原型链</li>
+<li><code>instanceof</code>的原理</li>
+<li><code>new</code> 运算符</li>
+</ul>
+<h2 id="2-创建对象有几种方法"><a href="#2-创建对象有几种方法" class="headerlink" title="2 创建对象有几种方法"></a>2 创建对象有几种方法</h2><h3 id="2-1-方式一：字面量"><a href="#2-1-方式一：字面量" class="headerlink" title="2.1 方式一：字面量"></a>2.1 方式一：字面量</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj11 = &#123;<span class="attr">name</span>: <span class="string">&#x27;smyh&#x27;</span>&#125;;</span><br><span class="line"><span class="keyword">var</span> obj12 = <span class="keyword">new</span> <span class="title class_">Object</span>(<span class="attr">name</span>: <span class="string">`smyh`</span>); <span class="comment">//内置对象（内置的构造函数）</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上面的两种写法，效果是一样的。因为，第一种写法，<code>obj11</code>会指向<code>Object</code>。</p>
+</blockquote>
+<ul>
+<li>第一种写法是：字面量的方式。</li>
+<li>第二种写法是：内置的构造函数</li>
+</ul>
+<h3 id="2-2-方式二：通过构造函数"><a href="#2-2-方式二：通过构造函数" class="headerlink" title="2.2 方式二：通过构造函数"></a>2.2 方式二：通过构造函数</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> M = <span class="keyword">function</span> (<span class="params">name</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> obj3 = <span class="keyword">new</span> <span class="title function_">M</span>(<span class="string">&#x27;smyhvae&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-方法三：Object-create"><a href="#2-3-方法三：Object-create" class="headerlink" title="2.3 方法三：Object.create"></a>2.3 方法三：Object.create</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> p = &#123;<span class="attr">name</span>:<span class="string">&#x27;smyhvae&#x27;</span>&#125;;</span><br><span class="line"><span class="keyword">var</span> obj3 = <span class="title class_">Object</span>.<span class="title function_">create</span>(p);  <span class="comment">//此方法创建的对象，是用原型链连接的</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>第三种方法，很少有人能说出来。这种方式里，<code>obj3</code>是实例，<code>p</code>是<code>obj3的``原型（</code>name<code>是p原型里的属性），构造函数是</code>Objecet&#96; 。</p>
+</blockquote>
+<p><img src="http://img.smyhvae.com/20180306_1633.png"></p>
+<h2 id="3-原型、构造函数、实例，以及原型链"><a href="#3-原型、构造函数、实例，以及原型链" class="headerlink" title="3 原型、构造函数、实例，以及原型链"></a>3 原型、构造函数、实例，以及原型链</h2><p><img src="http://img.smyhvae.com/20180306_1540.png"></p>
+<blockquote>
+<p>PS：任何一个函数，如果在前面加了<code>new</code>，那就是构造函数。</p>
+</blockquote>
+<h3 id="3-1-原型、构造函数、实例三者之间的关系"><a href="#3-1-原型、构造函数、实例三者之间的关系" class="headerlink" title="3.1 原型、构造函数、实例三者之间的关系"></a>3.1 原型、构造函数、实例三者之间的关系</h3><p><img src="http://img.smyhvae.com/20180306_2107.png"></p>
+<ol>
+<li>构造函数通过 <code>new</code> 生成实例</li>
+<li>构造函数也是函数，构造函数的<code>prototype</code>指向原型。（所有的函数有<code>prototype</code>属性，但实例没有 <code>prototype</code>属性）</li>
+<li>原型对象中有 <code>constructor</code>，指向该原型的构造函数。</li>
+</ol>
+<blockquote>
+<p>上面的三行，代码演示：</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="title class_">Foo</span> = <span class="keyword">function</span> (<span class="params">name</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> fn = <span class="keyword">new</span> <span class="title class_">Foo</span>(<span class="string">&#x27;smyhvae&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上面的代码中，<code>Foo.prototype.constructor === Foo</code>的结果是<code>true</code>：</p>
+</blockquote>
+<p><img src="http://img.smyhvae.com/20180306_2120.png"></p>
+<ol start="4">
+<li>实例的<code>__proto__</code>指向原型。也就是说，<code>Foo.__proto__ === M.prototype</code>。</li>
+</ol>
+<blockquote>
+<p>声明：所有的<strong>引用类型</strong>（数组、对象、函数）都有<code>__proto__</code>这个属性。</p>
+</blockquote>
+<p><code>Foo.__proto__ === Function.prototype</code>的结果为true，说明<code>Foo</code>这个普通的函数，是<code>Function</code>构造函数的一个实例。</p>
+<h3 id="3-2-原型链"><a href="#3-2-原型链" class="headerlink" title="3.2 原型链"></a>3.2 原型链</h3><p><strong>原型链的基本原理</strong>：任何一个<strong>实例</strong>，通过原型链，找到它上面的<strong>原型</strong>，该原型对象中的方法和属性，可以被所有的原型实例共享。</p>
+<blockquote>
+<p><code>Object</code>是原型链的顶端。</p>
+</blockquote>
+<ul>
+<li>原型可以起到继承的作用。原型里的方法都可以被不同的实例共享：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//给Foo的原型添加 say 函数</span></span><br><span class="line"><span class="title class_">Foo</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">say</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>原型链的关键</strong>：在访问一个实例的时候，如果实例本身没找到此方法或属性，就往原型上找。如果还是找不到，继续往上一级的原型上找。</p>
+<h3 id="3-3-instanceof的原理"><a href="#3-3-instanceof的原理" class="headerlink" title="3.3 instanceof的原理"></a>3.3 <code>instanceof</code>的原理</h3><p><img src="http://img.smyhvae.com/20180306_2209.png"></p>
+<ul>
+<li><code>instanceof</code>的<strong>作用</strong>：用于判断<strong>实例</strong>属于哪个<strong>构造函数</strong>。</li>
+<li><code>instanceof</code>的<strong>原理</strong>：判断实例对象的<code>__proto__</code>属性，和构造函数的<code>prototype</code>属性，是否为同一个引用（是否指向同一个地址）。</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>注意1</strong>：虽然说，实例是由构造函数 new 出来的，但是实例的<code>__proto__</code>属性引用的是构造函数的<code>prototype</code>。也就是说，实例的<code>__proto__</code>属性与构造函数本身无关。</li>
+<li><strong>注意2</strong>：在原型链上，原型的上面可能还会有原型，以此类推往上走，继续找<code>__proto__</code>属性。这条链上如果能找到， instanceof 的返回结果也是 true。</li>
+</ul>
+</blockquote>
+<p>比如说：</p>
+<ul>
+<li><code>foo instance of Foo</code>的结果为true，因为<code>foo.__proto__ === M.prototype</code>为<code>true</code>。</li>
+<li><strong><code>foo instance of Objecet</code>的结果也为true</strong>，为<code>Foo.prototype.__proto__ === Object.prototype</code>为<code>true</code>。</li>
+</ul>
+<blockquote>
+<p>但我们不能轻易的说：<code>foo</code> 一定是 由<code>Object</code>创建的实例&#96;。这句话是错误的。我们来看下一个问题就明白了。</p>
+</blockquote>
+<h3 id="3-4-分析一个问题"><a href="#3-4-分析一个问题" class="headerlink" title="3.4 分析一个问题"></a>3.4 分析一个问题</h3><p><strong>问题：</strong>已知A继承了B，B继承了C。怎么判断 a 是由A<strong>直接生成</strong>的实例，还是B直接生成的实例呢？还是C直接生成的实例呢？</p>
+<blockquote>
+<p>分析：这就要用到原型的<code>constructor</code>属性了。</p>
+</blockquote>
+<ul>
+<li><code>foo.__proto__.constructor === M</code>的结果为<code>true</code>，但是 <code>foo.__proto__.constructor === Object</code>的结果为<code>false</code>。</li>
+<li>所以，用 <code>consturctor</code>判断就比用 <code>instanceof</code>判断，更为严谨。</li>
+</ul>
+<h2 id="4-new-运算符"><a href="#4-new-运算符" class="headerlink" title="4 new 运算符"></a>4 new 运算符</h2><blockquote>
+<p>当<code>new Foo()</code>时发生了什么：</p>
+</blockquote>
+<ul>
+<li>创建一个<strong>新的空对象实例</strong>。</li>
+<li>将此空对象的隐式原型指向其构造函数的显示原型。</li>
+<li>执行构造函数（传入相应的参数，如果没有参数就不用传），同时 <code>this</code> 指向这个新实例。</li>
+<li>如果返回值是一个新对象，那么直接返回该对象；如果无返回值或者返回一个非对象值，那么就将步骤（1）创建的对象返回。</li>
+</ul>
+<pre><code>
+</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/%E4%BD%A0%E7%9C%9F%E7%9A%84%E4%BA%86%E8%A7%A3ES6%E7%9A%84Set%E5%92%8CMap%E5%90%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/24/%E4%BD%A0%E7%9C%9F%E7%9A%84%E4%BA%86%E8%A7%A3ES6%E7%9A%84Set%E5%92%8CMap%E5%90%97/" class="post-title-link" itemprop="url">JS set map</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:32" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="map-x2F-set"><a href="#map-x2F-set" class="headerlink" title="map&#x2F;set"></a>map&#x2F;set</h1><p>之前在学习 ES6 的时候，看到 <code>Set</code> 和 <code>Map</code>，不知道其应用场景有哪些，只觉得很多时候会用在数组去重和数据存储，后来慢慢才领悟到 <code>Set</code> 是一种叫做集合的数据结构，<code>Map</code> 是一种叫做字典的数据结构。</p>
+<h3 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h3><p><code>Set</code> 本身是一个构造函数，用来生成 <code>Set</code> 数据结构。<code>Set</code> 函数可以接受一个数组（或者具有 iterable 接口的其他数据结构）作为参数，用来初始化。<code>Set</code> 对象允许你存储任何类型的值，无论是原始值或者是对象引用。它类似于数组，但是成员的值都是唯一的，没有重复的值。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/%E4%BD%A0%E7%9C%9F%E7%9A%84%E4%BA%86%E8%A7%A3ES6%E7%9A%84Set%E5%92%8CMap%E5%90%97/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/%E4%BB%8E%20js%20%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E7%9C%8B%20Vue.nextTick%20%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/24/%E4%BB%8E%20js%20%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E7%9C%8B%20Vue.nextTick%20%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/" class="post-title-link" itemprop="url">vue.\$nextTick</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:31" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="vue-nextTick"><a href="#vue-nextTick" class="headerlink" title="vue.$nextTick"></a>vue.$nextTick</h1><p>Vue 的特点之一就是响应式，但是有些时候数据更新了，我们看到页面上的 DOM 并没有立刻更新。如果我们需要在 DOM 更新之后再执行一段代码时，可以借助 nextTick 实现。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/%E4%BB%8E%20js%20%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E7%9C%8B%20Vue.nextTick%20%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/js%E9%AB%98%E7%BA%A7%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/24/js%E9%AB%98%E7%BA%A7%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">JS 高级函数</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:31" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>高阶函数是对其他函数进行操作的函数，可以将它们作为参数或通过返回它们。简单来说，高阶函数是一个函数，它接收函数作为参数或将函数作为输出返回。</p>
+<p>例如<code>Array.prototype.map</code>，<code>Array.prototype.filter</code>，<code>Array.prototype.reduce</code> 都是一些高阶函数。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/js%E9%AB%98%E7%BA%A7%E5%87%BD%E6%95%B0/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/js%E7%BB%A7%E6%89%BF%E7%9A%84%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/24/js%E7%BB%A7%E6%89%BF%E7%9A%84%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">JS 继承</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:32" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="JS-继承"><a href="#JS-继承" class="headerlink" title="JS 继承"></a>JS 继承</h1><h3 id="1、属性拷贝"><a href="#1、属性拷贝" class="headerlink" title="1、属性拷贝"></a>1、属性拷贝</h3><p>如果继承过来的成员是引用类型的话, 那么这个引用类型的成员在父对象和子对象之间是共享的, 也就是说修改了之后, 父子对象都会受到影响.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/js%E7%BB%A7%E6%89%BF%E7%9A%84%E6%96%B9%E6%B3%95/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/LittleWhiteRabbit/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/LittleWhiteRabbit/">1</a><a class="page-number" href="/LittleWhiteRabbit/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/LittleWhiteRabbit/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/LittleWhiteRabbit/page/7/">7</a><a class="extend next" rel="next" href="/LittleWhiteRabbit/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chen Daxian"
+      src="/LittleWhiteRabbit/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Chen Daxian</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/LittleWhiteRabbit/archives/">
+        
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Daxian</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/LittleWhiteRabbit/lib/anime.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/LittleWhiteRabbit/js/utils.js"></script>
+
+<script src="/LittleWhiteRabbit/js/motion.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/schemes/pisces.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/LittleWhiteRabbit/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
