@@ -28,7 +28,7 @@
 <meta property="og:description" content="Plugin何为插件(Plugin)？专注处理 webpack 在编译过程中的某个特定的任务的功能模块，可以称为插件。plugin 是一个扩展器，它丰富了 webpack 本身，针对是 loader 结束后，webpack 打包的整个过程，它并不直接操作文件，而是基于事件机制工作，会监听 webpack 打包过程中的某些节点，执行广泛的任务。 Plugin 的特点  是一个独立的模块 模块对外暴露">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-04-24T01:46:49.525Z">
-<meta property="article:modified_time" content="2022-04-24T01:59:31.951Z">
+<meta property="article:modified_time" content="2022-04-25T02:36:18.295Z">
 <meta property="article:author" content="Chen Daxian">
 <meta name="twitter:card" content="summary">
 
@@ -201,10 +201,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-04-24 09:46:49 / Modified: 09:59:31" itemprop="dateCreated datePublished" datetime="2022-04-24T09:46:49+08:00">2022-04-24</time>
+              <time title="Created: 2022-04-24 09:46:49" itemprop="dateCreated datePublished" datetime="2022-04-24T09:46:49+08:00">2022-04-24</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-25 10:36:18" itemprop="dateModified" datetime="2022-04-25T10:36:18+08:00">2022-04-25</time>
+              </span>
 
           
 
@@ -224,9 +230,9 @@
 <li>模块对外暴露一个 js 函数</li>
 <li>函数的原型 <code>(prototype)</code> 上定义了一个注入 <code>compiler</code> 对象的 <code>apply</code>方法 <code>apply</code> 函数中需要有通过 <code>compiler</code> 对象挂载的 <code>webpack</code> 事件钩子，钩子的回调中能拿到当前编译的 <code>compilation</code> 对象，如果是异步编译插件的话可以拿到回调 <code>callback</code></li>
 <li>完成自定义子编译流程并处理 <code>complition</code> 对象的内部数据</li>
-<li>如果异步编译插件的话，数据处理完成后执行 <code>callback</code> 回调。</li>
+<li>如果异步编译插件的话，数据处理完成后执行 <code>callback</code> 回调。<span id="more"></span>
+下面介绍 18 个常用的 webpack 插件</li>
 </ul>
-<p>下面介绍 18 个常用的 webpack 插件</p>
 <h2 id="HotModuleReplacementPlugin"><a href="#HotModuleReplacementPlugin" class="headerlink" title="HotModuleReplacementPlugin"></a>HotModuleReplacementPlugin</h2><p>模块热更新插件。<code>Hot-Module-Replacement</code> 的热更新是依赖于 <code>webpack-dev-server</code>，后者是在打包文件改变时更新打包文件或者 reload 刷新整个页面，<code>HRM</code> 是只更新修改的部分。</p>
 <p><code>HotModuleReplacementPlugin</code>是<code>webpack</code>模块自带的，所以引入<code>webpack</code>后，在<code>plugins</code>配置项中直接使用即可。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">&#x27;webpack&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="attr">plugins</span>: [</span><br><span class="line">  <span class="keyword">new</span> webpack.<span class="title class_">HotModuleReplacementPlugin</span>(), <span class="comment">// 热更新插件</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>

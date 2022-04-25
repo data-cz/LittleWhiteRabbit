@@ -20,17 +20,17 @@
     var CONFIG = {"hostname":"data-cz.github.io","root":"/LittleWhiteRabbit/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="图片懒加载在类电商类项目，往往存在大量的图片，如 banner 广告图，菜单导航图，美团等商家列表头图等。图片众多以及图片体积过大往往会影响页面加载速度，造成不良的用户体验，所以进行图片懒加载优化势在必行。 为什么要进行图片懒加载我们先来看一下页面启动时加载的图片信息。   如图所示，这个页面启动时加载了几十张图片（甚至更多），而这些图片请求几乎是并发的，在 Chrome 浏览器，最多支持的并发请">
+  <meta name="description" content="图片懒加载在类电商类项目，往往存在大量的图片，如 banner 广告图，菜单导航图，美团等商家列表头图等。图片众多以及图片体积过大往往会影响页面加载速度，造成不良的用户体验，所以进行图片懒加载优化势在必行。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="图片懒加载">
 <meta property="og:url" content="https://data-cz.github.io/2022/04/24/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E5%9B%BE%E7%89%87%E6%87%92%E5%8A%A0%E8%BD%BD/index.html">
 <meta property="og:site_name" content="面试详解">
-<meta property="og:description" content="图片懒加载在类电商类项目，往往存在大量的图片，如 banner 广告图，菜单导航图，美团等商家列表头图等。图片众多以及图片体积过大往往会影响页面加载速度，造成不良的用户体验，所以进行图片懒加载优化势在必行。 为什么要进行图片懒加载我们先来看一下页面启动时加载的图片信息。   如图所示，这个页面启动时加载了几十张图片（甚至更多），而这些图片请求几乎是并发的，在 Chrome 浏览器，最多支持的并发请">
+<meta property="og:description" content="图片懒加载在类电商类项目，往往存在大量的图片，如 banner 广告图，菜单导航图，美团等商家列表头图等。图片众多以及图片体积过大往往会影响页面加载速度，造成不良的用户体验，所以进行图片懒加载优化势在必行。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://data-cz.github.io/2022/04/24/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E5%9B%BE%E7%89%87%E6%87%92%E5%8A%A0%E8%BD%BD/img/2.png">
 <meta property="og:image" content="https://data-cz.github.io/2022/04/24/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E5%9B%BE%E7%89%87%E6%87%92%E5%8A%A0%E8%BD%BD/img/1.png">
 <meta property="article:published_time" content="2022-04-24T01:40:58.454Z">
-<meta property="article:modified_time" content="2022-04-24T01:59:32.084Z">
+<meta property="article:modified_time" content="2022-04-25T02:36:07.912Z">
 <meta property="article:author" content="Chen Daxian">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://data-cz.github.io/2022/04/24/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E5%9B%BE%E7%89%87%E6%87%92%E5%8A%A0%E8%BD%BD/img/2.png">
@@ -204,10 +204,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-04-24 09:40:58 / Modified: 09:59:32" itemprop="dateCreated datePublished" datetime="2022-04-24T09:40:58+08:00">2022-04-24</time>
+              <time title="Created: 2022-04-24 09:40:58" itemprop="dateCreated datePublished" datetime="2022-04-24T09:40:58+08:00">2022-04-24</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-25 10:36:07" itemprop="dateModified" datetime="2022-04-25T10:36:07+08:00">2022-04-25</time>
+              </span>
 
           
 
@@ -221,13 +227,14 @@
 
       
         <h1 id="图片懒加载"><a href="#图片懒加载" class="headerlink" title="图片懒加载"></a>图片懒加载</h1><p>在类电商类项目，往往存在大量的图片，如 banner 广告图，菜单导航图，美团等商家列表头图等。图片众多以及图片体积过大往往会影响页面加载速度，造成不良的用户体验，所以进行图片懒加载优化势在必行。</p>
+<span id="more"></span>
 <h3 id="为什么要进行图片懒加载"><a href="#为什么要进行图片懒加载" class="headerlink" title="为什么要进行图片懒加载"></a>为什么要进行图片懒加载</h3><p>我们先来看一下页面启动时加载的图片信息。</p>
 <img src="./img/2.png">
 
 <p>如图所示，这个页面启动时加载了几十张图片（甚至更多），而这些图片请求几乎是并发的，在 Chrome 浏览器，最多支持的并发请求次数是有限的，其他的请求会推入到队列中等待或者停滞不前，直到上轮请求完成后新的请求才会发出。所以相当一部分图片资源请求是需要排队等待时间的。</p>
 <p>在上面可以看出，有部分图片达到几百 kB，设置 2M(这锅必须运营背，非得上传高清大图不可？)，直接导致了加载时间过长。</p>
 <img src="./img/1.png">
-<span id="more"></span>
+<!--more-->
 针对以上情况，进行图片懒加载有以下优点：
 
 <ol>

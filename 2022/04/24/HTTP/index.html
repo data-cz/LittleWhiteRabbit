@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"data-cz.github.io","root":"/LittleWhiteRabbit/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="http状态码有那些？分别代表是什么意思？ 12345678910111213141516171819简单版   [       100  Continue   继续，一般在发送post请求时，已发送了http header之后服务端将返回此信息，表示确认，之后发送具体参数信息       200  OK         正常返回信息       201  Created    请求成功并且服务器">
+  <meta name="description" content="http状态码有那些？分别代表是什么意思？">
 <meta property="og:type" content="article">
 <meta property="og:title" content="http相关">
 <meta property="og:url" content="https://data-cz.github.io/2022/04/24/HTTP/index.html">
 <meta property="og:site_name" content="面试详解">
-<meta property="og:description" content="http状态码有那些？分别代表是什么意思？ 12345678910111213141516171819简单版   [       100  Continue   继续，一般在发送post请求时，已发送了http header之后服务端将返回此信息，表示确认，之后发送具体参数信息       200  OK         正常返回信息       201  Created    请求成功并且服务器">
+<meta property="og:description" content="http状态码有那些？分别代表是什么意思？">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-04-24T01:47:52.735Z">
-<meta property="article:modified_time" content="2022-04-24T01:59:31.904Z">
+<meta property="article:modified_time" content="2022-04-25T02:34:48.304Z">
 <meta property="article:author" content="Chen Daxian">
 <meta name="twitter:card" content="summary">
 
@@ -201,10 +201,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-04-24 09:47:52 / Modified: 09:59:31" itemprop="dateCreated datePublished" datetime="2022-04-24T09:47:52+08:00">2022-04-24</time>
+              <time title="Created: 2022-04-24 09:47:52" itemprop="dateCreated datePublished" datetime="2022-04-24T09:47:52+08:00">2022-04-24</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-25 10:34:48" itemprop="dateModified" datetime="2022-04-25T10:34:48+08:00">2022-04-25</time>
+              </span>
 
           
 
@@ -218,8 +224,9 @@
 
       
         <p><strong>http状态码有那些？分别代表是什么意思？</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">简单版</span><br><span class="line">   [</span><br><span class="line">       100  Continue   继续，一般在发送post请求时，已发送了http header之后服务端将返回此信息，表示确认，之后发送具体参数信息</span><br><span class="line">       200  OK         正常返回信息</span><br><span class="line">       201  Created    请求成功并且服务器创建了新的资源</span><br><span class="line">       202  Accepted   服务器已接受请求，但尚未处理</span><br><span class="line">       301  Moved Permanently  请求的网页已永久移动到新位置。</span><br><span class="line">       302 Found       临时性重定向。</span><br><span class="line">       303 See Other   临时性重定向，且总是使用 GET 请求新的 URI。</span><br><span class="line">       304  Not Modified 自从上次请求后，请求的网页未修改过。</span><br><span class="line"></span><br><span class="line">       400 Bad Request  服务器无法理解请求的格式，客户端不应当尝试再次使用相同的内容发起请求。</span><br><span class="line">       401 Unauthorized 请求未授权。</span><br><span class="line">       403 Forbidden   禁止访问。</span><br><span class="line">       404 Not Found   找不到如何与 URI 相匹配的资源。</span><br><span class="line"></span><br><span class="line">       500 Internal Server Error  最常见的服务器端错误。</span><br><span class="line">       503 Service Unavailable 服务器端暂时无法处理请求（可能是过载或维护）。</span><br><span class="line">   ]</span><br></pre></td></tr></table></figure>
 <span id="more"></span>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">简单版</span><br><span class="line">   [</span><br><span class="line">       100  Continue   继续，一般在发送post请求时，已发送了http header之后服务端将返回此信息，表示确认，之后发送具体参数信息</span><br><span class="line">       200  OK         正常返回信息</span><br><span class="line">       201  Created    请求成功并且服务器创建了新的资源</span><br><span class="line">       202  Accepted   服务器已接受请求，但尚未处理</span><br><span class="line">       301  Moved Permanently  请求的网页已永久移动到新位置。</span><br><span class="line">       302 Found       临时性重定向。</span><br><span class="line">       303 See Other   临时性重定向，且总是使用 GET 请求新的 URI。</span><br><span class="line">       304  Not Modified 自从上次请求后，请求的网页未修改过。</span><br><span class="line"></span><br><span class="line">       400 Bad Request  服务器无法理解请求的格式，客户端不应当尝试再次使用相同的内容发起请求。</span><br><span class="line">       401 Unauthorized 请求未授权。</span><br><span class="line">       403 Forbidden   禁止访问。</span><br><span class="line">       404 Not Found   找不到如何与 URI 相匹配的资源。</span><br><span class="line"></span><br><span class="line">       500 Internal Server Error  最常见的服务器端错误。</span><br><span class="line">       503 Service Unavailable 服务器端暂时无法处理请求（可能是过载或维护）。</span><br><span class="line">   ]</span><br></pre></td></tr></table></figure>
+<!--more-->
 <p><strong>一个页面从输入 URL 到页面加载显示完成，这个过程中都发生了什么？（流程说的越详细越好）</strong></p>
 <ul>
 <li><p>注：这题胜在区分度高，知识点覆盖广，再不懂的人，也能答出几句，</p>

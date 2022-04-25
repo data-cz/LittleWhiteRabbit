@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"data-cz.github.io","root":"/LittleWhiteRabbit/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="JS 数据类型JavaScript 是弱类型语言，而且 JavaScript 声明变量的时候并没有预先确定的类型，变量的类型就是其值的类型，也就是说变量当前的类型由其值所决定,夸张点说上一秒种的 String，下一秒可能就是个 Number 类型了，这个过程可能就进行了某些操作发生了强制类型转换。 js 数据分为两种类型：原始数据类型和引用数据类型。  基本数据类型有：string、number、">
+  <meta name="description" content="JS 数据类型JavaScript 是弱类型语言，而且 JavaScript 声明变量的时候并没有预先确定的类型，变量的类型就是其值的类型，也就是说变量当前的类型由其值所决定,夸张点说上一秒种的 String，下一秒可能就是个 Number 类型了，这个过程可能就进行了某些操作发生了强制类型转换。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JS 数组操作">
 <meta property="og:url" content="https://data-cz.github.io/2022/04/24/js%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="面试详解">
-<meta property="og:description" content="JS 数据类型JavaScript 是弱类型语言，而且 JavaScript 声明变量的时候并没有预先确定的类型，变量的类型就是其值的类型，也就是说变量当前的类型由其值所决定,夸张点说上一秒种的 String，下一秒可能就是个 Number 类型了，这个过程可能就进行了某些操作发生了强制类型转换。 js 数据分为两种类型：原始数据类型和引用数据类型。  基本数据类型有：string、number、">
+<meta property="og:description" content="JS 数据类型JavaScript 是弱类型语言，而且 JavaScript 声明变量的时候并没有预先确定的类型，变量的类型就是其值的类型，也就是说变量当前的类型由其值所决定,夸张点说上一秒种的 String，下一秒可能就是个 Number 类型了，这个过程可能就进行了某些操作发生了强制类型转换。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-04-24T01:43:08.420Z">
-<meta property="article:modified_time" content="2022-04-24T01:59:32.077Z">
+<meta property="article:modified_time" content="2022-04-25T02:35:18.198Z">
 <meta property="article:author" content="Chen Daxian">
 <meta name="twitter:card" content="summary">
 
@@ -201,10 +201,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:32" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
+              <time title="Created: 2022-04-24 09:43:08" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-25 10:35:18" itemprop="dateModified" datetime="2022-04-25T10:35:18+08:00">2022-04-25</time>
+              </span>
 
           
 
@@ -218,12 +224,13 @@
 
       
         <h1 id="JS-数据类型"><a href="#JS-数据类型" class="headerlink" title="JS 数据类型"></a>JS 数据类型</h1><p><strong>JavaScript 是弱类型语言</strong>，而且 JavaScript 声明变量的时候并没有预先确定的类型，变量的类型就是其值的类型，也就是说变量当前的类型由其值所决定,夸张点说上一秒种的 String，下一秒可能就是个 Number 类型了，这个过程可能就进行了某些操作发生了强制类型转换。</p>
+<span id="more"></span>
 <p>js 数据分为两种类型：原始数据类型和引用数据类型。</p>
 <ul>
 <li>基本数据类型有：string、number、boolean、undefined、null 和 symbol（符号）</li>
-<li>引用数据类型有：Object、Function、Date、RegExp 等。<span id="more"></span>
-<h3 id="栈和堆"><a href="#栈和堆" class="headerlink" title="栈和堆"></a>栈和堆</h3>堆和栈的概念存在于数据结构中和操作系统内存中。</li>
+<li>引用数据类型有：Object、Function、Date、RegExp 等。</li>
 </ul>
+<h3 id="栈和堆"><a href="#栈和堆" class="headerlink" title="栈和堆"></a>栈和堆</h3><p>堆和栈的概念存在于数据结构中和操作系统内存中。</p>
 <p>在数据结构中，栈中数据的存取方式为先进后出。而堆是一个优先队列，是按优先级来进行排序的，优先级可以按照大小来规定。完全<br>二叉树是堆的一种实现方式。</p>
 <p>在操作系统中，内存被分为栈区和堆区。<br>栈区内存由编译器自动分配释放，存放函数的参数值，局部变量的值等。其操作方式类似于数据结构中的栈。<br>堆区内存一般由程序员分配释放，若程序员不释放，程序结束时可能由垃圾回收机制回收。</p>
 <p>基本数据类型直接存储在栈（stack）中的简单数据段，占据空间小、大小固定，属于被频繁使用数据，所以放入栈中存储。</p>

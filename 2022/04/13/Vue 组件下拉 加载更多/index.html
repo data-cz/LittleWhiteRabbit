@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"data-cz.github.io","root":"/LittleWhiteRabbit/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="一、新建一个loadingMessage组件1.1 监听滑动1&lt;div ref&#x3D;&quot;content&quot;&gt;&lt;&#x2F;div&gt; 1.1 挂载监听12345mounted() &amp;#123;    this.$refs.content.scrollTag &#x3D; 0; &#x2F;&#x2F; 标记监听数    &#x2F;&#x2F; 挂载监听    this.listenerScroll();  &amp;#125;,">
+  <meta name="description" content="一、新建一个loadingMessage组件1.1 监听滑动">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vue 组件下拉加载更多">
 <meta property="og:url" content="https://data-cz.github.io/2022/04/13/Vue%20%E7%BB%84%E4%BB%B6%E4%B8%8B%E6%8B%89%20%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A/index.html">
 <meta property="og:site_name" content="面试详解">
-<meta property="og:description" content="一、新建一个loadingMessage组件1.1 监听滑动1&lt;div ref&#x3D;&quot;content&quot;&gt;&lt;&#x2F;div&gt; 1.1 挂载监听12345mounted() &amp;#123;    this.$refs.content.scrollTag &#x3D; 0; &#x2F;&#x2F; 标记监听数    &#x2F;&#x2F; 挂载监听    this.listenerScroll();  &amp;#125;,">
+<meta property="og:description" content="一、新建一个loadingMessage组件1.1 监听滑动">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-04-13T01:46:34.427Z">
-<meta property="article:modified_time" content="2022-04-24T01:59:31.416Z">
+<meta property="article:modified_time" content="2022-04-25T02:35:38.782Z">
 <meta property="article:author" content="Chen Daxian">
 <meta property="article:tag" content="Vue">
 <meta name="twitter:card" content="summary">
@@ -210,7 +210,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-04-24 09:59:31" itemprop="dateModified" datetime="2022-04-24T09:59:31+08:00">2022-04-24</time>
+                <time title="Modified: 2022-04-25 10:35:38" itemprop="dateModified" datetime="2022-04-25T10:35:38+08:00">2022-04-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -233,9 +233,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="一、新建一个loadingMessage组件"><a href="#一、新建一个loadingMessage组件" class="headerlink" title="一、新建一个loadingMessage组件"></a>一、新建一个loadingMessage组件</h2><h3 id="1-1-监听滑动"><a href="#1-1-监听滑动" class="headerlink" title="1.1 监听滑动"></a>1.1 监听滑动</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div ref=&quot;content&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+        <h2 id="一、新建一个loadingMessage组件"><a href="#一、新建一个loadingMessage组件" class="headerlink" title="一、新建一个loadingMessage组件"></a>一、新建一个loadingMessage组件</h2><h3 id="1-1-监听滑动"><a href="#1-1-监听滑动" class="headerlink" title="1.1 监听滑动"></a>1.1 监听滑动</h3><span id="more"></span>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div ref=&quot;content&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 <h3 id="1-1-挂载监听"><a href="#1-1-挂载监听" class="headerlink" title="1.1 挂载监听"></a>1.1 挂载监听</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mounted() &#123;</span><br><span class="line">    this.$refs.content.scrollTag = 0; // 标记监听数</span><br><span class="line">    // 挂载监听</span><br><span class="line">    this.listenerScroll();</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
-<span id="more"></span>
+
 <h3 id="1-2-加载数据时候设置高度"><a href="#1-2-加载数据时候设置高度" class="headerlink" title="1.2 加载数据时候设置高度"></a>1.2 加载数据时候设置高度</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">updated() &#123;</span><br><span class="line">  this.scrollHeight = this.$refs.content.scrollHeight; // 加载数据时设置滚动内容高</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
 <h3 id="1-3-离开页面销毁监听组件"><a href="#1-3-离开页面销毁监听组件" class="headerlink" title="1.3 离开页面销毁监听组件"></a>1.3 离开页面销毁监听组件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">beforeDestroy() &#123;</span><br><span class="line">  this.destroyScroll()</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
 <h3 id="1-3-watch-监听，滑动到顶部事件"><a href="#1-3-watch-监听，滑动到顶部事件" class="headerlink" title="1.3 watch 监听，滑动到顶部事件"></a>1.3 watch 监听，滑动到顶部事件</h3>   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">watch: &#123;</span><br><span class="line">  scrollHeight: function(newHeight,oldHeight)&#123; // 加载数据时设置滚动条</span><br><span class="line">    if(this.scrollTop === 0)&#123; // scrollTop 为0时说明时下拉加载操作</span><br><span class="line">      this.$refs.content.scrollTop = newHeight - oldHeight;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  interlocutor: function()&#123;</span><br><span class="line">    this.scrollToBottom();  // 滚动条至底</span><br><span class="line">    this.listenerScroll();  // 重现挂载监听</span><br><span class="line">  &#125;,</span><br><span class="line">  loadingStatus: function(newStatus,oldStatus) &#123; // 加载完全部数据时移除滚动条监听</span><br><span class="line">    if(newStatus === 2)&#123;</span><br><span class="line">      this.destroyScroll();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
