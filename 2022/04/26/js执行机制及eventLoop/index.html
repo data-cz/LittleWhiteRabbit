@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/LittleWhiteRabbit/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/LittleWhiteRabbit/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/LittleWhiteRabbit/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/LittleWhiteRabbit/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/LittleWhiteRabbit/css/main.css">
+
+
+<link rel="stylesheet" href="/LittleWhiteRabbit/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"data-cz.github.io","root":"/LittleWhiteRabbit/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="JS 执行机制js 是一门单线程语言。所谓单线程，是指在 JavaScript 引擎中负责解释和执行 JavaScript 代码的线程唯一，同一时间上只能执行一件任务。      js 引擎有一个主线程（main thread）用来解释和执行 js 程序，还存在其他的线程。例如：处理 ajax 请求的线程、处理 DOM 事件的线程、定时器线程、读写文件的线程(例如在 node.js 中)等等。这些">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS 执行机制">
+<meta property="og:url" content="https://data-cz.github.io/2022/04/26/js%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6%E5%8F%8AeventLoop/index.html">
+<meta property="og:site_name" content="面试详解">
+<meta property="og:description" content="JS 执行机制js 是一门单线程语言。所谓单线程，是指在 JavaScript 引擎中负责解释和执行 JavaScript 代码的线程唯一，同一时间上只能执行一件任务。      js 引擎有一个主线程（main thread）用来解释和执行 js 程序，还存在其他的线程。例如：处理 ajax 请求的线程、处理 DOM 事件的线程、定时器线程、读写文件的线程(例如在 node.js 中)等等。这些">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://data-cz.github.io/2022/04/26/img/js1.png">
+<meta property="og:image" content="https://data-cz.github.io/2022/04/26/img/js2.png">
+<meta property="og:image" content="https://data-cz.github.io/2022/04/26/img/js3.png">
+<meta property="og:image" content="https://data-cz.github.io/2022/04/26/img/eventLoop.png">
+<meta property="article:published_time" content="2022-04-26T03:03:42.036Z">
+<meta property="article:modified_time" content="2022-04-24T01:59:31.922Z">
+<meta property="article:author" content="Chen Daxian">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://data-cz.github.io/2022/04/26/img/js1.png">
+
+<link rel="canonical" href="https://data-cz.github.io/2022/04/26/js%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6%E5%8F%8AeventLoop/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>JS 执行机制 | 面试详解</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/LittleWhiteRabbit/atom.xml" title="面试详解" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/LittleWhiteRabbit/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">面试详解</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/LittleWhiteRabbit/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/LittleWhiteRabbit/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/26/js%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6%E5%8F%8AeventLoop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JS 执行机制
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-04-26 11:03:42" itemprop="dateCreated datePublished" datetime="2022-04-26T11:03:42+08:00">2022-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-24 09:59:31" itemprop="dateModified" datetime="2022-04-24T09:59:31+08:00">2022-04-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="JS-执行机制"><a href="#JS-执行机制" class="headerlink" title="JS 执行机制"></a>JS 执行机制</h1><p>js 是一门<strong>单线程语言</strong>。所谓单线程，是指在 JavaScript 引擎中负责解释和执行 JavaScript 代码的线程唯一，同一时间上只能执行一件任务。     </p>
+<p>js 引擎有一个主线程（main thread）用来解释和执行 js 程序，还存在其他的线程。例如：处理 ajax 请求的线程、处理 DOM 事件的线程、定时器线程、读写文件的线程(例如在 node.js 中)等等。这些线程可能存在于 js 引擎之内，也可能存在于 js 引擎之外，在此我们不做区分。不妨叫它们工作线程。  </p>
+<p>为什么是 js 是单线程的呢？这是因为 JavaScript 可以修改 DOM 结构，如果 JavaScript 引擎线程不是单线程的，那么可以同时执行多段 JavaScript，如果这多段 JavaScript 都修改 DOM，那么就会出现 DOM 冲突。为了避免 DOM 渲染的冲突，可以采用单线程或者死锁，JavaScript 采用了单线程方案。  </p>
+<p>但单线程有一个问题：如果任务队列里有一个任务耗时很长，导致这个任务后面的任务一直排队等待，就会发生页面卡死，严重影响用户体验。</p>
+<span id="more"></span>
+<h2 id="JS-执行上下文"><a href="#JS-执行上下文" class="headerlink" title="JS 执行上下文"></a>JS 执行上下文</h2><p>当代码运行时，会产生一个对应的执行环境，在这个环境中，所有变量会被事先提出来（变量提升），有的直接赋值，有的为默认值 undefined，代码从上往下开始执行，就叫做执行上下文。</p>
+<p>例子 1:变量提升</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">foo <span class="comment">// undefined</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;foo1&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">foo</span>() <span class="comment">// foo1，foo赋值</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> foo = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;foo2&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">foo</span>() <span class="comment">// foo2，foo重新赋值</span></span><br></pre></td></tr></table></figure>
+
+<p>例子 2：函数提升</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">foo</span>() <span class="comment">// foo2</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;foo1&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">foo</span>() <span class="comment">// foo2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;foo2&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">foo</span>() <span class="comment">// foo2</span></span><br></pre></td></tr></table></figure>
+
+<p>例子 3：声明优先级，函数 &gt; 变量</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">foo</span>() <span class="comment">// foo2</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;foo1&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">foo</span>() <span class="comment">// foo1，foo重新赋值</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;foo2&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">foo</span>() <span class="comment">// foo1</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="执行上下文类型。"><a href="#执行上下文类型。" class="headerlink" title="执行上下文类型。"></a>执行上下文类型。</h4><ul>
+<li><p>全局执行上下文  </p>
+<p>这是默认或者说基础的上下文，任何不在函数内部的代码都在全局上下文中。它会执行两件事：创建一个全局的 window 对象（浏览器的情况下），并且设置 this 的值等于这个全局对象。一个程序中只会有一个全局执行上下文。</p>
+</li>
+<li><p>函数执行上下文  </p>
+<p>每当一个函数被调用时, 都会为该函数创建一个新的上下文。每个函数都有它自己的执行上下文，不过是在函数被调用时创建的。函数上下文可以有任意多个。每当一个新的执行上下文被创建，它会按定义的顺序（将在后文讨论）执行一系列步骤。</p>
+</li>
+<li><p>Eval 函数执行上下文  </p>
+<p>执行在 eval 函数内部的代码也会有它属于自己的执行上下文，但由于 JavaScript 开发者并不经常使用 eval，所以在这里我不会讨论它。</p>
+</li>
+</ul>
+<h4 id="执行上下文特点"><a href="#执行上下文特点" class="headerlink" title="执行上下文特点"></a>执行上下文特点</h4><ol>
+<li>单线程，在主进程上运行</li>
+<li>同步执行，从上往下按顺序执行</li>
+<li>全局上下文只有一个，浏览器关闭时会被弹出栈</li>
+<li>函数的执行上下文没有数目限制</li>
+<li>函数每被调用一次，都会产生一个新的执行上下文环境</li>
+</ol>
+<h2 id="执行栈"><a href="#执行栈" class="headerlink" title="执行栈"></a>执行栈</h2><p>JavaScript 将任务的执行模式分为两种：同步和异步。同步任务都在主线程（这里的主线程就是 JavaScript 引擎线程）上执行，会形成一个 调用栈 ，又称<strong>执行栈</strong>。  </p>
+<p>当JavaScript代码被运行的时候，会创建一个全局上下文，并push到当前执行栈。之后当发生函数调用的时候，引擎会为函数创建一个函数执行上下文并push到栈顶。引擎会先执行调用栈顶部的函数，当函数执行完成后，当前函数的执行上下文会被移除当前执行栈。并移动到下一个上下文。  </p>
+<p>除了主线程外，还有一个任务队列（也称消息队列），用于管理异步任务的事件回调 ，在调用栈的任务执行完毕之后，系统会检查任务队列，看是否有可以执行的异步任务。</p>
+<p>其实这是一个压栈出栈的过程——执行栈。</p>
+<img src="../img/js1.png">
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="comment">// 1.进入全局上下文环境</span></span><br><span class="line">  a = <span class="number">10</span>,</span><br><span class="line">  fn,</span><br><span class="line">  bar = <span class="keyword">function</span>(<span class="params">x</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> b = <span class="number">20</span></span><br><span class="line">    <span class="title function_">fn</span>(x + b) <span class="comment">// 3.进入fn上下文环境</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">fn = <span class="keyword">function</span>(<span class="params">y</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> c = <span class="number">20</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(y + c)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">bar</span>(<span class="number">5</span>) <span class="comment">// 2.进入bar上下文环境</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="执行上下文生命周期"><a href="#执行上下文生命周期" class="headerlink" title="执行上下文生命周期"></a>执行上下文生命周期</h4><img src="../img/js2.png">
+
+<ul>
+<li><p>创建阶段</p>
+<ul>
+<li>生成变量对</li>
+<li>建立作用域</li>
+<li>确定 this 指向</li>
+</ul>
+</li>
+<li><p>执行阶段</p>
+<ul>
+<li>变量赋值</li>
+<li>函数引用</li>
+<li>执行其他代码</li>
+</ul>
+</li>
+<li><p>销毁阶段</p>
+<ul>
+<li>执行完毕出栈，等待回收被销毁</li>
+</ul>
+</li>
+</ul>
+<h4 id="栈溢出"><a href="#栈溢出" class="headerlink" title="栈溢出"></a>栈溢出</h4><p>在我们执行 JavaScript 代码的时候，有时会出现栈溢出的情况：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Uncaught</span> <span class="title class_">RangeError</span>: <span class="title class_">Maximum</span> call stack size exceeded</span><br></pre></td></tr></table></figure>
+<p>这是一个典型的栈溢出。调用栈是用来管理执行上下文的一种数据结构，它是有大小的，当入栈的上下文过多的时候，它就会报栈溢出。比如</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">add</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span> + <span class="title function_">add</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">add</span>()</span><br></pre></td></tr></table></figure>
+<p>add 函数不断的递归，不断的入栈，调用栈的容量有限，它就溢出了，所以，我们日常的开发中，一定要注意此类代码的出现。</p>
+<h2 id="javascript-事件循环"><a href="#javascript-事件循环" class="headerlink" title="javascript 事件循环"></a>javascript 事件循环</h2><ul>
+<li>同步和异步任务分别进入不同的执行”场所”，同步的进入主线程，异步的进入 <code>Event Table</code> 并注册函数。</li>
+<li>当指定的事情完成时，<code>Event Table</code> 会将这个函数移入 <code>Event Queue</code>。</li>
+<li>主线程内的任务执行完毕为空，会去 <code>Event Queue</code> 读取对应的函数，进入主线程执行。</li>
+<li>上述过程会不断重复，也就是常说的 <code>Event Loop</code>(事件循环)。</li>
+</ul>
+<img src="../img/js3.png">
+
+<p>同步任务和异步任务，我们对任务有更精细的定义：</p>
+<h4 id="macro-task-宏任务-："><a href="#macro-task-宏任务-：" class="headerlink" title="macro-task(宏任务)："></a>macro-task(宏任务)：</h4><p>每次执行栈执行的代码就是一个宏任务(包括每次从事件队列中获取一个事件回调并放到执行栈中执行)。浏览器为了能够使得 js 内部<code>(macro)task</code>与 DOM 任务能够有序执行，会在一个<code>(macro)task</code>执行结束后，在下一个<code>(macro)task</code>执行开始前，对页面进行重新渲染。宏任务主要包含：</p>
+<ul>
+<li>script(整体代码)</li>
+<li>setTimeout &#x2F; setInterval</li>
+<li>setImmediate(Node.js 环境)</li>
+<li>I&#x2F;O</li>
+<li>UI render</li>
+<li>postMessage</li>
+<li>MessageChannel</li>
+</ul>
+<h4 id="micro-task-微任务-："><a href="#micro-task-微任务-：" class="headerlink" title="micro-task(微任务)："></a>micro-task(微任务)：</h4><p>可以理解是在当前 task 执行结束后立即执行的任务。也就是说，在当前 task 任务后，下一个 task 之前，在渲染之前。所以它的响应速度相比 setTimeout（setTimeout 是 task）会更快，因为无需等渲染。也就是说，在某一个 macrotask 执行完后，就会将在它执行期间产生的所有 microtask 都执行完毕（在渲染前）。microtask 主要包含：</p>
+<ul>
+<li>process.nextTick(Node.js 环境)</li>
+<li>Promise</li>
+<li>Async&#x2F;Await</li>
+<li>MutationObserver(html5 新特性)</li>
+</ul>
+<img src="../img/eventLoop.png" width="80%">
+
+<p>总的结论就是，执行宏任务，然后执行该宏任务产生的微任务，若微任务在执行过程中产生了新的微任务，则继续执行微任务，微任务执行完毕后，再回到宏任务中进行下一轮循环。</p>
+<h4 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h4><p>我们来分析一段较复杂的代码，看看你是否真的掌握了 js 的执行机制：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">  process.<span class="title function_">nextTick</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;3&#x27;</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="keyword">function</span>(<span class="params">resolve</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;4&#x27;</span>)</span><br><span class="line">    <span class="title function_">resolve</span>()</span><br><span class="line">  &#125;).<span class="title function_">then</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;5&#x27;</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line">process.<span class="title function_">nextTick</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;6&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="keyword">function</span>(<span class="params">resolve</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;7&#x27;</span>)</span><br><span class="line">  <span class="title function_">resolve</span>()</span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;8&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;9&#x27;</span>)</span><br><span class="line">  process.<span class="title function_">nextTick</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;10&#x27;</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="keyword">function</span>(<span class="params">resolve</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;11&#x27;</span>)</span><br><span class="line">    <span class="title function_">resolve</span>()</span><br><span class="line">  &#125;).<span class="title function_">then</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;12&#x27;</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1,7,8,2,4,5,6,3,9,11,12,10</span></span><br></pre></td></tr></table></figure>
+
+<p>再来一段</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">async1</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;async1 start&#x27;</span>)</span><br><span class="line">  <span class="keyword">await</span> <span class="title function_">async2</span>()</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;async1 end&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">async2</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;async2&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;script start&#x27;</span>)</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;setTimeout&#x27;</span>)</span><br><span class="line">&#125;, <span class="number">0</span>)</span><br><span class="line"><span class="title function_">async1</span>()</span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="keyword">function</span>(<span class="params">resolve</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;promise1&#x27;</span>)</span><br><span class="line">  <span class="title function_">resolve</span>()</span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;promise2&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;script end&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// script start</span></span><br><span class="line"><span class="comment">// async1 start</span></span><br><span class="line"><span class="comment">// async2</span></span><br><span class="line"><span class="comment">// promise1</span></span><br><span class="line"><span class="comment">// script end</span></span><br><span class="line"><span class="comment">// async1 end</span></span><br><span class="line"><span class="comment">// promise2</span></span><br><span class="line"><span class="comment">// setTimeout</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="node-的事件循环"><a href="#node-的事件循环" class="headerlink" title="node 的事件循环"></a>node 的事件循环</h3><ul>
+<li>timers 定时器：本阶段执行已经安排的 setTimeout() 和 setInterval() 的回调函数。</li>
+<li>pending callbacks 待定回调：执行延迟到下一个循环迭代的 I&#x2F;O 回调。</li>
+<li>idle, prepare：仅系统内部使用。</li>
+<li>poll 轮询：检索新的 I&#x2F;O 事件;执行与 I&#x2F;O 相关的回调（几乎所有情况下，除了关闭的回调函数，它们由计时器和 setImmediate() 排定的之外），其余情况 node 将在此处阻塞。</li>
+<li>check 检测：setImmediate() 回调函数在这里执行。</li>
+<li>close callbacks 关闭的回调函数：一些准备关闭的回调函数，如：socket.on(‘close’, …)。</li>
+</ul>
+<h4 id="微任务和宏任务在-Node-的执行顺序"><a href="#微任务和宏任务在-Node-的执行顺序" class="headerlink" title="微任务和宏任务在 Node 的执行顺序"></a>微任务和宏任务在 Node 的执行顺序</h4><p>Node 10 以前：</p>
+<ul>
+<li>执行完一个阶段的所有任务</li>
+<li>执行完 nextTick 队列里面的内容</li>
+<li>然后执行完微任务队列的内容</li>
+</ul>
+<p>Node 11 以后：</p>
+<ul>
+<li>和浏览器的行为统一了，都是每执行一个宏任务就执行完微任务队列。</li>
+</ul>
+<h2 id="node-环境和浏览器的区别"><a href="#node-环境和浏览器的区别" class="headerlink" title="node 环境和浏览器的区别"></a>node 环境和浏览器的区别</h2><h4 id="1、全局环境下-this-的指向"><a href="#1、全局环境下-this-的指向" class="headerlink" title="1、全局环境下 this 的指向"></a>1、全局环境下 this 的指向</h4><ul>
+<li>node 中 this 指向 global</li>
+<li>浏览器中 this 指向 window</li>
+<li>这就是为什么 underscore 中一上来就定义了一 root；</li>
+</ul>
+<p>浏览器中的 window 下封装了不少的 API 比如 alert 、document、location、history 等等还有很多, 我们就不能在 node 环境中 xxx();或 window.xxx();了。因为这些 API 是浏览器级别的封装，存 javascript 中是没有的。当然 node 中也提供了不少 node 特有的 API。</p>
+<h4 id="2、js-引擎"><a href="#2、js-引擎" class="headerlink" title="2、js 引擎"></a>2、js 引擎</h4><ul>
+<li><p>在浏览器中不同的浏览器厂商提供了不同的浏览器内核，浏览器依赖这些内核解释折我们编写的 js。但是考虑到不同内核的少量差异，我们需要对应兼容性好在有一些优秀的库帮助我们处理这个问题。比如 jquery、underscore 等等。</p>
+</li>
+<li><p>nodejs 是基于 Chrome’s JavaScript runtime，也就是说，实际上它是对 GoogleV8 引擎（应用于 Google Chrome 浏览器)进行了封装。V8 引 擎执行 Javascript 的速度非常快，性能非常好。</p>
+</li>
+</ul>
+<h4 id="3、DOM-操作"><a href="#3、DOM-操作" class="headerlink" title="3、DOM 操作"></a>3、DOM 操作</h4><ul>
+<li>浏览器中的 js 大多数情况下是在直接或间接（一些虚拟 DOM 的库和框架）的操作 DOM。因为浏览器中的代码主要是在表现层工作。</li>
+<li>node 是一门服务端技术。没有一个前台页面，所以我们不会再 node 中操作 DOM。</li>
+</ul>
+<h4 id="4、I-x2F-O-读写"><a href="#4、I-x2F-O-读写" class="headerlink" title="4、I&#x2F;O 读写"></a>4、I&#x2F;O 读写</h4><p>与浏览器不同，我们需要像其他服务端技术一样读写文件，nodejs 提供了比较方便的组件。而浏览器（确保兼容性的）想在页面中直接打开一个本地的图片就麻烦了好多（别和我说这还不简单，相对路径。。。。。。试试就知道了要么找个库要么二进制流，要么上传上去有了网络地址在显示。不然人家为什么要搞一个 js 库呢），而这一切 node 都用一个组件搞定了。</p>
+<h4 id="5、模块加载"><a href="#5、模块加载" class="headerlink" title="5、模块加载"></a>5、模块加载</h4><ul>
+<li><p>javascript 有个特点，就是原生没提供包引用的 API 一次性把要加载的东西全执行一遍，这里就要看各位闭包的功力了。所用东西都在一起，没有分而治之，搞的特别没有逻辑性和复用性。如果页面简单或网站当然我们可以通过一些 AMD、CMD 的 js 库（比如 requireJS 和 seaJS）搞定事实上很多大型网站都是这么干的。</p>
+</li>
+<li><p>nodeJS 中提供了 CMD 的模块加载的 API，如果你用过 seaJS，那么应该上手很快。node 还提供了 npm 这种包管理工具，能更有效方便的管理我们饮用的库</p>
+</li>
+</ul>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><a target="_blank" rel="noopener" href="https://juejin.im/post/5c337ae06fb9a049bc4cd218">浏览器与Node的事件循环(Event Loop)有何区别?</a>  </p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/LittleWhiteRabbit/2022/04/26/js%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86/" rel="prev" title="JS 异步处理">
+      <i class="fa fa-chevron-left"></i> JS 异步处理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/LittleWhiteRabbit/2022/04/26/js%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E6%80%BB%E7%BB%93/" rel="next" title="JS 数组操作">
+      JS 数组操作 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JS-%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">JS 执行机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JS-%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="nav-number">1.1.</span> <span class="nav-text">JS 执行上下文</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E7%B1%BB%E5%9E%8B%E3%80%82"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">执行上下文类型。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E7%89%B9%E7%82%B9"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">执行上下文特点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E6%A0%88"><span class="nav-number">1.2.</span> <span class="nav-text">执行栈</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">执行上下文生命周期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%88%E6%BA%A2%E5%87%BA"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">栈溢出</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#javascript-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF"><span class="nav-number">1.3.</span> <span class="nav-text">javascript 事件循环</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#macro-task-%E5%AE%8F%E4%BB%BB%E5%8A%A1-%EF%BC%9A"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">macro-task(宏任务)：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#micro-task-%E5%BE%AE%E4%BB%BB%E5%8A%A1-%EF%BC%9A"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">micro-task(微任务)：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BE%E4%B8%AA%E4%BE%8B%E5%AD%90"><span class="nav-number">1.3.0.3.</span> <span class="nav-text">举个例子</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#node-%E7%9A%84%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF"><span class="nav-number">1.3.1.</span> <span class="nav-text">node 的事件循环</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BE%AE%E4%BB%BB%E5%8A%A1%E5%92%8C%E5%AE%8F%E4%BB%BB%E5%8A%A1%E5%9C%A8-Node-%E7%9A%84%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">微任务和宏任务在 Node 的执行顺序</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#node-%E7%8E%AF%E5%A2%83%E5%92%8C%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.4.</span> <span class="nav-text">node 环境和浏览器的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E5%85%A8%E5%B1%80%E7%8E%AF%E5%A2%83%E4%B8%8B-this-%E7%9A%84%E6%8C%87%E5%90%91"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">1、全局环境下 this 的指向</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81js-%E5%BC%95%E6%93%8E"><span class="nav-number">1.4.0.2.</span> <span class="nav-text">2、js 引擎</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81DOM-%E6%93%8D%E4%BD%9C"><span class="nav-number">1.4.0.3.</span> <span class="nav-text">3、DOM 操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4%E3%80%81I-x2F-O-%E8%AF%BB%E5%86%99"><span class="nav-number">1.4.0.4.</span> <span class="nav-text">4、I&#x2F;O 读写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5%E3%80%81%E6%A8%A1%E5%9D%97%E5%8A%A0%E8%BD%BD"><span class="nav-number">1.4.0.5.</span> <span class="nav-text">5、模块加载</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">1.4.1.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chen Daxian"
+      src="/LittleWhiteRabbit/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Chen Daxian</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/LittleWhiteRabbit/archives/">
+        
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Daxian</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/LittleWhiteRabbit/lib/anime.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/LittleWhiteRabbit/js/utils.js"></script>
+
+<script src="/LittleWhiteRabbit/js/motion.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/schemes/pisces.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/LittleWhiteRabbit/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

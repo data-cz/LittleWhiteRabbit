@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/LittleWhiteRabbit/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/LittleWhiteRabbit/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/LittleWhiteRabbit/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/LittleWhiteRabbit/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/LittleWhiteRabbit/css/main.css">
+
+
+<link rel="stylesheet" href="/LittleWhiteRabbit/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"data-cz.github.io","root":"/LittleWhiteRabbit/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="vue 开发规范及代码优化所谓无规矩不成方圆，前端时间在团队 code-review 中发现，不同时期不同开发人员写的代码可谓五花八门。因此我们提出了一些相关代码方面的规范，希望日后能形成团队的编码规范。 制定开发规范的目的  统一编码风格，规范，提高团队协作效率 在团队协作中输出可读性强，易维护，风格一致的代码  本文在gitthub做了收录：https:&#x2F;&#x2F;github.com&#x2F;Michael">
+<meta property="og:type" content="article">
+<meta property="og:title" content="开发规范及代码优化">
+<meta property="og:url" content="https://data-cz.github.io/2022/04/26/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/index.html">
+<meta property="og:site_name" content="面试详解">
+<meta property="og:description" content="vue 开发规范及代码优化所谓无规矩不成方圆，前端时间在团队 code-review 中发现，不同时期不同开发人员写的代码可谓五花八门。因此我们提出了一些相关代码方面的规范，希望日后能形成团队的编码规范。 制定开发规范的目的  统一编码风格，规范，提高团队协作效率 在团队协作中输出可读性强，易维护，风格一致的代码  本文在gitthub做了收录：https:&#x2F;&#x2F;github.com&#x2F;Michael">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-04-26T03:03:42.097Z">
+<meta property="article:modified_time" content="2022-04-24T01:59:31.999Z">
+<meta property="article:author" content="Chen Daxian">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://data-cz.github.io/2022/04/26/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>开发规范及代码优化 | 面试详解</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/LittleWhiteRabbit/atom.xml" title="面试详解" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/LittleWhiteRabbit/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">面试详解</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/LittleWhiteRabbit/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/LittleWhiteRabbit/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/26/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          开发规范及代码优化
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-04-26 11:03:42" itemprop="dateCreated datePublished" datetime="2022-04-26T11:03:42+08:00">2022-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-24 09:59:31" itemprop="dateModified" datetime="2022-04-24T09:59:31+08:00">2022-04-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="vue-开发规范及代码优化"><a href="#vue-开发规范及代码优化" class="headerlink" title="vue 开发规范及代码优化"></a>vue 开发规范及代码优化</h1><p>所谓无规矩不成方圆，前端时间在团队 <code>code-review</code> 中发现，不同时期不同开发人员写的代码可谓五花八门。因此我们提出了一些相关代码方面的规范，希望日后能形成团队的编码规范。</p>
+<p>制定开发规范的目的</p>
+<ul>
+<li>统一编码风格，规范，提高团队协作效率</li>
+<li>在团队协作中输出可读性强，易维护，风格一致的代码</li>
+</ul>
+<p>本文在gitthub做了收录：<a target="_blank" rel="noopener" href="https://github.com/Michael-lzg/my--article/blob/master/other/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83%E5%8F%8A%E4%BC%98%E5%8C%96.md">https://github.com/Michael-lzg/my--article/blob/master/other/前端代码规范及优化.md</a></p>
+<span id="more"></span>
+<h2 id="HTML-篇"><a href="#HTML-篇" class="headerlink" title="HTML 篇"></a>HTML 篇</h2><h4 id="启用标准模式"><a href="#启用标准模式" class="headerlink" title="启用标准模式"></a>启用标准模式</h4><p>使用 HTML5 的 <code>doctype</code> 来启用标准模式</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="统一使用-UTF-8-编码"><a href="#统一使用-UTF-8-编码" class="headerlink" title="统一使用 UTF-8 编码"></a>统一使用 UTF-8 编码</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="优先使用-IE-最新版本和-Chrome"><a href="#优先使用-IE-最新版本和-Chrome" class="headerlink" title="优先使用 IE 最新版本和 Chrome"></a>优先使用 IE 最新版本和 Chrome</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge,chrome=1&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="移动设备添加-viewport"><a href="#移动设备添加-viewport" class="headerlink" title="移动设备添加 viewport"></a>移动设备添加 viewport</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="自闭合标签无需闭合"><a href="#自闭合标签无需闭合" class="headerlink" title="自闭合标签无需闭合"></a>自闭合标签无需闭合</h4><p>例如： <code>img</code>， <code>input</code>， <code>br</code>， <code>hr</code> 等</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;https://xxx.png&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;Google&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;title&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="使用语义化标签"><a href="#使用语义化标签" class="headerlink" title="使用语义化标签"></a>使用语义化标签</h4><p>html 的标签能使用语义化的，尽量使用语义化标签，避免一个页面都是 div 或者 p 标签</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- bad --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- good --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">header</span>&gt;</span><span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">footer</span>&gt;</span><span class="tag">&lt;/<span class="name">footer</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="属性顺序要求"><a href="#属性顺序要求" class="headerlink" title="属性顺序要求"></a>属性顺序要求</h4><p>HTML 属性应该按照特定的顺序出现以保证易读性。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">id</span><br><span class="line">class</span><br><span class="line">name</span><br><span class="line">data-xxx</span><br><span class="line">src, for, type, href</span><br><span class="line">title, alt</span><br><span class="line">aria-xxx, role</span><br></pre></td></tr></table></figure>
+
+<h2 id="CSS-篇"><a href="#CSS-篇" class="headerlink" title="CSS 篇"></a>CSS 篇</h2><h4 id="BEM-命名原则"><a href="#BEM-命名原则" class="headerlink" title="BEM 命名原则"></a>BEM 命名原则</h4><ul>
+<li>block：模块，名字单词间用 - 连接</li>
+<li>element：元素，模块的子元素，以 __ 与 block 连接</li>
+<li>modifier：修饰，模块的变体，定义特殊模块，以 – 与 block 连接</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 举个例子 */</span></span><br><span class="line"><span class="selector-class">.block__element</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.block--modifier</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="有效使用-css-选择器"><a href="#有效使用-css-选择器" class="headerlink" title="有效使用 css 选择器"></a>有效使用 css 选择器</h4><p>选择器嵌套应少于 3 级</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* bad */</span></span><br><span class="line"><span class="selector-class">.page</span> <span class="selector-class">.header</span> <span class="selector-class">.login</span> <span class="selector-id">#username</span> <span class="selector-tag">input</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* good */</span></span><br><span class="line"><span class="selector-id">#username</span> <span class="selector-tag">input</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有效使用 css 选择器，因遵循以下原则</p>
+<ul>
+<li>保持简单，不要使用嵌套过多过于复杂的选择器。</li>
+<li>通配符和属性选择器效率最低，需要匹配的元素最多，尽量避免使用。</li>
+<li>不要使用类选择器和 ID 选择器修饰元素标签。</li>
+<li>不要为了追求速度而放弃可读性与可维护性</li>
+<li>避免使用 CSS 表达式</li>
+</ul>
+<h4 id="慎重选择高消耗的样式"><a href="#慎重选择高消耗的样式" class="headerlink" title="慎重选择高消耗的样式"></a>慎重选择高消耗的样式</h4><p>高消耗属性在绘制前需要浏览器进行大量计算：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">box-shadows</span><br><span class="line">border-radius</span><br><span class="line">transparency</span><br><span class="line">transforms</span><br><span class="line">CSS filters（性能杀手）</span><br></pre></td></tr></table></figure>
+
+<h4 id="避免重绘重排"><a href="#避免重绘重排" class="headerlink" title="避免重绘重排"></a>避免重绘重排</h4><p>当发生重排的时候，浏览器需要重新计算布局位置与大小，不利于性能优化。</p>
+<p>常见引起重绘重排属性和方法</p>
+<ul>
+<li>添加或者删除可见的 <code>DOM</code> 元素；</li>
+<li>元素尺寸改变——边距、填充、边框、宽度和高度</li>
+<li>内容变化，比如用户在 <code>input</code> 框中输入文字</li>
+<li>浏览器窗口尺寸改变——<code>resize</code> 事件发生时</li>
+<li>计算 <code>offsetWidth</code> 和 <code>offsetHeight</code> 属性</li>
+<li>设置 <code>style</code> 属性的值</li>
+</ul>
+<p>减少重绘重排的方法</p>
+<ul>
+<li>使用 <code>transform</code> 替代 <code>top</code></li>
+<li>使用 <code>visibility</code> 替换 <code>display: none</code> ，因为前者只会引起重绘，后者会引发回流（改变了布局）</li>
+<li>不要把节点的属性值放在一个循环里当成循环里的变量。</li>
+<li>不要使用 <code>table</code> 布局，可能很小的一个小改动会造成整个 <code>table</code> 的重新布局</li>
+<li>动画实现的速度的选择，动画速度越快，回流次数越多，也可以选择使用 <code>requestAnimationFrame</code></li>
+<li>CSS 选择符从右往左匹配查找，避免节点层级过多</li>
+</ul>
+<h2 id="Javascript-篇"><a href="#Javascript-篇" class="headerlink" title="Javascript 篇"></a>Javascript 篇</h2><h4 id="关于命名"><a href="#关于命名" class="headerlink" title="关于命名"></a>关于命名</h4><p>普通命名采用小驼峰式命名</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> userName = <span class="string">&#x27;jack&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>命名是复数的时候需要加 s，比如说我想声明一个数组，表示很多人的名字</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> names = <span class="keyword">new</span> <span class="title class_">Array</span>()</span><br></pre></td></tr></table></figure>
+
+<p>每个常量都需命名，这样更利于别人读懂含义</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">COL_NUM</span> = <span class="number">10</span></span><br><span class="line"><span class="keyword">let</span> row = <span class="title class_">Math</span>.<span class="title function_">ceil</span>(num / <span class="variable constant_">COL_NUM</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">let</span> row = <span class="title class_">Math</span>.<span class="title function_">ceil</span>(num / <span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<p>命名需要符合语义化，如果函数命名，可以采用加上动词前缀：</p>
+<ul>
+<li>can 判断是否可执行某个动作</li>
+<li>has 判断是否含有某个值</li>
+<li>is 判断是否为某个值</li>
+<li>get 获取某个值</li>
+<li>set 设置某个值</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//是否可阅读</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">canRead</span>(<span class="params"></span>)&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//获取姓名</span></span><br><span class="line"><span class="keyword">function</span> getName&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">name</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="关于字符串"><a href="#关于字符串" class="headerlink" title="关于字符串"></a>关于字符串</h4><p>统一使用单引号而不是双引号</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> name = <span class="string">&#x27;jack&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> name = <span class="string">&#x27;jack&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>用字符串模板而不是 ‘+’ 来拼接字符串</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">sayHi</span>(<span class="params">name</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;How are you, &#x27;</span> + name + <span class="string">&#x27;?&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sayHi</span>(<span class="params">name</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`How are you, <span class="subst">$&#123;name&#125;</span>?`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="关于数组"><a href="#关于数组" class="headerlink" title="关于数组"></a>关于数组</h4><p>用字面量赋值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> items = <span class="keyword">new</span> <span class="title class_">Array</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> items = []</span><br></pre></td></tr></table></figure>
+
+<p>用扩展运算符做数组浅拷贝</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="keyword">const</span> len = arr.<span class="property">length</span></span><br><span class="line"><span class="keyword">const</span> copyArr = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len; i += <span class="number">1</span>) &#123;</span><br><span class="line">  copyArr[i] = arr[i]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> copyArr = [...arr]</span><br></pre></td></tr></table></figure>
+
+<p>用 Array.from 去将一个类数组对象转成一个数组。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arrLike = &#123; <span class="number">0</span>: <span class="string">&#x27;foo&#x27;</span>, <span class="number">1</span>: <span class="string">&#x27;bar&#x27;</span>, <span class="number">2</span>: <span class="string">&#x27;baz&#x27;</span>, <span class="attr">length</span>: <span class="number">3</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> arr = <span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">slice</span>.<span class="title function_">call</span>(arrLike)</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> arr = <span class="title class_">Array</span>.<span class="title function_">from</span>(arrLike)</span><br></pre></td></tr></table></figure>
+
+<p>使用数组解构</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> first = arr[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">const</span> second = arr[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> [first, second] = arr</span><br></pre></td></tr></table></figure>
+
+<h4 id="关于对象"><a href="#关于对象" class="headerlink" title="关于对象"></a>关于对象</h4><p>创建对象和数组推荐使用字面量，因为这不仅是性能最优也有助于节省代码量。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;Tom&#x27;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">15</span>,</span><br><span class="line">  <span class="attr">sex</span>: <span class="string">&#x27;男&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">let</span> obj = &#123;&#125;</span><br><span class="line">obj.<span class="property">name</span> = <span class="string">&#x27;Tom&#x27;</span></span><br><span class="line">obj.<span class="property">age</span> = <span class="number">15</span></span><br><span class="line">obj.<span class="property">sex</span> = <span class="string">&#x27;男&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>ES6 使用属性值缩写</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> lukeSkywalker = <span class="string">&#x27;Luke Skywalker&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  <span class="attr">lukeSkywalker</span>: lukeSkywalker,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  lukeSkywalker,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将属性的缩写放在对象声明的开头</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> anakinSkywalker = <span class="string">&#x27;Anakin Skywalker&#x27;</span></span><br><span class="line"><span class="keyword">const</span> lukeSkywalker = <span class="string">&#x27;Luke Skywalker&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  <span class="attr">episodeOne</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">twoJediWalkIntoACantina</span>: <span class="number">2</span>,</span><br><span class="line">  lukeSkywalker,</span><br><span class="line">  <span class="attr">episodeThree</span>: <span class="number">3</span>,</span><br><span class="line">  <span class="attr">mayTheFourth</span>: <span class="number">4</span>,</span><br><span class="line">  anakinSkywalker,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  lukeSkywalker,</span><br><span class="line">  anakinSkywalker,</span><br><span class="line">  <span class="attr">episodeOne</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">twoJediWalkIntoACantina</span>: <span class="number">2</span>,</span><br><span class="line">  <span class="attr">episodeThree</span>: <span class="number">3</span>,</span><br><span class="line">  <span class="attr">mayTheFourth</span>: <span class="number">4</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对象浅拷贝时，更推荐使用扩展运算符 …，而不是 Object.assign。解构赋值获取对象指定的几个属性时，推荐用 rest 运算符，也是 …。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// very bad</span></span><br><span class="line"><span class="keyword">const</span> original = &#123; <span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span> &#125;</span><br><span class="line"><span class="keyword">const</span> copy = <span class="title class_">Object</span>.<span class="title function_">assign</span>(original, &#123; <span class="attr">c</span>: <span class="number">3</span> &#125;)</span><br><span class="line"><span class="keyword">delete</span> copy.<span class="property">a</span> <span class="comment">//  改变了 original</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> original = &#123; <span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span> &#125;</span><br><span class="line"><span class="keyword">const</span> copy = <span class="title class_">Object</span>.<span class="title function_">assign</span>(&#123;&#125;, original, &#123; <span class="attr">c</span>: <span class="number">3</span> &#125;) <span class="comment">// copy =&gt; &#123; a: 1, b: 2, c: 3 &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">const</span> original = &#123; <span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span> &#125;</span><br><span class="line"><span class="keyword">const</span> copy = &#123; ...original, <span class="attr">c</span>: <span class="number">3</span> &#125; <span class="comment">// copy =&gt; &#123; a: 1, b: 2, c: 3 &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; a, ...noA &#125; = copy <span class="comment">// noA =&gt; &#123; b: 2, c: 3 &#125;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="关于函数"><a href="#关于函数" class="headerlink" title="关于函数"></a>关于函数</h4><p>函数参数使用默认值替代使用条件语句进行赋值。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">createMicrobrewery</span>(<span class="params">name = <span class="string">&#x27;Jack&#x27;</span></span>) &#123;</span><br><span class="line">   ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">createMicrobrewery</span>(<span class="params">name</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> userNameName = name || <span class="string">&#x27;Jack&#x27;</span></span><br><span class="line">   ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>函数参数使用结构语法，函数参数越少越好，如果参数超过两个，要使用 ES6 的解构语法，不用考虑参数的顺序。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">createMenu</span>(<span class="params">&#123; title, body, buttonText, cancellable &#125;</span>) &#123;</span><br><span class="line">   ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">createMenu</span>(&#123;</span><br><span class="line">  <span class="attr">title</span>:  <span class="string">&#x27;Foo&#x27;</span>,</span><br><span class="line">  <span class="attr">body</span>: <span class="string">&#x27;Bar&#x27;</span>,</span><br><span class="line">  <span class="attr">buttonText</span>: <span class="string">&#x27;Baz&#x27;</span>,</span><br><span class="line">  <span class="attr">cancellable</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">createMenu</span>(<span class="params">title, body, buttonText, cancellable</span>) &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>优先使用 rest 语法…，而不是 arguments</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">concatenateAll</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> args = <span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">slice</span>.<span class="title function_">call</span>(<span class="variable language_">arguments</span>)</span><br><span class="line">  <span class="keyword">return</span> args.<span class="title function_">join</span>(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">concatenateAll</span>(<span class="params">...args</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> args.<span class="title function_">join</span>(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>把默认参数赋值放在最后</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">handleThings</span>(<span class="params">opts = &#123;&#125;, name</span>) &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">handleThings</span>(<span class="params">name, opts = &#123;&#125;</span>) &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>尽量使用箭头函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line">;[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">  .<span class="title function_">map</span>(<span class="keyword">function</span> (<span class="params">x</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> y = x + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> x * y</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  [</span><br><span class="line">    <span class="comment">// good</span></span><br><span class="line">    (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">  ].<span class="title function_">map</span>(<span class="function">(<span class="params">x</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> y = x + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> x * y</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="关于模块"><a href="#关于模块" class="headerlink" title="关于模块"></a>关于模块</h4><p>在非标准模块系统上使用(import&#x2F;export)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">AirbnbStyleGuide</span> = <span class="built_in">require</span>(<span class="string">&#x27;./AirbnbStyleGuide&#x27;</span>)</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="title class_">AirbnbStyleGuide</span>.<span class="property">es6</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ok</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">AirbnbStyleGuide</span> <span class="keyword">from</span> <span class="string">&#x27;./AirbnbStyleGuide&#x27;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">AirbnbStyleGuide</span>.<span class="property">es6</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// best</span></span><br><span class="line"><span class="keyword">import</span> &#123; es6 &#125; <span class="keyword">from</span> <span class="string">&#x27;./AirbnbStyleGuide&#x27;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> es6</span><br></pre></td></tr></table></figure>
+
+<p>一个入口只 import 一次</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">import</span> foo <span class="keyword">from</span> <span class="string">&#x27;foo&#x27;</span></span><br><span class="line"><span class="comment">// … some other imports … //</span></span><br><span class="line"><span class="keyword">import</span> &#123; named1, named2 &#125; <span class="keyword">from</span> <span class="string">&#x27;foo&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">import</span> foo, &#123; named1, named2 &#125; <span class="keyword">from</span> <span class="string">&#x27;foo&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>在只有一个导出的模块里，用 export default 更好</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>) &#123;</span><br></pre></td></tr></table></figure>
+
+<h4 id="for-循环"><a href="#for-循环" class="headerlink" title="for 循环"></a>for 循环</h4><p>使用 for 循环过程中，数组的长度，使用一个变量来接收，这样有利于代码执行效率得到提高，而不是每走一次循环，都得重新计算数组长度</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;arr.<span class="property">length</span>,i++)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;arr.<span class="property">length</span>,i++)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Vue-篇"><a href="#Vue-篇" class="headerlink" title="Vue 篇"></a>Vue 篇</h2><h4 id="Prop-定义尽量详细。"><a href="#Prop-定义尽量详细。" class="headerlink" title="Prop 定义尽量详细。"></a>Prop 定义尽量详细。</h4><p><code>prop</code> 的定义应该尽量详细，至少需要指定其类型。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="attr">props</span>: [<span class="string">&#x27;status&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="attr">props</span>: &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="title class_">String</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// better</span></span><br><span class="line"><span class="attr">props</span>: &#123;</span><br><span class="line">  <span class="attr">status</span>: &#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="title class_">String</span>,</span><br><span class="line">    <span class="attr">required</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">validator</span>: <span class="keyword">function</span> (<span class="params">value</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> [<span class="string">&#x27;syncing&#x27;</span>,<span class="string">&#x27;synced&#x27;</span>,<span class="string">&#x27;version-conflict&#x27;</span>,<span class="string">&#x27;error&#x27;</span>].<span class="title function_">indexOf</span>(value) !== -<span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="v-for-遍历必须添加-key"><a href="#v-for-遍历必须添加-key" class="headerlink" title="v-for 遍历必须添加 key"></a>v-for 遍历必须添加 key</h4><p>在列表数据进行遍历渲染时，需要为每一项 <code>item</code> 设置唯一 <code>key</code> 值，方便 Vue.js 内部机制精准找到该条列表数据。当 <code>state</code> 更新时，新的状态值和旧的状态值对比，较快地定位到 <code>diff</code> 。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- bad --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">&quot;todo in todos&quot;</span>&gt;</span>&#123;&#123; todo.text &#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- good --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">&quot;todo in todos&quot;</span> <span class="attr">:key</span>=<span class="string">&quot;todo.id&quot;</span>&gt;</span>&#123;&#123; todo.text &#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="v-if-和-v-for-不要用在同一个元素上。"><a href="#v-if-和-v-for-不要用在同一个元素上。" class="headerlink" title="v-if 和 v-for 不要用在同一个元素上。"></a>v-if 和 v-for 不要用在同一个元素上。</h4><p><code>v-for</code> 比 <code>v-if</code> 优先级高，如果每一次都需要遍历整个数组，将会影响速度，尤其是当之需要渲染很小一部分的时候。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- bad --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">&quot;user in users&quot;</span> <span class="attr">v-if</span>=<span class="string">&quot;shouldShowUsers&quot;</span> <span class="attr">:key</span>=<span class="string">&quot;user.id&quot;</span>&gt;</span>&#123;&#123; user.name &#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- good --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">v-if</span>=<span class="string">&quot;shouldShowUsers&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">&quot;user in users&quot;</span> <span class="attr">:key</span>=<span class="string">&quot;user.id&quot;</span>&gt;</span>&#123;&#123; user.name &#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="组件的-data-必须是一个函数"><a href="#组件的-data-必须是一个函数" class="headerlink" title="组件的 data 必须是一个函数"></a>组件的 data 必须是一个函数</h4><p>JS 中的实例是通过构造函数来创建的，每个构造函数可以 new 出很多个实例，那么每个实例都会继承原型上的方法或属性。Vue 的 data 数据其实是 Vue 原型上的属性，数据存在于内存当中。</p>
+<p>同一个组件被复用多次，会创建多个实例。这些实例用的是同一个构造函数，如果 data 是一个对象的话。那么所有组件都共享了同一个对象。为了保证组件的数据独立性，要求每个组件必须通过 data 函数返回一个对象作为组件的状态，这样每复用一次组件，就会返回一份新的 data。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">component</span>(<span class="string">&#x27;some-comp&#x27;</span>, &#123;</span><br><span class="line">  <span class="attr">data</span>: &#123;</span><br><span class="line">    <span class="attr">foo</span>: <span class="string">&#x27;bar&#x27;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">component</span>(<span class="string">&#x27;some-comp&#x27;</span>, &#123;</span><br><span class="line">  <span class="attr">data</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">foo</span>: <span class="string">&#x27;bar&#x27;</span>,</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="组件模板应该书写简洁"><a href="#组件模板应该书写简洁" class="headerlink" title="组件模板应该书写简洁"></a>组件模板应该书写简洁</h4><p>组件模板应该只包含简单的表达式，复杂的表达式则应该重构为计算属性或方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line">&#123;&#123;</span><br><span class="line">  fullName.<span class="title function_">split</span>(<span class="string">&#x27; &#x27;</span>).<span class="title function_">map</span>(<span class="keyword">function</span> (<span class="params">word</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> word[<span class="number">0</span>].<span class="title function_">toUpperCase</span>() + word.<span class="title function_">slice</span>(<span class="number">1</span>)</span><br><span class="line">  &#125;).<span class="title function_">join</span>(<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">&#125;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//  good</span></span><br><span class="line"><span class="comment">//  在模板中</span></span><br><span class="line">&#123;&#123; normalizedFullName &#125;&#125;</span><br><span class="line"><span class="comment">// 复杂表达式已经移入一个计算属性</span></span><br><span class="line"><span class="attr">computed</span>: &#123;</span><br><span class="line">  <span class="attr">normalizedFullName</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">fullName</span>.<span class="title function_">split</span>(<span class="string">&#x27; &#x27;</span>).<span class="title function_">map</span>(<span class="keyword">function</span> (<span class="params">word</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> word[<span class="number">0</span>].<span class="title function_">toUpperCase</span>() + word.<span class="title function_">slice</span>(<span class="number">1</span>)</span><br><span class="line">    &#125;).<span class="title function_">join</span>(<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="指令缩写"><a href="#指令缩写" class="headerlink" title="指令缩写"></a>指令缩写</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- bad --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">v-bind:value</span>=<span class="string">&quot;newTodoText&quot;</span> <span class="attr">:placeholder</span>=<span class="string">&quot;newTodoInstructions&quot;</span> <span class="attr">v-on:input</span>=<span class="string">&quot;onInput&quot;</span> /&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- good --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">:value</span>=<span class="string">&quot;newTodoText&quot;</span> <span class="attr">:placeholder</span>=<span class="string">&quot;newTodoInstructions&quot;</span> @<span class="attr">input</span>=<span class="string">&quot;onInput&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="组件名为多个单词"><a href="#组件名为多个单词" class="headerlink" title="组件名为多个单词"></a>组件名为多个单词</h4><p>我们开发过程中自定义的组件的名称需要为多个单词，这样做可以避免跟现有的以及未来的 HTML 元素相冲突，因为所有的 HTML 元素名称都是单个单词的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">component</span>(<span class="string">&#x27;todo-item&#x27;</span>, &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;TodoItem&#x27;</span>,</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">component</span>(<span class="string">&#x27;todo&#x27;</span>, &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;Todo&#x27;</span>,</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="多个属性进行分行"><a href="#多个属性进行分行" class="headerlink" title="多个属性进行分行"></a>多个属性进行分行</h4><p>在 JavaScript 中，用多行分隔对象的多个属性是很常见的最佳实践，因为这样更易读。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- good --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">MyComponent</span> <span class="attr">foo</span>=<span class="string">&quot;a&quot;</span> <span class="attr">bar</span>=<span class="string">&quot;b&quot;</span> <span class="attr">baz</span>=<span class="string">&quot;c&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- bad --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">MyComponent</span> <span class="attr">foo</span>=<span class="string">&quot;a&quot;</span> <span class="attr">bar</span>=<span class="string">&quot;b&quot;</span> <span class="attr">baz</span>=<span class="string">&quot;c&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="元素特性的顺序"><a href="#元素特性的顺序" class="headerlink" title="元素特性的顺序"></a>元素特性的顺序</h4><p>原生属性放前面，指令其次，传参和方法放最后</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- class, id, ref</span><br><span class="line">- name, data-*, src, alt, for, type, href, value, max, min</span><br><span class="line">- title, placeholder, aria-*, role</span><br><span class="line">- required, readonly, disabled</span><br><span class="line">- v-model, v-for, key, v-if, v-show, v-bind,:</span><br><span class="line">- foo=&quot;a&quot; bar=&quot;b&quot; baz=&quot;c&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="关于组件内样式"><a href="#关于组件内样式" class="headerlink" title="关于组件内样式"></a>关于组件内样式</h4><p>为组件样式设置作用域</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* bad  */</span></span><br><span class="line">&lt;style&gt;</span><br><span class="line"><span class="selector-class">.btn-close</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: red;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* good  */</span></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"><span class="selector-class">.button-close</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: red;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>若要改变第三方组件库的样式，需要加上顶级作用域。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* bad */</span></span><br><span class="line"><span class="selector-class">.ivu-input</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">254px</span> <span class="meta">!important</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* good */</span></span><br><span class="line"><span class="selector-class">.customerForm</span> <span class="selector-class">.ivu-input</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">254px</span> <span class="meta">!important</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* .customerForm为当前组件的顶级dom  */</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="关于组件结构"><a href="#关于组件结构" class="headerlink" title="关于组件结构"></a>关于组件结构</h4><p>组件结构遵循从上往下 template，script，style 的结构。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">export</span> <span class="keyword">default</span> &#123;&#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">lang</span>=<span class="string">&quot;scss&quot;</span> <span class="attr">scoped</span>&gt;</span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>script 部分各方法成员遵循以下顺序放置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- name</span><br><span class="line">- components</span><br><span class="line">- props</span><br><span class="line">- data</span><br><span class="line">- methods</span><br><span class="line">- computed</span><br><span class="line">- watch</span><br><span class="line">- created</span><br><span class="line">- mounted</span><br><span class="line">- update</span><br></pre></td></tr></table></figure>
+
+<h4 id="清除定时器或者事件监听"><a href="#清除定时器或者事件监听" class="headerlink" title="清除定时器或者事件监听"></a>清除定时器或者事件监听</h4><p>由于项目中有些页面难免会碰到需要定时器或者事件监听。但是在离开当前页面的时候，定时器如果不及时合理地清除，会造成业务逻辑混乱甚至应用卡死的情况，这个时就需要清除定时器事件监听，即在页面卸载（关闭）的生命周期函数里，清除定时器。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">methods</span>:&#123;</span><br><span class="line">  resizeFun () &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">tableHeight</span> = <span class="variable language_">window</span>.<span class="property">innerHeight</span> - <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;table&#x27;</span>).<span class="property">offsetTop</span> - <span class="number">128</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">setTimer</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">timer</span> = <span class="built_in">setInterval</span>(<span class="function">() =&gt;</span> &#123; &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">clearTimer</span>(<span class="params"></span>) &#123;</span><br><span class="line">		<span class="built_in">clearInterval</span>(<span class="variable language_">this</span>.<span class="property">timer</span>)</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">timer</span> = <span class="literal">null</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;,</span><br><span class="line"><span class="title function_">mounted</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="title function_">setTimer</span>()</span><br><span class="line">  <span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;resize&#x27;</span>, <span class="variable language_">this</span>.<span class="property">resizeFun</span>)</span><br><span class="line">&#125;,</span><br><span class="line"><span class="title function_">beforeDestroy</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">window</span>.<span class="title function_">removeEventListener</span>(<span class="string">&#x27;resize&#x27;</span>, <span class="variable language_">this</span>.<span class="property">resizeFun</span>)</span><br><span class="line">  <span class="variable language_">this</span>.<span class="title function_">clearTimer</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="路由懒加载"><a href="#路由懒加载" class="headerlink" title="路由懒加载"></a>路由懒加载</h4><p>Vue 是单页面应用，可能会有很多的路由引入 ，这样使用 webpcak 打包后的文件很大，当进入首页时，加载的资源过多，页面会出现白屏的情况，不利于用户体验。如果我们能把不同路由对应的组件分割成不同的代码块，然后当路由被访问的时候才加载对应的组件，这样就更加高效了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">path</span>: <span class="string">&#x27;/Home&#x27;</span>,</span><br><span class="line">  <span class="attr">component</span>: <span class="function">() =&gt;</span> <span class="title function_">import</span>(<span class="string">&#x27;@/views/Home.vue&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="职责单一"><a href="#职责单一" class="headerlink" title="职责单一"></a>职责单一</h4><p>任何时候尽量是的一个函数就做一件事情，而不是将各种逻辑全部耦合在一起，提高单个函数的复用性和可读性。比如：每个页面都会在加载完成时进行数据的请求并展示到页面。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="attr">methods</span>: &#123;</span><br><span class="line">  <span class="title function_">getList1</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// to do ...</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">getList2</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// to do ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br><span class="line"><span class="title function_">created</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="title function_">getList1</span>()</span><br><span class="line">  <span class="variable language_">this</span>.<span class="title function_">getList2</span>()</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="attr">methods</span>: &#123;</span><br><span class="line">  <span class="comment">// 将全部的请求行为聚合在init函数中</span></span><br><span class="line">  <span class="title function_">init</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">getList1</span>()</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">getList2</span>()</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">getList1</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// to do ...</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">getList2</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// to do ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br><span class="line"><span class="title function_">created</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="title function_">init</span>();</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<h4 id="第三方-UI-组件按需引入"><a href="#第三方-UI-组件按需引入" class="headerlink" title="第三方 UI 组件按需引入"></a>第三方 UI 组件按需引入</h4><p>我们在项目中使用的第三方 UI 组件，如果我们直接引入整个组件库，会导致项目的体积太大，我们可以借助 babel-plugin-component ，然后可以只引入需要的组件，以达到减小项目体积的目的。以下为项目中引入 vant 为例：</p>
+<p>1、首先，安装 babel-plugin-component</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install babel-plugin-component -D</span><br></pre></td></tr></table></figure>
+
+<p>2、修改 .babelrc</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;plugins&quot;</span>: [</span><br><span class="line">    [<span class="string">&quot;import&quot;</span>, &#123;</span><br><span class="line">      <span class="string">&quot;libraryName&quot;</span>: <span class="string">&quot;vant&quot;</span>,</span><br><span class="line">      <span class="string">&quot;libraryDirectory&quot;</span>: <span class="string">&quot;es&quot;</span>,</span><br><span class="line">      <span class="string">&quot;style&quot;</span>: <span class="literal">true</span></span><br><span class="line">    &#125;]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3、引入部分组件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">Vue</span> <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Button</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;vant&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">use</span>(<span class="title class_">Button</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="图片篇："><a href="#图片篇：" class="headerlink" title="图片篇："></a>图片篇：</h2><h4 id="使用恰当的图片格式。"><a href="#使用恰当的图片格式。" class="headerlink" title="使用恰当的图片格式。"></a>使用恰当的图片格式。</h4><ul>
+<li>jpg：适用于内容图片多为照片之类的。</li>
+<li>png：适用于而饰图片，通常更适合用无损压缩。</li>
+<li>gif： 基本上除了 gif 动画外不要使用。</li>
+<li>webP：大大减小图片的体积，但是移动端有兼容性问题。</li>
+</ul>
+<h4 id="使用雪碧图"><a href="#使用雪碧图" class="headerlink" title="使用雪碧图"></a>使用雪碧图</h4><p>雪碧图，<code>CSS Sprites</code>，国内也叫 CSS 精灵，是一种 CSS 图像合成技术，主要用于小图片显示。</p>
+<p>雪碧图的优点是把诸多小图片合成一张大图，利用<code>backround-position</code>属性值来确定图片呈现的位置，这样就能减少 http 请求，到达性能优化的效果。</p>
+<h4 id="使用-iconfont"><a href="#使用-iconfont" class="headerlink" title="使用 iconfont"></a>使用 iconfont</h4><p><code>iconfont</code>(字体图标)，即通过字体的方式展示图标，多用于渲染图标、简单图形、特殊字体等。</p>
+<p>使用 <code>iconfont</code> 时，由于只需要引入对应的字体文件即可，这种方法可有效减少 HTTP 请求次数，而且一般字体体积较小，所以请求传输数据量较少。与直接引入图片不同，<code>iconfont</code> 可以像使用字体一样，设置大小、颜色及其他样式，且不存在失真的情况。</p>
+<h4 id="图片懒加载"><a href="#图片懒加载" class="headerlink" title="图片懒加载"></a>图片懒加载</h4><p>图片懒加载的原理就是暂时不设置图片的 <code>src</code> 属性，而是将图片的 <code>url</code> 隐藏起来，比如先写在 <code>data-src</code> 里面，等某些事件触发的时候(比如滚动到底部，点击加载图片)再将图片真实的 <code>url</code> 放进 <code>src</code> 属性里面，从而实现图片的延迟加载。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">lazyload</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> images = <span class="variable language_">document</span>.<span class="title function_">getElementsByTagName</span>(<span class="string">&#x27;img&#x27;</span>)</span><br><span class="line">  <span class="keyword">var</span> len = images.<span class="property">length</span></span><br><span class="line">  <span class="keyword">var</span> n = <span class="number">0</span> <span class="comment">//存储图片加载到的位置，避免每次都从第一张图片开始遍历</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> seeHeight = <span class="variable language_">document</span>.<span class="property">documentElement</span>.<span class="property">clientHeight</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = n; i &lt; len; i++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (images[i].<span class="title function_">getBoundingClientRect</span>().<span class="property">top</span> &lt; seeHeight) &#123;</span><br><span class="line">        <span class="comment">//方法二: 当图片的视口top出现在视口中</span></span><br><span class="line">        <span class="keyword">if</span> (images[i].<span class="title function_">getAttribute</span>(<span class="string">&#x27;src&#x27;</span>) === <span class="string">&#x27;images/default.jpg&#x27;</span>) &#123;</span><br><span class="line">          images[i].<span class="property">src</span> = images[i].<span class="title function_">getAttribute</span>(<span class="string">&#x27;data-src&#x27;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        n = n + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>vue 项目可以 <code>vue-lazyload</code> 插件实现图片懒加载</p>
+<p><code>main.js</code> 中全局引入：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">VueLazyLoad</span> <span class="keyword">from</span> <span class="string">&#x27;vue-lazyload&#x27;</span></span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">use</span>(<span class="title class_">VueLazyLoad</span>, &#123;</span><br><span class="line">  <span class="attr">preLoad</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">error</span>: <span class="built_in">require</span>(<span class="string">&#x27;./assets/img/error.jpg&#x27;</span>),</span><br><span class="line">  <span class="attr">loading</span>: <span class="built_in">require</span>(<span class="string">&#x27;./assets/img/homePage_top.jpg&#x27;</span>),</span><br><span class="line">  <span class="attr">attempt</span>: <span class="number">2</span>,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>页面中使用</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">&quot;(item,index) in imgList&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">v-lazy</span>=<span class="string">&quot;item&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/LittleWhiteRabbit/2022/04/26/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/" rel="prev" title="前端优化代码">
+      <i class="fa fa-chevron-left"></i> 前端优化代码
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/LittleWhiteRabbit/2022/04/26/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E5%9B%BE%E7%89%87%E6%87%92%E5%8A%A0%E8%BD%BD/" rel="next" title="图片懒加载">
+      图片懒加载 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#vue-%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83%E5%8F%8A%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">vue 开发规范及代码优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML-%E7%AF%87"><span class="nav-number">1.1.</span> <span class="nav-text">HTML 篇</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E7%94%A8%E6%A0%87%E5%87%86%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">启用标准模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%9F%E4%B8%80%E4%BD%BF%E7%94%A8-UTF-8-%E7%BC%96%E7%A0%81"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">统一使用 UTF-8 编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8-IE-%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E5%92%8C-Chrome"><span class="nav-number">1.1.0.3.</span> <span class="nav-text">优先使用 IE 最新版本和 Chrome</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E8%AE%BE%E5%A4%87%E6%B7%BB%E5%8A%A0-viewport"><span class="nav-number">1.1.0.4.</span> <span class="nav-text">移动设备添加 viewport</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E9%97%AD%E5%90%88%E6%A0%87%E7%AD%BE%E6%97%A0%E9%9C%80%E9%97%AD%E5%90%88"><span class="nav-number">1.1.0.5.</span> <span class="nav-text">自闭合标签无需闭合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%AF%AD%E4%B9%89%E5%8C%96%E6%A0%87%E7%AD%BE"><span class="nav-number">1.1.0.6.</span> <span class="nav-text">使用语义化标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7%E9%A1%BA%E5%BA%8F%E8%A6%81%E6%B1%82"><span class="nav-number">1.1.0.7.</span> <span class="nav-text">属性顺序要求</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS-%E7%AF%87"><span class="nav-number">1.2.</span> <span class="nav-text">CSS 篇</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BEM-%E5%91%BD%E5%90%8D%E5%8E%9F%E5%88%99"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">BEM 命名原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E6%95%88%E4%BD%BF%E7%94%A8-css-%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">有效使用 css 选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%85%8E%E9%87%8D%E9%80%89%E6%8B%A9%E9%AB%98%E6%B6%88%E8%80%97%E7%9A%84%E6%A0%B7%E5%BC%8F"><span class="nav-number">1.2.0.3.</span> <span class="nav-text">慎重选择高消耗的样式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E9%87%8D%E7%BB%98%E9%87%8D%E6%8E%92"><span class="nav-number">1.2.0.4.</span> <span class="nav-text">避免重绘重排</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Javascript-%E7%AF%87"><span class="nav-number">1.3.</span> <span class="nav-text">Javascript 篇</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%91%BD%E5%90%8D"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">关于命名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">关于字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%95%B0%E7%BB%84"><span class="nav-number">1.3.0.3.</span> <span class="nav-text">关于数组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.3.0.4.</span> <span class="nav-text">关于对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%87%BD%E6%95%B0"><span class="nav-number">1.3.0.5.</span> <span class="nav-text">关于函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%A8%A1%E5%9D%97"><span class="nav-number">1.3.0.6.</span> <span class="nav-text">关于模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#for-%E5%BE%AA%E7%8E%AF"><span class="nav-number">1.3.0.7.</span> <span class="nav-text">for 循环</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue-%E7%AF%87"><span class="nav-number">1.4.</span> <span class="nav-text">Vue 篇</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Prop-%E5%AE%9A%E4%B9%89%E5%B0%BD%E9%87%8F%E8%AF%A6%E7%BB%86%E3%80%82"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">Prop 定义尽量详细。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#v-for-%E9%81%8D%E5%8E%86%E5%BF%85%E9%A1%BB%E6%B7%BB%E5%8A%A0-key"><span class="nav-number">1.4.0.2.</span> <span class="nav-text">v-for 遍历必须添加 key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#v-if-%E5%92%8C-v-for-%E4%B8%8D%E8%A6%81%E7%94%A8%E5%9C%A8%E5%90%8C%E4%B8%80%E4%B8%AA%E5%85%83%E7%B4%A0%E4%B8%8A%E3%80%82"><span class="nav-number">1.4.0.3.</span> <span class="nav-text">v-if 和 v-for 不要用在同一个元素上。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%84%E4%BB%B6%E7%9A%84-data-%E5%BF%85%E9%A1%BB%E6%98%AF%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0"><span class="nav-number">1.4.0.4.</span> <span class="nav-text">组件的 data 必须是一个函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%84%E4%BB%B6%E6%A8%A1%E6%9D%BF%E5%BA%94%E8%AF%A5%E4%B9%A6%E5%86%99%E7%AE%80%E6%B4%81"><span class="nav-number">1.4.0.5.</span> <span class="nav-text">组件模板应该书写简洁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%87%E4%BB%A4%E7%BC%A9%E5%86%99"><span class="nav-number">1.4.0.6.</span> <span class="nav-text">指令缩写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%84%E4%BB%B6%E5%90%8D%E4%B8%BA%E5%A4%9A%E4%B8%AA%E5%8D%95%E8%AF%8D"><span class="nav-number">1.4.0.7.</span> <span class="nav-text">组件名为多个单词</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AA%E5%B1%9E%E6%80%A7%E8%BF%9B%E8%A1%8C%E5%88%86%E8%A1%8C"><span class="nav-number">1.4.0.8.</span> <span class="nav-text">多个属性进行分行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%83%E7%B4%A0%E7%89%B9%E6%80%A7%E7%9A%84%E9%A1%BA%E5%BA%8F"><span class="nav-number">1.4.0.9.</span> <span class="nav-text">元素特性的顺序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E7%BB%84%E4%BB%B6%E5%86%85%E6%A0%B7%E5%BC%8F"><span class="nav-number">1.4.0.10.</span> <span class="nav-text">关于组件内样式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E7%BB%84%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="nav-number">1.4.0.11.</span> <span class="nav-text">关于组件结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B8%85%E9%99%A4%E5%AE%9A%E6%97%B6%E5%99%A8%E6%88%96%E8%80%85%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC"><span class="nav-number">1.4.0.12.</span> <span class="nav-text">清除定时器或者事件监听</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E6%87%92%E5%8A%A0%E8%BD%BD"><span class="nav-number">1.4.0.13.</span> <span class="nav-text">路由懒加载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%81%8C%E8%B4%A3%E5%8D%95%E4%B8%80"><span class="nav-number">1.4.0.14.</span> <span class="nav-text">职责单一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%96%B9-UI-%E7%BB%84%E4%BB%B6%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5"><span class="nav-number">1.4.0.15.</span> <span class="nav-text">第三方 UI 组件按需引入</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E7%AF%87%EF%BC%9A"><span class="nav-number">1.5.</span> <span class="nav-text">图片篇：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%81%B0%E5%BD%93%E7%9A%84%E5%9B%BE%E7%89%87%E6%A0%BC%E5%BC%8F%E3%80%82"><span class="nav-number">1.5.0.1.</span> <span class="nav-text">使用恰当的图片格式。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E9%9B%AA%E7%A2%A7%E5%9B%BE"><span class="nav-number">1.5.0.2.</span> <span class="nav-text">使用雪碧图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-iconfont"><span class="nav-number">1.5.0.3.</span> <span class="nav-text">使用 iconfont</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E6%87%92%E5%8A%A0%E8%BD%BD"><span class="nav-number">1.5.0.4.</span> <span class="nav-text">图片懒加载</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chen Daxian"
+      src="/LittleWhiteRabbit/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Chen Daxian</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/LittleWhiteRabbit/archives/">
+        
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Daxian</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/LittleWhiteRabbit/lib/anime.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/LittleWhiteRabbit/js/utils.js"></script>
+
+<script src="/LittleWhiteRabbit/js/motion.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/schemes/pisces.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/LittleWhiteRabbit/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

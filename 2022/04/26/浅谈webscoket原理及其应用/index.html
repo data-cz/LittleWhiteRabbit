@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/LittleWhiteRabbit/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/LittleWhiteRabbit/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/LittleWhiteRabbit/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/LittleWhiteRabbit/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/LittleWhiteRabbit/css/main.css">
+
+
+<link rel="stylesheet" href="/LittleWhiteRabbit/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"data-cz.github.io","root":"/LittleWhiteRabbit/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="什么是 webSocketWebSocket 是一种在单个 TCP 连接上进行全双工通信的协议。使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据。   在 WebSocket API 中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。 WebSocket 解决了什么问题：在不使用 WebSocket 时，如果我们需要建立一条长">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webSocket">
+<meta property="og:url" content="https://data-cz.github.io/2022/04/26/%E6%B5%85%E8%B0%88webscoket%E5%8E%9F%E7%90%86%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:site_name" content="面试详解">
+<meta property="og:description" content="什么是 webSocketWebSocket 是一种在单个 TCP 连接上进行全双工通信的协议。使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据。   在 WebSocket API 中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。 WebSocket 解决了什么问题：在不使用 WebSocket 时，如果我们需要建立一条长">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/12/3/16ec9bc6c28a9a19?w=1014&h=442&f=png&s=225703">
+<meta property="article:published_time" content="2022-04-26T03:03:42.215Z">
+<meta property="article:modified_time" content="2022-04-25T02:36:53.739Z">
+<meta property="article:author" content="Chen Daxian">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2019/12/3/16ec9bc6c28a9a19?w=1014&h=442&f=png&s=225703">
+
+<link rel="canonical" href="https://data-cz.github.io/2022/04/26/%E6%B5%85%E8%B0%88webscoket%E5%8E%9F%E7%90%86%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>webSocket | 面试详解</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/LittleWhiteRabbit/atom.xml" title="面试详解" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/LittleWhiteRabbit/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">面试详解</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/LittleWhiteRabbit/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/LittleWhiteRabbit/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/26/%E6%B5%85%E8%B0%88webscoket%E5%8E%9F%E7%90%86%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          webSocket
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-04-26 11:03:42" itemprop="dateCreated datePublished" datetime="2022-04-26T11:03:42+08:00">2022-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-25 10:36:53" itemprop="dateModified" datetime="2022-04-25T10:36:53+08:00">2022-04-25</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="什么是-webSocket"><a href="#什么是-webSocket" class="headerlink" title="什么是 webSocket"></a>什么是 webSocket</h3><p>WebSocket 是一种在单个 TCP 连接上进行全双工通信的协议。使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据。  </p>
+<p>在 WebSocket API 中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。</p>
+<h3 id="WebSocket-解决了什么问题："><a href="#WebSocket-解决了什么问题：" class="headerlink" title="WebSocket 解决了什么问题："></a>WebSocket 解决了什么问题：</h3><p>在不使用 WebSocket 时，如果我们需要建立一条长连接，有以下几种方法：</p>
+<span id="more"></span>
+<ul>
+<li>轮询</li>
+<li>长轮询（常用）</li>
+<li>SSE(Server Send Event)</li>
+</ul>
+<p>当出现类似体育赛事、聊天室、实时位置之类的场景时，客户端要获取服务器端的变化，就只能通过轮询(定时请求)来了解服务器端有没有新的信息变化。WebSocket 的出现，让服务器端可以主动向服务器端发送信息，使得浏览器具备了实时双向通信的能力,这就是 WebSocket 解决的问题</p>
+<ul>
+<li>带宽问题：WebSocket 相对于 HTTP 来说协议头更加小，同时按需传递。</li>
+<li>数据实时性问题：WebSocket 相对于轮询和长轮询来说，能够实时传递数据，延迟更小。</li>
+<li>状态问题：相较于 HTTP 的无状态请求，WebSocket 在建立连接后能够维持特定的状态。</li>
+</ul>
+<h3 id="WebSocket-与-HTTP-对比"><a href="#WebSocket-与-HTTP-对比" class="headerlink" title="WebSocket 与 HTTP 对比"></a>WebSocket 与 HTTP 对比</h3><p><img src="https://user-gold-cdn.xitu.io/2019/12/3/16ec9bc6c28a9a19?w=1014&h=442&f=png&s=225703"></p>
+<h3 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h3><p><strong>客户端</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ws = <span class="keyword">new</span> <span class="title class_">WebSocket</span>(<span class="string">&#x27;ws://localhost:8888&#x27;</span>)</span><br><span class="line"></span><br><span class="line">ws.<span class="property">onopen</span> = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;WebSocket onopen&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ws.<span class="property">onmessage</span> = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(e)</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(e.<span class="property">data</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ws.<span class="property">onclose</span> = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;WebSocket onclose&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ws.<span class="property">onerror</span> = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;WebSocket onerror&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>WebSocket.onopen： 连接成功后调用</li>
+<li>WebSocket.onmessage： 当接收到服务器消息时调用</li>
+<li>WebSocket.onclose： 连接关闭后调用</li>
+<li>WebSocket.onerror： 发生错误后调用</li>
+</ul>
+<p><strong>服务端例子(koa)</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">Koa</span> = <span class="built_in">require</span>(<span class="string">&#x27;koa&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> <span class="title class_">WebSocket</span> = <span class="built_in">require</span>(<span class="string">&#x27;ws&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="keyword">new</span> <span class="title class_">Koa</span>()</span><br><span class="line"><span class="keyword">const</span> ws = <span class="keyword">new</span> <span class="title class_">WebSocket</span>.<span class="title class_">Server</span>(&#123; <span class="attr">port</span>: <span class="number">8888</span> &#125;)</span><br><span class="line"></span><br><span class="line">ws.<span class="title function_">on</span>(<span class="string">&#x27;connection&#x27;</span>, <span class="function"><span class="params">ws</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;server connection&#x27;</span>)</span><br><span class="line"></span><br><span class="line">  ws.<span class="title function_">on</span>(<span class="string">&#x27;message&#x27;</span>, <span class="function"><span class="params">msg</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;server receive msg：&#x27;</span>, msg)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  ws.<span class="title function_">send</span>(<span class="string">&#x27;Information from the server&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">listen</span>(<span class="number">3000</span>)</span><br></pre></td></tr></table></figure>
+
+<p>WebSocket 可以传递 String、ArrayBuffer 和 Blob 三种数据类型，因此在收到消息时可能是其中的任意一种。其中，String 和 ArrayBuffer 使用的最多。</p>
+<ul>
+<li>如果是 String 类型，直接通过字符串处理函数即可进行相关转换，如 JSON 等格式。</li>
+<li>如果是二进制 blob 类型，则需要使用 ArrayBuffer 和 DataView 来进行处理，下面简单介绍。</li>
+</ul>
+<p>二进制数据包括：blob 对象和 Arraybuffer 对象，所以我们需要分开来处理。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 接收数据</span></span><br><span class="line">ws.<span class="property">onmessage</span> = <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (event.<span class="property">data</span> <span class="keyword">instanceof</span> <span class="title class_">ArrayBuffer</span>) &#123;</span><br><span class="line">    <span class="comment">// 判断 ArrayBuffer 对象</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (event.<span class="property">data</span> <span class="keyword">instanceof</span> <span class="title class_">Blob</span>) &#123;</span><br><span class="line">    <span class="comment">// 判断 Blob 对象</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发送 Blob 对象的例子</span></span><br><span class="line"><span class="keyword">let</span> file = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;input[type=&quot;file&quot;]&#x27;</span>).<span class="property">files</span>[<span class="number">0</span>]</span><br><span class="line">ws.<span class="title function_">send</span>(file)</span><br><span class="line"><span class="comment">// 发送 ArrayBuffer 对象的例子</span></span><br><span class="line"><span class="keyword">var</span> img = canvas_context.<span class="title function_">getImageData</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">400</span>, <span class="number">320</span>)</span><br><span class="line"><span class="keyword">var</span> binary = <span class="keyword">new</span> <span class="title class_">Uint8Array</span>(img.<span class="property">data</span>.<span class="property">length</span>)</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; img.<span class="property">data</span>.<span class="property">length</span>; i++) &#123;</span><br><span class="line">  binary[i] = img.<span class="property">data</span>[i]</span><br><span class="line">&#125;</span><br><span class="line">ws.<span class="title function_">send</span>(binary.<span class="property">buffer</span>)</span><br></pre></td></tr></table></figure>
+
+<p>webSocket.bufferedAmount 属性，表示还有多少字节的二进制数据没有发送出去<br>如果发送的二进制数据很大的话，可以这样判断</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> data = <span class="keyword">new</span> <span class="title class_">ArrayBuffer</span>(<span class="number">10000000</span>)</span><br><span class="line">socket.<span class="title function_">send</span>(data)</span><br><span class="line"><span class="keyword">if</span> (socket.<span class="property">bufferedAmount</span> === <span class="number">0</span>) &#123;</span><br><span class="line">  <span class="comment">// 发送完毕</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">// 发送还没结束</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结-WebSocket-的优点"><a href="#总结-WebSocket-的优点" class="headerlink" title="总结 WebSocket 的优点"></a>总结 WebSocket 的优点</h3><ul>
+<li>双向通信(一开始说的，也是最重要的一点)。</li>
+<li>数据格式比较轻量，性能开销小，通信高效</li>
+<li>协议控制的数据包头部较小，而 HTTP 协议每次通信都需要携带完整的头部</li>
+<li>更好的二进制支持</li>
+<li>没有同源限制，客户端可以与任意服务器通信</li>
+<li>与 HTTP 协议有着良好的兼容性。默认端口也是 80 和 443，并且握手阶段采用 HTTP 协议，因此握手时不容易屏蔽，能通过各种 HTTP 代理服务器</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/LittleWhiteRabbit/2022/04/26/%E6%A1%86%E6%9E%B6%E5%8C%BA%E5%88%AB/" rel="prev" title="什么是单页面应用">
+      <i class="fa fa-chevron-left"></i> 什么是单页面应用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/LittleWhiteRabbit/2022/04/26/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="next" title="浏览器">
+      浏览器 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-webSocket"><span class="nav-number">1.</span> <span class="nav-text">什么是 webSocket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebSocket-%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">WebSocket 解决了什么问题：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebSocket-%E4%B8%8E-HTTP-%E5%AF%B9%E6%AF%94"><span class="nav-number">3.</span> <span class="nav-text">WebSocket 与 HTTP 对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">基本使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-WebSocket-%E7%9A%84%E4%BC%98%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text">总结 WebSocket 的优点</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chen Daxian"
+      src="/LittleWhiteRabbit/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Chen Daxian</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/LittleWhiteRabbit/archives/">
+        
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Daxian</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/LittleWhiteRabbit/lib/anime.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/LittleWhiteRabbit/js/utils.js"></script>
+
+<script src="/LittleWhiteRabbit/js/motion.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/schemes/pisces.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/LittleWhiteRabbit/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/LittleWhiteRabbit/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/LittleWhiteRabbit/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/LittleWhiteRabbit/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/LittleWhiteRabbit/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/LittleWhiteRabbit/css/main.css">
+
+
+<link rel="stylesheet" href="/LittleWhiteRabbit/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"data-cz.github.io","root":"/LittleWhiteRabbit/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="vue.$nextTickVue 的特点之一就是响应式，但是有些时候数据更新了，我们看到页面上的 DOM 并没有立刻更新。如果我们需要在 DOM 更新之后再执行一段代码时，可以借助 nextTick 实现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue.\$nextTick">
+<meta property="og:url" content="https://data-cz.github.io/2022/04/26/%E4%BB%8E%20js%20%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E7%9C%8B%20Vue.nextTick%20%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:site_name" content="面试详解">
+<meta property="og:description" content="vue.$nextTickVue 的特点之一就是响应式，但是有些时候数据更新了，我们看到页面上的 DOM 并没有立刻更新。如果我们需要在 DOM 更新之后再执行一段代码时，可以借助 nextTick 实现。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://data-cz.github.io/2022/04/26/img/js3.png">
+<meta property="og:image" content="https://data-cz.github.io/2022/04/26/img/eventLoop.png">
+<meta property="article:published_time" content="2022-04-26T03:03:42.080Z">
+<meta property="article:modified_time" content="2022-04-24T01:59:31.559Z">
+<meta property="article:author" content="Chen Daxian">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://data-cz.github.io/2022/04/26/img/js3.png">
+
+<link rel="canonical" href="https://data-cz.github.io/2022/04/26/%E4%BB%8E%20js%20%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E7%9C%8B%20Vue.nextTick%20%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>vue.\$nextTick | 面试详解</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/LittleWhiteRabbit/atom.xml" title="面试详解" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/LittleWhiteRabbit/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">面试详解</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/LittleWhiteRabbit/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/LittleWhiteRabbit/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/26/%E4%BB%8E%20js%20%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E7%9C%8B%20Vue.nextTick%20%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vue.\$nextTick
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-04-26 11:03:42" itemprop="dateCreated datePublished" datetime="2022-04-26T11:03:42+08:00">2022-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-24 09:59:31" itemprop="dateModified" datetime="2022-04-24T09:59:31+08:00">2022-04-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="vue-nextTick"><a href="#vue-nextTick" class="headerlink" title="vue.$nextTick"></a>vue.$nextTick</h1><p>Vue 的特点之一就是响应式，但是有些时候数据更新了，我们看到页面上的 DOM 并没有立刻更新。如果我们需要在 DOM 更新之后再执行一段代码时，可以借助 nextTick 实现。</p>
+<span id="more"></span>
+<p>我们先来看一个例子</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="title function_">data</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">msg</span>: <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">mounted</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">msg</span> = <span class="number">1</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">msg</span> = <span class="number">2</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">msg</span> = <span class="number">3</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">watch</span>: &#123;</span><br><span class="line">    <span class="title function_">msg</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">msg</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的结果是只输出一个 3，而非依次输出 1，2，3。这是为什么呢？<br>vue 的官方文档是这样解释的</p>
+<blockquote>
+<p>Vue 异步执行 DOM 更新。只要观察到数据变化，Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据改变。如果同一个 watcher 被多次触发，只会被推入到队列中一次。这种在缓冲时去除重复数据对于避免不必要的计算和 DOM 操作上非常重要。然后，在下一个的事件循环“tick”中，Vue 刷新队列并执行实际 (已去重的) 工作。Vue 在内部尝试对异步队列使用原生的 Promise.then 和 MessageChannel，如果执行环境不支持，会采用 setTimeout(fn, 0)代替。</p>
+</blockquote>
+<p>假如有这样一种情况，<code>mounted</code>钩子函数下一个变量 a 的值会被++循环执行 1000 次。 每次++时，都会根据响应式触发<code>setter-&gt;Dep-&gt;Watcher-&gt;update-&gt;run</code>。 如果这时候没有异步更新视图，那么每次++都会直接操作 DOM 一次，这是非常消耗性能的。 所以 Vue 实现了一个<code>queue</code>队列，在下一个 Tick（或者是当前 Tick 的微任务阶段）的时候会统一执行<code>queue</code>中<code>Watcher</code>的<code>run</code>。同时，拥有相同 id 的<code>Watcher</code>不会被重复加入到该<code>queue</code>中去，所以不会执行 1000 次<code>Watcher</code>的<code>run</code>。最终的结果是直接把 a 的值从 1 变成 1000，大大提升了性能。</p>
+<p>在 vue 中，数据监测都是通过 Object.defineProperty 来重写里面的 set 和 get 方法实现的，vue 更新 DOM 是异步的，每当观察到数据变化时，vue 就开始一个队列，将同一事件循环内所有的数据变化缓存起来，等到下一次 event loop，将会把队列清空，进行 dom 更新。</p>
+<p>想要了解 vue.nextTick 的执行机制，我们先来了解一下 javascript 的事件循环。</p>
+<h3 id="js-事件循环"><a href="#js-事件循环" class="headerlink" title="js 事件循环"></a>js 事件循环</h3><p>js 的任务队列分为同步任务和异步任务，所有的同步任务都是在主线程里执行的。异步任务可能会在 macrotask 或者 microtask 里面，异步任务进入 <code>Event Table</code> 并注册函数。当指定的事情完成时，<code>Event Table</code> 会将这个函数移入 <code>Event Queue</code>。主线程内的任务执行完毕为空，会去 <code>Event Queue</code> 读取对应的函数，进入主线程执行。上述过程会不断重复，也就是常说的 <code>Event Loop</code>(事件循环)。</p>
+<img src="../img/js3.png">
+
+<h4 id="macro-task-宏任务-："><a href="#macro-task-宏任务-：" class="headerlink" title="macro-task(宏任务)："></a>macro-task(宏任务)：</h4><p>每次执行栈执行的代码就是一个宏任务(包括每次从事件队列中获取一个事件回调并放到执行栈中执行)。浏览器为了能够使得 js 内部<code>(macro)task</code>与 DOM 任务能够有序执行，会在一个<code>(macro)task</code>执行结束后，在下一个<code>(macro)task</code>执行开始前，对页面进行重新渲染。宏任务主要包含：</p>
+<ul>
+<li>script(整体代码)</li>
+<li>setTimeout &#x2F; setInterval</li>
+<li>setImmediate(Node.js 环境)</li>
+<li>I&#x2F;O</li>
+<li>UI render</li>
+<li>postMessage</li>
+<li>MessageChannel</li>
+</ul>
+<h4 id="micro-task-微任务-："><a href="#micro-task-微任务-：" class="headerlink" title="micro-task(微任务)："></a>micro-task(微任务)：</h4><p>可以理解是在当前 task 执行结束后立即执行的任务。也就是说，在当前 task 任务后，下一个 task 之前，在渲染之前。所以它的响应速度相比 setTimeout（setTimeout 是 task）会更快，因为无需等渲染。也就是说，在某一个 macrotask 执行完后，就会将在它执行期间产生的所有 microtask 都执行完毕（在渲染前）。microtask 主要包含：</p>
+<ul>
+<li>process.nextTick(Node.js 环境)</li>
+<li>Promise</li>
+<li>Async&#x2F;Await</li>
+<li>MutationObserver(html5 新特性)</li>
+</ul>
+<img src="../img/eventLoop.png" width="80%">
+
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><ol>
+<li>先执行主线程</li>
+<li>遇到宏队列（macrotask）放到宏队列（macrotask）</li>
+<li>遇到微队列（microtask）放到微队列（microtask）</li>
+<li>主线程执行完毕</li>
+<li>执行微队列（microtask），微队列（microtask）执行完毕</li>
+<li>执行一次宏队列（macrotask）中的一个任务，执行完毕</li>
+<li>执行微队列（microtask），执行完毕</li>
+<li>依次循环。。。</li>
+</ol>
+<h3 id="Vue-nextTick-源码"><a href="#Vue-nextTick-源码" class="headerlink" title="Vue.nextTick 源码"></a>Vue.nextTick 源码</h3><p>vue 是采用双向数据绑定的方法驱动数据更新的，虽然这样能避免直接操作 dom，提高了性能，但有时我们也不可避免需要操作 DOM，这时就该 Vue.nextTick(callback)出场了，它接受一个回调函数，在 DOM 更新完成后，这个回调函数就会被调用。不管是 vue.nextTick 还是 vue.prototype.$nextTick 都是直接用的 nextTick 这个闭包函数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> nextTick = (<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> callbacks = []</span><br><span class="line">  <span class="keyword">let</span> pending = <span class="literal">false</span></span><br><span class="line">  <span class="keyword">let</span> timerFunc</span><br><span class="line"></span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">nextTickHandler</span> () &#123;</span><br><span class="line">    pending = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">const</span> copies = callbacks.<span class="title function_">slice</span>(<span class="number">0</span>)</span><br><span class="line">    callbacks.<span class="property">length</span> = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; copies.<span class="property">length</span>; i++) &#123;</span><br><span class="line">      copies[i]()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"> ...</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+
+<p>使用数组 callbacks 保存回调函数，pending 表示当前状态，使用函数 nextTickHandler 来执行回调队列。在该方法内，先通过 slice(0)保存了回调队列的一个副本，通过设置 callbacks.length &#x3D; 0 清空回调队列，最后使用循环执行在副本里的所有函数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="title class_">Promise</span> !== <span class="string">&#x27;undefined&#x27;</span> &amp;&amp; <span class="title function_">isNative</span>(<span class="title class_">Promise</span>)) &#123;</span><br><span class="line">  <span class="keyword">var</span> p = <span class="title class_">Promise</span>.<span class="title function_">resolve</span>()</span><br><span class="line">  <span class="keyword">var</span> <span class="title function_">logError</span> = err =&gt; &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">error</span>(err)</span><br><span class="line">  &#125;</span><br><span class="line">  timerFunc = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    p.<span class="title function_">then</span>(nextTickHandler).<span class="title function_">catch</span>(logError)</span><br><span class="line">    <span class="keyword">if</span> (isIOS) <span class="built_in">setTimeout</span>(noop)</span><br><span class="line">  &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="title class_">MutationObserver</span> !== <span class="string">&#x27;undefined&#x27;</span> &amp;&amp; (<span class="title function_">isNative</span>(<span class="title class_">MutationObserver</span>) || <span class="title class_">MutationObserver</span>.<span class="title function_">toString</span>() === <span class="string">&#x27;[object MutationObserverConstructor]&#x27;</span>)) &#123;</span><br><span class="line">  <span class="keyword">var</span> counter = <span class="number">1</span></span><br><span class="line">  <span class="keyword">var</span> observer = <span class="keyword">new</span> <span class="title class_">MutationObserver</span>(nextTickHandler)</span><br><span class="line">  <span class="keyword">var</span> textNode = <span class="variable language_">document</span>.<span class="title function_">createTextNode</span>(<span class="title class_">String</span>(counter))</span><br><span class="line">  observer.<span class="title function_">observe</span>(textNode, &#123;</span><br><span class="line">    <span class="attr">characterData</span>: <span class="literal">true</span></span><br><span class="line">  &#125;)</span><br><span class="line">  timerFunc = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    counter = (counter + <span class="number">1</span>) % <span class="number">2</span></span><br><span class="line">    textNode.<span class="property">data</span> = <span class="title class_">String</span>(counter)</span><br><span class="line">  &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  timeFunc = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">setTimeout</span>(nextTickHandle, <span class="number">0</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>队列控制的最佳选择是 microtask，而 microtask 的最佳选择是 Promise。但如果当前环境不支持 Promise，就检测到浏览器是否支持 MO，是则创建一个文本节点，监听这个文本节点的改动事件，以此来触发 nextTickHandler（也就是 DOM 更新完毕回调）的执行。此外因为兼容性问题，vue 不得不做了 microtask 向 macrotask 的降级方案。</p>
+<p>为让这个回调函数延迟执行，vue 优先用 promise 来实现，其次是 html5 的 MutationObserver，然后是 setTimeout。前两者属于 microtask，后一个属于 macrotask。下面来看最后一部分。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> <span class="keyword">function</span> <span class="title function_">queueNextTick</span>(<span class="params">cb?: <span class="built_in">Function</span>, ctx?: <span class="built_in">Object</span></span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> _resolve</span><br><span class="line">  callbacks.<span class="title function_">push</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (cb) cb.<span class="title function_">call</span>(ctx)</span><br><span class="line">    <span class="keyword">if</span> (_resolve) <span class="title function_">_resolve</span>(ctx)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">if</span> (!pending) &#123;</span><br><span class="line">    pending = <span class="literal">true</span></span><br><span class="line">    <span class="title function_">timerFunc</span>()</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (!cb &amp;&amp; <span class="keyword">typeof</span> <span class="title class_">Promise</span> !== <span class="string">&#x27;undefined&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">      _resolve = resolve</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这就是我们真正调用的 nextTick 函数，在一个 event loop 内它会将调用 nextTick 的 cb 回调函数都放入 callbacks 中，pending 用于判断是否有队列正在执行回调，例如有可能在 nextTick 中还有一个 nextTick，此时就应该属于下一个循环了。最后几行代码是 promise 化，可以将 nextTick 按照 promise 方式去书写（暂且用的较少）。</p>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>场景一、点击按钮显示原本以 v-show &#x3D; false 隐藏起来的输入框，并获取焦点。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;input id=<span class="string">&quot;keywords&quot;</span> v-<span class="keyword">if</span>=<span class="string">&quot;showit&quot;</span>&gt;</span><br><span class="line"></span><br><span class="line"><span class="title function_">showInput</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">showit</span> = <span class="literal">true</span></span><br><span class="line">  <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;keywords&quot;</span>).<span class="title function_">focus</span>()</span><br></pre></td></tr></table></figure>
+
+<p>以上的写法在第一个 tick 里，因为获取不到输入框，自然也获取不到焦点。如果我们改成以下的写法，在 DOM 更新后就可以获取到输入框焦点了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">showsou</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">showit</span> = <span class="literal">true</span></span><br><span class="line">  <span class="variable language_">this</span>.$nextTick(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// DOM 更新了</span></span><br><span class="line">    <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;keywords&quot;</span>).<span class="title function_">focus</span>()</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>场景二、获取元素属，点击获取元素宽度。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">&quot;app&quot;</span>&gt;</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">p</span> <span class="attr">ref</span>=<span class="string">&quot;myWidth&quot;</span> <span class="attr">v-if</span>=<span class="string">&quot;showMe&quot;</span>&gt;</span>&#123;&#123; message &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;getMyWidth&quot;</span>&gt;</span>获取p元素宽度<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line"><span class="title function_">getMyWidth</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">showMe</span> = <span class="literal">true</span>;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">message</span> = <span class="variable language_">this</span>.<span class="property">$refs</span>.<span class="property">myWidth</span>.<span class="property">offsetWidth</span>;</span><br><span class="line">  <span class="comment">//报错 TypeError: this.$refs.myWidth is undefined</span></span><br><span class="line">  <span class="variable language_">this</span>.$nextTick(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">      <span class="comment">//dom元素更新后执行，此时能拿到p元素的属性</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">message</span> = <span class="variable language_">this</span>.<span class="property">$refs</span>.<span class="property">myWidth</span>.<span class="property">offsetWidth</span>;</span><br><span class="line">&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/LittleWhiteRabbit/2022/04/26/webpack%E7%9A%84%E5%BC%82%E6%AD%A5%E5%8A%A0%E8%BD%BD%E5%8F%8A%E5%88%86%E5%8C%85%E7%AD%96%E7%95%A5/" rel="prev" title="webpack 异步加载原理">
+      <i class="fa fa-chevron-left"></i> webpack 异步加载原理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/LittleWhiteRabbit/2022/04/26/%E4%BB%8E%E9%9B%B6%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAwbpack%E9%A1%B9%E7%9B%AE/" rel="next" title="零构建一个wbpack项目">
+      零构建一个wbpack项目 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#vue-nextTick"><span class="nav-number">1.</span> <span class="nav-text">vue.$nextTick</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#js-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF"><span class="nav-number">1.0.1.</span> <span class="nav-text">js 事件循环</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#macro-task-%E5%AE%8F%E4%BB%BB%E5%8A%A1-%EF%BC%9A"><span class="nav-number">1.0.1.1.</span> <span class="nav-text">macro-task(宏任务)：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#micro-task-%E5%BE%AE%E4%BB%BB%E5%8A%A1-%EF%BC%9A"><span class="nav-number">1.0.1.2.</span> <span class="nav-text">micro-task(微任务)：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">1.0.1.3.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vue-nextTick-%E6%BA%90%E7%A0%81"><span class="nav-number">1.0.2.</span> <span class="nav-text">Vue.nextTick 源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.0.3.</span> <span class="nav-text">应用场景</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chen Daxian"
+      src="/LittleWhiteRabbit/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Chen Daxian</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/LittleWhiteRabbit/archives/">
+        
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Daxian</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/LittleWhiteRabbit/lib/anime.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/LittleWhiteRabbit/js/utils.js"></script>
+
+<script src="/LittleWhiteRabbit/js/motion.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/schemes/pisces.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/LittleWhiteRabbit/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

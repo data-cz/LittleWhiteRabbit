@@ -174,7 +174,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/js%E7%AE%97%E6%B3%95%E7%BB%8F%E5%85%B8%E6%A1%88%E4%BE%8B/">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/26/webpack%E4%BC%98%E5%8C%96%E6%89%93%E5%8C%85%E5%A4%A7%E5%85%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
@@ -188,7 +188,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/LittleWhiteRabbit/2022/04/24/js%E7%AE%97%E6%B3%95%E7%BB%8F%E5%85%B8%E6%A1%88%E4%BE%8B/" class="post-title-link" itemprop="url">JS 算法</a>
+            <a href="/LittleWhiteRabbit/2022/04/26/webpack%E4%BC%98%E5%8C%96%E6%89%93%E5%8C%85%E5%A4%A7%E5%85%A8/" class="post-title-link" itemprop="url">webpack 优化打包大全</a>
         </h2>
 
         <div class="post-meta">
@@ -197,10 +197,636 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:31" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
+              <time title="Created: 2022-04-26 11:03:42" itemprop="dateCreated datePublished" datetime="2022-04-26T11:03:42+08:00">2022-04-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-24 09:59:32" itemprop="dateModified" datetime="2022-04-24T09:59:32+08:00">2022-04-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="webpack-优化打包大全"><a href="#webpack-优化打包大全" class="headerlink" title="webpack 优化打包大全"></a>webpack 优化打包大全</h1><p>随着我们的项目项目越做越大，引入的第三方库会越来越多，打包的依赖也越来越多，每次 build 的时间越来越长，打包出来的文件会越来越大。最糟糕的是单页面应用首页白屏时间长，用户体验差。</p>
+<p>此时优化 webpack 打包方法不可回避。下面我们来整理一下常用的 webpack 打包优化方法。</p>
+<p><strong>我们的目的</strong></p>
+<ul>
+<li>减小打包后的文件大小</li>
+<li>首页按需引入文件，减少白屏时间</li>
+<li>优化 webpack 打包时间
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/26/webpack%E4%BC%98%E5%8C%96%E6%89%93%E5%8C%85%E5%A4%A7%E5%85%A8/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/26/vue%20%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/26/vue%20%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4/" class="post-title-link" itemprop="url">基于 vue 的自定义指令集合</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-04-26 11:03:42" itemprop="dateCreated datePublished" datetime="2022-04-26T11:03:42+08:00">2022-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-24 09:59:31" itemprop="dateModified" datetime="2022-04-24T09:59:31+08:00">2022-04-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="v-directives"><a href="#v-directives" class="headerlink" title="v-directives"></a>v-directives</h1><p>基于 vue 的自定义指令集合，包含</p>
+<ul>
+<li>复制粘贴指令 v-copy</li>
+<li>长按指令 v-longpress</li>
+<li>输入框防抖指令 v-debounce</li>
+<li>禁止表情及特殊字符 v-emoji</li>
+<li>图片懒加载 v-LazyLoad</li>
+<li>权限校验指令 v-premission</li>
+<li>实现页面水印 v-waterMarker</li>
+<li>拖拽指令 v-draggable
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/26/vue%20%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/26/Vue%20%E7%BB%84%E4%BB%B6%E4%B8%8B%E6%8B%89%20%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/26/Vue%20%E7%BB%84%E4%BB%B6%E4%B8%8B%E6%8B%89%20%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A/" class="post-title-link" itemprop="url">Vue 组件下拉加载更多</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-04-26 11:03:42" itemprop="dateCreated datePublished" datetime="2022-04-26T11:03:42+08:00">2022-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-25 10:35:38" itemprop="dateModified" datetime="2022-04-25T10:35:38+08:00">2022-04-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/LittleWhiteRabbit/categories/Vue/" itemprop="url" rel="index"><span itemprop="name">Vue</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="一、新建一个loadingMessage组件"><a href="#一、新建一个loadingMessage组件" class="headerlink" title="一、新建一个loadingMessage组件"></a>一、新建一个loadingMessage组件</h2><h3 id="1-1-监听滑动"><a href="#1-1-监听滑动" class="headerlink" title="1.1 监听滑动"></a>1.1 监听滑动</h3>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/26/Vue%20%E7%BB%84%E4%BB%B6%E4%B8%8B%E6%8B%89%20%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/26/this%E6%8C%87%E5%90%91%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/26/this%E6%8C%87%E5%90%91%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">this指向问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-04-26 11:03:42" itemprop="dateCreated datePublished" datetime="2022-04-26T11:03:42+08:00">2022-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-24 09:59:31" itemprop="dateModified" datetime="2022-04-24T09:59:31+08:00">2022-04-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="this-指向"><a href="#this-指向" class="headerlink" title="this 指向"></a>this 指向</h1><p>使用 JavaScript 开发的时候，很多开发者多多少少会被 this 的指向搞蒙圈，但是实际上，关于 this 的指向，记住最核心的一句话：<strong>哪个对象调用函数，函数里面的 this 指向哪个对象。</strong></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/26/this%E6%8C%87%E5%90%91%E9%97%AE%E9%A2%98/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/26/svg-to-geojson/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/26/svg-to-geojson/" class="post-title-link" itemprop="url">SVG 转地图json 数据</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-04-26 11:03:42" itemprop="dateCreated datePublished" datetime="2022-04-26T11:03:42+08:00">2022-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-24 09:59:32" itemprop="dateModified" datetime="2022-04-24T09:59:32+08:00">2022-04-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/LittleWhiteRabbit/categories/Map/" itemprop="url" rel="index"><span itemprop="name">Map</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="svg-yo-geojson"><a href="#svg-yo-geojson" class="headerlink" title="svg-yo-geojson"></a>svg-yo-geojson</h1><p> svg 转 json</p>
+<h1 id="源码地址"><a href="#源码地址" class="headerlink" title="源码地址"></a>源码地址</h1><p><a target="_blank" rel="noopener" href="https://github.com/data-cz/svg-to-geojson.git">DEMO_HERE</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/26/SEO/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/26/SEO/" class="post-title-link" itemprop="url">前端需要注意哪些SEO</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-04-26 11:03:42" itemprop="dateCreated datePublished" datetime="2022-04-26T11:03:42+08:00">2022-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-24 09:59:32" itemprop="dateModified" datetime="2022-04-24T09:59:32+08:00">2022-04-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/LittleWhiteRabbit/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="前端需要注意哪些SEO"><a href="#前端需要注意哪些SEO" class="headerlink" title="前端需要注意哪些SEO"></a>前端需要注意哪些SEO</h3><ul>
+<li>合理的title、description、keywords：搜索对着三项的权重逐个减小，title值强调重点即可，重要关键词出现不要超过2次，而且要靠前，不同页面title要有所不同；description把页面内容高度概括，长度合适，不可过分堆砌关键词，不同页面description有所不同；keywords列举出重要关键词即可</li>
+<li>语义化的HTML代码，符合W3C规范：语义化代码让搜索引擎容易理解网页</li>
+<li>重要内容HTML代码放在最前：搜索引擎抓取HTML顺序是从上到下，有的搜索引擎对抓取长度有限制，保证重要内容一定会被抓取</li>
+<li>重要内容不要用js输出：爬虫不会执行js获取内容</li>
+<li>少用iframe：搜索引擎不会抓取iframe中的内容</li>
+<li>非装饰性图片必须加alt</li>
+<li>提高网站速度：网站速度是搜索引擎排序的一个重要指标
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/26/SEO/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/26/js%E9%AB%98%E7%BA%A7%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/26/js%E9%AB%98%E7%BA%A7%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">JS 高级函数</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-04-26 11:03:42" itemprop="dateCreated datePublished" datetime="2022-04-26T11:03:42+08:00">2022-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-24 09:59:31" itemprop="dateModified" datetime="2022-04-24T09:59:31+08:00">2022-04-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>高阶函数是对其他函数进行操作的函数，可以将它们作为参数或通过返回它们。简单来说，高阶函数是一个函数，它接收函数作为参数或将函数作为输出返回。</p>
+<p>例如<code>Array.prototype.map</code>，<code>Array.prototype.filter</code>，<code>Array.prototype.reduce</code> 都是一些高阶函数。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/26/js%E9%AB%98%E7%BA%A7%E5%87%BD%E6%95%B0/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/26/js%E7%BB%A7%E6%89%BF%E7%9A%84%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/26/js%E7%BB%A7%E6%89%BF%E7%9A%84%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">JS 继承</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-04-26 11:03:42" itemprop="dateCreated datePublished" datetime="2022-04-26T11:03:42+08:00">2022-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-24 09:59:32" itemprop="dateModified" datetime="2022-04-24T09:59:32+08:00">2022-04-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="JS-继承"><a href="#JS-继承" class="headerlink" title="JS 继承"></a>JS 继承</h1><h3 id="1、属性拷贝"><a href="#1、属性拷贝" class="headerlink" title="1、属性拷贝"></a>1、属性拷贝</h3><p>如果继承过来的成员是引用类型的话, 那么这个引用类型的成员在父对象和子对象之间是共享的, 也就是说修改了之后, 父子对象都会受到影响.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/26/js%E7%BB%A7%E6%89%BF%E7%9A%84%E6%96%B9%E6%B3%95/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/26/js%E7%AE%97%E6%B3%95%E7%BB%8F%E5%85%B8%E6%A1%88%E4%BE%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/LittleWhiteRabbit/2022/04/26/js%E7%AE%97%E6%B3%95%E7%BB%8F%E5%85%B8%E6%A1%88%E4%BE%8B/" class="post-title-link" itemprop="url">JS 算法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-04-26 11:03:42" itemprop="dateCreated datePublished" datetime="2022-04-26T11:03:42+08:00">2022-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-24 09:59:31" itemprop="dateModified" datetime="2022-04-24T09:59:31+08:00">2022-04-24</time>
+              </span>
 
           
 
@@ -227,7 +853,7 @@
 <li>将临界条件加入到递归体中
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/js%E7%AE%97%E6%B3%95%E7%BB%8F%E5%85%B8%E6%A1%88%E4%BE%8B/#more" rel="contents">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/26/js%E7%AE%97%E6%B3%95%E7%BB%8F%E5%85%B8%E6%A1%88%E4%BE%8B/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -251,7 +877,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/js%E6%95%B0%E7%BB%84%E6%93%8D%E4%BD%9C/">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/26/js%E6%95%B0%E7%BB%84%E6%93%8D%E4%BD%9C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
@@ -265,7 +891,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/LittleWhiteRabbit/2022/04/24/js%E6%95%B0%E7%BB%84%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">JS 数组操作</a>
+            <a href="/LittleWhiteRabbit/2022/04/26/js%E6%95%B0%E7%BB%84%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">JS 数组操作</a>
         </h2>
 
         <div class="post-meta">
@@ -274,10 +900,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:32" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
+              <time title="Created: 2022-04-26 11:03:42" itemprop="dateCreated datePublished" datetime="2022-04-26T11:03:42+08:00">2022-04-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-24 09:59:32" itemprop="dateModified" datetime="2022-04-24T09:59:32+08:00">2022-04-24</time>
+              </span>
 
           
 
@@ -295,572 +927,7 @@
 <p>遍历数组，每次循环都随机一个在数组长度范围内的数，并交换本次循环的位置和随机数位置上的元素</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/js%E6%95%B0%E7%BB%84%E6%93%8D%E4%BD%9C/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/js%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E6%80%BB%E7%BB%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
-      <meta itemprop="name" content="Chen Daxian">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="面试详解">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/LittleWhiteRabbit/2022/04/24/js%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">JS 数组操作</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-04-24 09:43:08" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-04-25 10:35:18" itemprop="dateModified" datetime="2022-04-25T10:35:18+08:00">2022-04-25</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="JS-数据类型"><a href="#JS-数据类型" class="headerlink" title="JS 数据类型"></a>JS 数据类型</h1><p><strong>JavaScript 是弱类型语言</strong>，而且 JavaScript 声明变量的时候并没有预先确定的类型，变量的类型就是其值的类型，也就是说变量当前的类型由其值所决定,夸张点说上一秒种的 String，下一秒可能就是个 Number 类型了，这个过程可能就进行了某些操作发生了强制类型转换。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/js%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E6%80%BB%E7%BB%93/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/js%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6%E5%8F%8AeventLoop/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
-      <meta itemprop="name" content="Chen Daxian">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="面试详解">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/LittleWhiteRabbit/2022/04/24/js%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6%E5%8F%8AeventLoop/" class="post-title-link" itemprop="url">JS 执行机制</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:31" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="JS-执行机制"><a href="#JS-执行机制" class="headerlink" title="JS 执行机制"></a>JS 执行机制</h1><p>js 是一门<strong>单线程语言</strong>。所谓单线程，是指在 JavaScript 引擎中负责解释和执行 JavaScript 代码的线程唯一，同一时间上只能执行一件任务。     </p>
-<p>js 引擎有一个主线程（main thread）用来解释和执行 js 程序，还存在其他的线程。例如：处理 ajax 请求的线程、处理 DOM 事件的线程、定时器线程、读写文件的线程(例如在 node.js 中)等等。这些线程可能存在于 js 引擎之内，也可能存在于 js 引擎之外，在此我们不做区分。不妨叫它们工作线程。  </p>
-<p>为什么是 js 是单线程的呢？这是因为 JavaScript 可以修改 DOM 结构，如果 JavaScript 引擎线程不是单线程的，那么可以同时执行多段 JavaScript，如果这多段 JavaScript 都修改 DOM，那么就会出现 DOM 冲突。为了避免 DOM 渲染的冲突，可以采用单线程或者死锁，JavaScript 采用了单线程方案。  </p>
-<p>但单线程有一个问题：如果任务队列里有一个任务耗时很长，导致这个任务后面的任务一直排队等待，就会发生页面卡死，严重影响用户体验。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/js%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6%E5%8F%8AeventLoop/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/js%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
-      <meta itemprop="name" content="Chen Daxian">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="面试详解">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/LittleWhiteRabbit/2022/04/24/js%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86/" class="post-title-link" itemprop="url">JS 异步处理</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:32" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>javascript语言的执行环境是<strong>单线程</strong>（single thread），就是指一次只能完成一件任务。如果有多个任务，就必须排队，前面一个任务完成，再执行后面一个任务，以此类推。</p>
-<p>这种模式的好处是实现起来比较简单，执行环境相对单纯；但是只要耗时比较多，假如有一个任务耗时很长，后面的任务都必须排队等着，会拖延整个程序的执行。为了解决这个问题，Javascript语言将任务的执行模式分成两种：同步（Synchronous）和异步（Asynchronous）。  </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/js%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/js%E5%8E%BB%E9%87%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
-      <meta itemprop="name" content="Chen Daxian">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="面试详解">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/LittleWhiteRabbit/2022/04/24/js%E5%8E%BB%E9%87%8D/" class="post-title-link" itemprop="url">JavaScript数组去重</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-04-24 09:43:08" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-04-25 10:35:01" itemprop="dateModified" datetime="2022-04-25T10:35:01+08:00">2022-04-25</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="JavaScript数组去重（12种方法，史上最全）"><a href="#JavaScript数组去重（12种方法，史上最全）" class="headerlink" title="JavaScript数组去重（12种方法，史上最全）"></a>JavaScript数组去重（12种方法，史上最全）</h1><p>数组去重，一般都是在面试的时候才会碰到，一般是要求手写数组去重方法的代码。如果是被提问到，数组去重的方法有哪些？你能答出其中的10种，面试官很有可能对你刮目相看。<br>在真实的项目中碰到的数组去重，一般都是后台去处理，很少让前端处理数组去重。虽然日常项目用到的概率比较低，但还是需要了解一下，以防面试的时候可能回被问到。<br>数组去重的方法</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/js%E5%8E%BB%E9%87%8D/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/js%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
-      <meta itemprop="name" content="Chen Daxian">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="面试详解">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/LittleWhiteRabbit/2022/04/24/js%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/" class="post-title-link" itemprop="url">JS原型和原型链</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:32" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="JS原型和原型链"><a href="#JS原型和原型链" class="headerlink" title="JS原型和原型链"></a>JS原型和原型链</h1><h3 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h3><blockquote>
-<p>每个构造函数(constructor)都有一个原型对象(prototype), 原型对象都包含一个指向构造函数的指针, 而实例(instance)都包含一个指向原型对象的内部指针.</p>
-</blockquote>
-<p>我们先来看一个例子</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/js%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/js%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%8F%8A%E9%97%AD%E5%8C%85/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
-      <meta itemprop="name" content="Chen Daxian">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="面试详解">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/LittleWhiteRabbit/2022/04/24/js%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%8F%8A%E9%97%AD%E5%8C%85/" class="post-title-link" itemprop="url">JS 作用域与闭包</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:32" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="JS-作用域与闭包"><a href="#JS-作用域与闭包" class="headerlink" title="JS 作用域与闭包"></a>JS 作用域与闭包</h1><h3 id="JS-作用域"><a href="#JS-作用域" class="headerlink" title="JS 作用域"></a>JS 作用域</h3><p>Javascript 变量的作用域无非就是两种：<strong>全局变量和局部变量</strong>。Javascript 语言的特殊之处，就在于函数内部可以直接读取全局变量。</p>
-<h4 id="全局作用域-Global-Scope"><a href="#全局作用域-Global-Scope" class="headerlink" title="全局作用域(Global Scope)"></a>全局作用域(Global Scope)</h4><p>在代码中任何地方都能访问到的对象拥有全局作用域，一般来说一下几种情形拥有全局作用域：</p>
-<ol>
-<li><p>最外层函数和在最外层函数外面定义的变量拥有全局作用域</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/js%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%8F%8A%E9%97%AD%E5%8C%85/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/Handwritten-code/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
-      <meta itemprop="name" content="Chen Daxian">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="面试详解">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/LittleWhiteRabbit/2022/04/24/Handwritten-code/" class="post-title-link" itemprop="url">手写事件侦听器，并要求兼容浏览器</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-04-24 09:43:08" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-04-25 10:34:35" itemprop="dateModified" datetime="2022-04-25T10:34:35+08:00">2022-04-25</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><strong>手写事件侦听器，并要求兼容浏览器</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/Handwritten-code/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/24/ES6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
-      <meta itemprop="name" content="Chen Daxian">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="面试详解">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/LittleWhiteRabbit/2022/04/24/ES6/" class="post-title-link" itemprop="url">ES6 语法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-04-24 09:43:08 / Modified: 09:59:32" itemprop="dateCreated datePublished" datetime="2022-04-24T09:43:08+08:00">2022-04-24</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="1、ES5、ES6和ES2015有什么区别"><a href="#1、ES5、ES6和ES2015有什么区别" class="headerlink" title="1、ES5、ES6和ES2015有什么区别?"></a>1、ES5、ES6和ES2015有什么区别?</h2><blockquote>
-<p><code>ES2015</code>特指在<code>2015</code>年发布的新一代<code>JS</code>语言标准，<code>ES6</code>泛指下一代JS语言标准，包含<code>ES2015</code>、<code>ES2016</code>、<code>ES2017</code>、<code>ES2018</code>等。现阶段在绝大部分场景下，<code>ES2015</code>默认等同<code>ES6</code>。<code>ES5</code>泛指上一代语言标准。<code>ES2015</code>可以理解为<code>ES5</code>和<code>ES6</code>的时间分界线</p>
-</blockquote>
-<h2 id="2、babel是什么，有什么作用"><a href="#2、babel是什么，有什么作用" class="headerlink" title="2、babel是什么，有什么作用?"></a>2、babel是什么，有什么作用?</h2><blockquote>
-<p><code>babel</code>是一个 <code>ES6</code> 转码器，可以将 <code>ES6</code> 代码转为 <code>ES5</code> 代码，以便兼容那些还没支持<code>ES6</code>的平台</p>
-</blockquote>
-<h2 id="3、let有什么用，有了var为什么还要用let？"><a href="#3、let有什么用，有了var为什么还要用let？" class="headerlink" title="3、let有什么用，有了var为什么还要用let？"></a>3、let有什么用，有了var为什么还要用let？</h2><blockquote>
-<p>在<code>ES6</code>之前，声明变量只能用<code>var</code>，<code>var</code>方式声明变量其实是很不合理的，准确的说，是因为<code>ES5</code>里面没有块级作用域是很不合理的。没有块级作用域回来带很多难以理解的问题，比如<code>for</code>循环<code>var</code>变量泄露，变量覆盖等问题。<code>let</code>声明的变量拥有自己的块级作用域，且修复了<code>var</code>声明变量带来的变量提升问题。</p>
-</blockquote>
-<h2 id="4、举一些ES6对String字符串类型做的常用升级优化"><a href="#4、举一些ES6对String字符串类型做的常用升级优化" class="headerlink" title="4、举一些ES6对String字符串类型做的常用升级优化?"></a>4、举一些ES6对String字符串类型做的常用升级优化?</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/LittleWhiteRabbit/2022/04/24/ES6/#more" rel="contents">
+              <a class="btn" href="/LittleWhiteRabbit/2022/04/26/js%E6%95%B0%E7%BB%84%E6%93%8D%E4%BD%9C/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -951,7 +1018,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/LittleWhiteRabbit/archives/">
         
-          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-count">64</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

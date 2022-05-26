@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/LittleWhiteRabbit/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/LittleWhiteRabbit/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/LittleWhiteRabbit/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/LittleWhiteRabbit/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/LittleWhiteRabbit/css/main.css">
+
+
+<link rel="stylesheet" href="/LittleWhiteRabbit/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"data-cz.github.io","root":"/LittleWhiteRabbit/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="1、部分机型软键盘弹起挡住原来的视图解决方法：可以通过监听移动端软键盘弹起">
+<meta property="og:type" content="article">
+<meta property="og:title" content="总结几个移动端H5软键盘的大坑">
+<meta property="og:url" content="https://data-cz.github.io/2022/04/26/%E6%80%BB%E7%BB%93%E5%87%A0%E4%B8%AA%E7%A7%BB%E5%8A%A8%E7%AB%AFH5%E8%BD%AF%E9%94%AE%E7%9B%98%E7%9A%84%E5%A4%A7%E5%9D%91/index.html">
+<meta property="og:site_name" content="面试详解">
+<meta property="og:description" content="1、部分机型软键盘弹起挡住原来的视图解决方法：可以通过监听移动端软键盘弹起">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-04-26T03:03:42.196Z">
+<meta property="article:modified_time" content="2022-04-25T02:36:34.070Z">
+<meta property="article:author" content="Chen Daxian">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://data-cz.github.io/2022/04/26/%E6%80%BB%E7%BB%93%E5%87%A0%E4%B8%AA%E7%A7%BB%E5%8A%A8%E7%AB%AFH5%E8%BD%AF%E9%94%AE%E7%9B%98%E7%9A%84%E5%A4%A7%E5%9D%91/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>总结几个移动端H5软键盘的大坑 | 面试详解</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/LittleWhiteRabbit/atom.xml" title="面试详解" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/LittleWhiteRabbit/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">面试详解</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/LittleWhiteRabbit/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/LittleWhiteRabbit/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://data-cz.github.io/2022/04/26/%E6%80%BB%E7%BB%93%E5%87%A0%E4%B8%AA%E7%A7%BB%E5%8A%A8%E7%AB%AFH5%E8%BD%AF%E9%94%AE%E7%9B%98%E7%9A%84%E5%A4%A7%E5%9D%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/LittleWhiteRabbit/images/avatar.gif">
+      <meta itemprop="name" content="Chen Daxian">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面试详解">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          总结几个移动端H5软键盘的大坑
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-04-26 11:03:42" itemprop="dateCreated datePublished" datetime="2022-04-26T11:03:42+08:00">2022-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-25 10:36:34" itemprop="dateModified" datetime="2022-04-25T10:36:34+08:00">2022-04-25</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="1、部分机型软键盘弹起挡住原来的视图"><a href="#1、部分机型软键盘弹起挡住原来的视图" class="headerlink" title="1、部分机型软键盘弹起挡住原来的视图"></a>1、部分机型软键盘弹起挡住原来的视图</h3><p>解决方法：可以通过监听移动端软键盘弹起</p>
+<span id="more"></span>
+<p><code>Element.scrollIntoView()</code> 方法让当前的元素滚动到浏览器窗口的可视区域内。参数如下。</p>
+<ul>
+<li>true，表示元素的顶部与当前区域的可见部分的顶部对齐</li>
+<li>false，表示元素的底部与当前区域的可见部分的尾部对齐</li>
+</ul>
+<p><code>Element.scrollIntoViewIfNeeded()</code>方法也是用来将不在浏览器窗口的可见区域内的元素滚动到浏览器窗口的可见区域。但如果该元素已经在浏览器窗口的可见区域内，则不会发生滚动。此方法是标准的<code>Element.scrollIntoView()</code>方法的专有变体。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;resize&#x27;</span>, <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="property">activeElement</span>.<span class="property">tagName</span> === <span class="string">&#x27;INPUT&#x27;</span> || <span class="variable language_">document</span>.<span class="property">activeElement</span>.<span class="property">tagName</span> === <span class="string">&#x27;TEXTAREA&#x27;</span>) &#123;</span><br><span class="line">    <span class="variable language_">window</span>.<span class="built_in">setTimeout</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="string">&#x27;scrollIntoView&#x27;</span> <span class="keyword">in</span> <span class="variable language_">document</span>.<span class="property">activeElement</span>) &#123;</span><br><span class="line">        <span class="variable language_">document</span>.<span class="property">activeElement</span>.<span class="title function_">scrollIntoView</span>(<span class="literal">false</span>)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable language_">document</span>.<span class="property">activeElement</span>.<span class="title function_">scrollIntoViewIfNeeded</span>(<span class="literal">false</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;, <span class="number">0</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、ios-键盘收起时页面没有回落，底部会留白"><a href="#2、ios-键盘收起时页面没有回落，底部会留白" class="headerlink" title="2、ios 键盘收起时页面没有回落，底部会留白"></a>2、ios 键盘收起时页面没有回落，底部会留白</h3><p>部分苹果手机填写表单的时候的，输入内容后关闭软键盘，底部会留一块空白。这种情况可以通过监听键盘回落时间滚动到原来的位置。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;focusout&#x27;</span>, <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">window</span>.<span class="title function_">scrollTo</span>(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//input输入框弹起软键盘的解决方案。</span></span><br><span class="line"><span class="keyword">var</span> bfscrolltop = <span class="variable language_">document</span>.<span class="property">body</span>.<span class="property">scrollTop</span></span><br><span class="line">$(<span class="string">&#x27;input&#x27;</span>)</span><br><span class="line">  .<span class="title function_">focus</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">document</span>.<span class="property">body</span>.<span class="property">scrollTop</span> = <span class="variable language_">document</span>.<span class="property">body</span>.<span class="property">scrollHeight</span></span><br><span class="line">    <span class="comment">//console.log(document.body.scrollTop);</span></span><br><span class="line">  &#125;)</span><br><span class="line">  .<span class="title function_">blur</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">document</span>.<span class="property">body</span>.<span class="property">scrollTop</span> = bfscrolltop</span><br><span class="line">    <span class="comment">//console.log(document.body.scrollTop);</span></span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、onkeyUp-和-onKeydown-兼容性问题"><a href="#3、onkeyUp-和-onKeydown-兼容性问题" class="headerlink" title="3、onkeyUp 和 onKeydown 兼容性问题"></a>3、onkeyUp 和 onKeydown 兼容性问题</h3><p>部分 ios 机型 中 <code>input</code> 键盘事件 <code>keyup</code>、<code>keydown</code>、等支持不是很好, 用 <code>input</code> 监听键盘 <code>keyup</code> 事件，在安卓手机浏览器中没有问题，但是在 ios 手机浏览器中用输入法输入之后，并未立刻相应 <code>keyup</code> 事件</p>
+<ul>
+<li><code>onkeypress</code> 用户按下并放开任何字母数字键时发生。系统按钮（箭头键和功能键）无法得到识别。 </li>
+<li><code>onkeyup</code> 用户放开任何先前按下的键盘键时发生。</li>
+<li><code>onkeydown</code> 用户按下任何键盘键（包括系统按钮，如箭头键和功能键）时发生。</li>
+</ul>
+<h3 id="4、ios12-输入框难以点击获取焦点，弹不出软键盘"><a href="#4、ios12-输入框难以点击获取焦点，弹不出软键盘" class="headerlink" title="4、ios12 输入框难以点击获取焦点，弹不出软键盘"></a>4、ios12 输入框难以点击获取焦点，弹不出软键盘</h3><p>定位找到问题是 <code>fastclick.js</code> 对 <code>ios12</code> 的兼容性，可在 <code>fastclick.js</code> 源码或者 <code>main.js</code> 做以下修改</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">FastClick</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">focus</span> = <span class="keyword">function</span>(<span class="params">targetElement</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> length</span><br><span class="line">  <span class="keyword">if</span> (deviceIsIOS &amp;&amp; targetElement.<span class="property">setSelectionRange</span> &amp;&amp; targetElement.<span class="property">type</span>.<span class="title function_">indexOf</span>(<span class="string">&#x27;date&#x27;</span>) !== <span class="number">0</span> &amp;&amp; targetElement.<span class="property">type</span> !== <span class="string">&#x27;time&#x27;</span> &amp;&amp; targetElement.<span class="property">type</span> !== <span class="string">&#x27;month&#x27;</span>) &#123;</span><br><span class="line">    length = targetElement.<span class="property">value</span>.<span class="property">length</span></span><br><span class="line">    targetElement.<span class="title function_">setSelectionRange</span>(length, length)</span><br><span class="line">    targetElement.<span class="title function_">focus</span>()</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    targetElement.<span class="title function_">focus</span>()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="5、fastclick-导致下拉框焦点冲突"><a href="#5、fastclick-导致下拉框焦点冲突" class="headerlink" title="5、fastclick 导致下拉框焦点冲突"></a>5、fastclick 导致下拉框焦点冲突</h3><p>移动端使用 <code>fastclick</code> 之后，在 ios 环境下，有几个连续的下拉框 第一个 <code>select</code> 框突然填充了第二个下拉框的内容。</p>
+<p>根本原因是 <code>Fastclick</code> 导致 ios 下多个 <code>select</code> ，点击某一个，焦点不停变换的 bug。修改源码，在 onTouchStart 事件内判断设备是否为 ios，再判断当前 <code>nodeName</code> 是否为 <code>select</code>，如果是 <code>return false</code> 去阻止 <code>fastClick</code> 执行其他事件。 </p>
+<p>github 源码地址：fastclick.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//line 391行</span></span><br><span class="line"><span class="title class_">FastClick</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">onTouchStart</span> = <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">  <span class="comment">//在其方法中添加判断 符合ios select的时候 不返回事件</span></span><br><span class="line">  <span class="keyword">if</span> (deviceIsIOS &amp;&amp; <span class="variable language_">this</span>.<span class="property">targetElement</span> == <span class="string">&#x27;select&#x27;</span>) <span class="variable language_">this</span>.<span class="property">targetElement</span> = <span class="literal">null</span></span><br><span class="line">  event.<span class="title function_">preventDefault</span>()</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//line521 或者讲源码中 有关touchEnd判断非ios或者非select的事件注释，</span></span><br><span class="line"><span class="keyword">if</span> (!deviceIsIOS || targetTagName !== <span class="string">&#x27;select&#x27;</span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">targetElement</span> = <span class="literal">null</span></span><br><span class="line">  event.<span class="title function_">preventDefault</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6、ios-下-fixed-失效的原因"><a href="#6、ios-下-fixed-失效的原因" class="headerlink" title="6、ios 下 fixed 失效的原因"></a>6、ios 下 fixed 失效的原因</h3><p>软键盘唤起后，页面的 <code>fixed</code> 元素将失效，变成了 <code>absolute</code>，所以当页面超过一屏且滚动时，失效的 <code>fixed</code> 元素就会跟随滚动了。不仅限于 <code>type=text</code> 的输入框，凡是软键盘（比如时间日期选择、select 选择等等）被唤起，都会遇到同样地问题。</p>
+<p>解决方法: 不让页面滚动，而是让主体部分自己滚动,主体部分高度设为 100%，<code>overflow:scroll</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&#x27;warper&#x27;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&#x27;main&#x27;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;fix-bottom&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.warper</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">overflow-y</span>: scroll;</span><br><span class="line">  -webkit-<span class="attribute">overflow</span>-scrolling: touch; <span class="comment">/* 解决ios滑动不流畅问题 */</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.fix-bottom</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: fixed;</span><br><span class="line">  <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="7、ios-键盘换行变为搜索"><a href="#7、ios-键盘换行变为搜索" class="headerlink" title="7、ios 键盘换行变为搜索"></a>7、ios 键盘换行变为搜索</h3><ol>
+<li><code>input type=&quot;search&quot;</code></li>
+<li>input 外面套 form，必须要有 action，<code>action=&quot;javascript:return true&quot;</code></li>
+<li>表单提交阻止默认提交事件</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;javascript:return true&quot;</span> @<span class="attr">submit.prevent</span>=<span class="string">&quot;formSubmit&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;search&quot;</span> <span class="attr">placeholder</span>=<span class="string">&quot;请输入诉求名称&quot;</span> <span class="attr">id</span>=<span class="string">&quot;search&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/LittleWhiteRabbit/2022/04/26/%E6%80%BB%E7%BB%93vue%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E4%B9%8B%E9%AB%98%E7%BA%A7%E5%BA%94%E7%94%A8%E7%AF%87/" rel="prev" title="Vue 应用">
+      <i class="fa fa-chevron-left"></i> Vue 应用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/LittleWhiteRabbit/2022/04/26/%E6%80%BB%E7%BB%93%E7%A7%BB%E5%8A%A8%E7%AB%AFH5%E5%BC%80%E5%8F%91%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7/" rel="next" title="总结移动端H5开发常用技巧">
+      总结移动端H5开发常用技巧 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E9%83%A8%E5%88%86%E6%9C%BA%E5%9E%8B%E8%BD%AF%E9%94%AE%E7%9B%98%E5%BC%B9%E8%B5%B7%E6%8C%A1%E4%BD%8F%E5%8E%9F%E6%9D%A5%E7%9A%84%E8%A7%86%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text">1、部分机型软键盘弹起挡住原来的视图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81ios-%E9%94%AE%E7%9B%98%E6%94%B6%E8%B5%B7%E6%97%B6%E9%A1%B5%E9%9D%A2%E6%B2%A1%E6%9C%89%E5%9B%9E%E8%90%BD%EF%BC%8C%E5%BA%95%E9%83%A8%E4%BC%9A%E7%95%99%E7%99%BD"><span class="nav-number">2.</span> <span class="nav-text">2、ios 键盘收起时页面没有回落，底部会留白</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81onkeyUp-%E5%92%8C-onKeydown-%E5%85%BC%E5%AE%B9%E6%80%A7%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">3、onkeyUp 和 onKeydown 兼容性问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81ios12-%E8%BE%93%E5%85%A5%E6%A1%86%E9%9A%BE%E4%BB%A5%E7%82%B9%E5%87%BB%E8%8E%B7%E5%8F%96%E7%84%A6%E7%82%B9%EF%BC%8C%E5%BC%B9%E4%B8%8D%E5%87%BA%E8%BD%AF%E9%94%AE%E7%9B%98"><span class="nav-number">4.</span> <span class="nav-text">4、ios12 输入框难以点击获取焦点，弹不出软键盘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5%E3%80%81fastclick-%E5%AF%BC%E8%87%B4%E4%B8%8B%E6%8B%89%E6%A1%86%E7%84%A6%E7%82%B9%E5%86%B2%E7%AA%81"><span class="nav-number">5.</span> <span class="nav-text">5、fastclick 导致下拉框焦点冲突</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6%E3%80%81ios-%E4%B8%8B-fixed-%E5%A4%B1%E6%95%88%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-number">6.</span> <span class="nav-text">6、ios 下 fixed 失效的原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7%E3%80%81ios-%E9%94%AE%E7%9B%98%E6%8D%A2%E8%A1%8C%E5%8F%98%E4%B8%BA%E6%90%9C%E7%B4%A2"><span class="nav-number">7.</span> <span class="nav-text">7、ios 键盘换行变为搜索</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chen Daxian"
+      src="/LittleWhiteRabbit/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Chen Daxian</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/LittleWhiteRabbit/archives/">
+        
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Daxian</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/LittleWhiteRabbit/lib/anime.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.min.js"></script>
+  <script src="/LittleWhiteRabbit/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/LittleWhiteRabbit/js/utils.js"></script>
+
+<script src="/LittleWhiteRabbit/js/motion.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/schemes/pisces.js"></script>
+
+
+<script src="/LittleWhiteRabbit/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/LittleWhiteRabbit/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
